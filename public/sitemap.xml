@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://example.com/index.html</loc>
+    <lastmod>2024-05-23T19:47:42.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://example.com/chapters/intro.html</loc>
+    <lastmod>2024-05-23T19:47:42.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://example.com/glossary.html</loc>
+    <lastmod>2024-05-23T19:47:42.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://example.com/references.html</loc>
+    <lastmod>2024-05-23T19:47:42.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://example.com/appendices/installation.html</loc>
+    <lastmod>2024-05-23T19:47:42.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://example.com/An-introduction-to-Systematic-conservation-planning-with-prioritzr.pdf</loc>
+    <lastmod>2024-05-24T08:00:27.401Z</lastmod>
+  </url>
+</urlset>

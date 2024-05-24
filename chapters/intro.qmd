@@ -1,0 +1,13 @@
+# Introduction
+
+This is a book created from markdown and executable code.
+
+See @hanson2019optimality for additional discussion of optimality in linear programming.
+
+## Systematic conservation planning
+
+### Key concepts
+
+## Exact algorithms and integer programming {#sec-what-is-integer-programming}
+
+## Tools and software

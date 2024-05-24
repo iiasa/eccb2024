@@ -1,0 +1,18 @@
+# Preface {.unnumbered}
+
+Welcome to the training course in systematic conservation planning with the [prioritzr](https://prioritizr.net/ "Website of the prioritzr package").
+
+Lorem ipsum ...
+
+## What you will learn
+
+-   The basic concepts of ILP
+-   How to prepare your input data
+-   Setup and run your first prioritization
+-   Analyse and intepret outputs
+-   Adding complexity to
+-   Advanced topics such as management zones
+
+If you have already heard about the basic concepts of ILP then feel to jump to section 2.
+
+In section @sec-what-is-integer-programming you fill learn about what ILP is.

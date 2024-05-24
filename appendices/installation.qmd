@@ -1,0 +1,9 @@
+# Installation of all software
+
+Say something about Rstudio
+
+Say something about R
+
+Say something about R tools
+
+Say something about R packages

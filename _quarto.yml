@@ -1,0 +1,75 @@
+project:
+  type: book
+  output-dir: public
+
+book:
+  title: "An introduction to Systematic conservation planning with prioritzr"
+  author: 
+    - "Louise O'Connor & Martin Jung"
+  date: today
+  margin-header: |
+    ![](/resources/IIASA_logo_small)
+  favicon: resources/favicon.ico
+  cover-image: resources/logo.png
+  cover-image-alt: |
+    An introduction to Systematic conservation planning with prioritzr
+  site-url: https://example.com
+  search: true
+  repo-url: https://gitlab.iiasa.ac.at/bec
+  downloads: [pdf]
+  page-navigation: true
+  sidebar:
+    style: docked
+    background: light  
+    border: true
+  chapters:
+    - index.qmd
+    - part: "Introduction to SCP"
+      chapters:
+        - chapters/intro.qmd
+    - part: "Preparing data"
+    - part: "Solving a problem"
+    - part: "Adding complexity"
+    - part: "Advanced topics"
+    - glossary.qmd
+    - references.qmd
+  appendices:
+    - appendices/installation.qmd
+  page-footer:
+      left: |
+        All content licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) <br> &copy; Louise O'Connor, Martin Jung.
+      center: "Funded by the [NaturaConnect](https://naturaconnect.eu) project | ![NaturaConnect](resources/Natura-Connect-logo.png){width=100, height=20px}"
+      right: Built with [Quarto](https://quarto.org/).
+      background: "#f8f9fa"
+      
+bibliography: 
+    - references.bib
+csl: reference-style.csl
+
+crossrefs-hover: false
+
+format:
+  html:
+    toc: true
+    theme: 
+      light: flatly
+      dark: darkly
+    html-math-method: katex
+    fontsize: "16px"
+    linestretch: 1.6
+    mainfont: "Arial"
+    monofont: "Fira Mono"
+    smooth-scroll: true
+    toc-depth: 3
+    code-link: false
+    code-fold: false
+    highlight-style: printing
+    code-block-bg: true
+    code-overflow: wrap
+    reference-location: margin
+    mermaid:
+      theme: neutral    
+  pdf:
+    documentclass: scrreprt
+    margin-left: 30mm
+    margin-right: 30mm

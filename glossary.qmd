@@ -1,0 +1,9 @@
+# Glossary {.unnumbered}
+
+| Term          | Abbrevication if any | Definition                                                                                                           |
+|---------------|----------------------|----------------------------------------------------------------------------------------------------------------------|
+| Planning unit | PU                   | The fundamental unit at which decisions in SCP are realized. Can be of multiple formats such as grid cells or farms  |
+|               |                      |                                                                                                                      |
+|               |                      |                                                                                                                      |
+
+: A glossary of key terms used in this Training course
