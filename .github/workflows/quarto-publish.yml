@@ -56,11 +56,11 @@ jobs:
       #     target: connect
       #     CONNECT_SERVER: enter-the-server-url-here
       #     CONNECT_API_KEY: ${{ secrets.CONNECT_API_KEY }}
-      - name: Render Quarto Project
-        uses: quarto-dev/quarto-actions/render@v2
-        with:
-          to: html # If set, it will be equivalent to `quarto render --to html`
-          path: . # By default, the current working dir is used i.e `quarto render .`
+      # - name: Render Quarto Project
+      #   uses: quarto-dev/quarto-actions/render@v2
+      #   with:
+      #     to: html # If set, it will be equivalent to `quarto render --to html`
+      #     path: source-folder # By default, the current working dir is used i.e `quarto render .`
 
       # NOTE: If Publishing to GitHub Pages, set the permissions correctly (see top of this yaml)
       - name: Publish to GitHub Pages (and render)
