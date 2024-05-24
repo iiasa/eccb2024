@@ -1,1 +1,1 @@
-Sitemap: https://example.com/sitemap.xml
+Sitemap: https://iiasa.github.io/eccb2024/sitemap.xml
