@@ -1,0 +1,13 @@
+# Interpret and analyse outputs
+
+## Plot the solution
+
+## Calculate performance evaluation metrics
+
+Area statistics, Mean representation, Target shortfall
+
+## Irreplaceability 
+
+Calculater ferrier irreplacibility and RWR
+
+

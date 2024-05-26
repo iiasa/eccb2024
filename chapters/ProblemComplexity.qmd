@@ -1,0 +1,10 @@
+# Adding complexity to conservation planning
+
+## Decision variables
+
+## Adding (socio-economic) costs
+
+## Feature weights
+
+## Linear penalities
+

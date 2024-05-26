@@ -1,0 +1,10 @@
+# Objective functions
+
+## The need for targets
+
+## Minimum set
+
+## Maximum coverage
+
+## Creating ranked priority maps
+

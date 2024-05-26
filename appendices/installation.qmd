@@ -1,9 +1,9 @@
-# Installation of all software
+# Installation of all software {#sec-installation}
 
-Say something about Rstudio
+## Say something about Rstudio
 
-Say something about R
+## Say something about R
 
-Say something about R tools
+## Say something about R tools
 
-Say something about R packages
+## Say something about R packages
