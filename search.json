@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "An introduction to Systematic conservation planning with prioritzr",
     "section": "",
-    "text": "Preface\nWelcome to the training course in systematic conservation planning with the prioritzr.\nLorem ipsum …",
+    "text": "Preface\nWelcome to the training course in systematic conservation planning with the prioritzr. This training course was originally held at the 2024 European Congress of Conservation biology in Bologna, although the materials found here will be preserved even after the conference and be openly available to everyone.",
     "crumbs": [
       "Preface"
     ]
@@ -14,7 +14,7 @@
     "href": "index.html#what-you-will-learn",
     "title": "An introduction to Systematic conservation planning with prioritzr",
     "section": "What you will learn",
-    "text": "What you will learn\n\nThe basic concepts of ILP\nHow to prepare your input data\nSetup and run your first prioritization\nAnalyse and intepret outputs\nAdding complexity to\nAdvanced topics such as management zones\n\nIf you have already heard about the basic concepts of ILP then feel to jump to section 2.\nIn section 1.2 Exact algorithms and integer programming you fill learn about what ILP is.",
+    "text": "What you will learn\n\nThe basic concepts of Systematic conservation planning (SCP) and Integer Linear Programming (ILP) in particular\nHow to prepare your input data for a Conservation planning project\nHow to setup and run your first prioritization\nHow outputs can be analysed and interpreted.\nHow to adding complexity factors and changing your conservation planning outcomes\nAdvanced topics such as management zones\n\nCompleting all course materials will take you on average 120 minutes, although people who have been exposed to similar methods or introduction before might take less. training materials before might less amount of time.\nIn this training course a number of different terms will be used. Whenever there are uncertainties with regards to definitions, see the Glossary.\nIf you have already heard before about the basic concepts of SCP and ILP (For example from the lecture then feel to jump to section 2 and data preparation 2  Preparing input data.\n\n\n\n\n\n\nBefore you start…\n\n\n\nIn order to run the materials on this course website, some preparatory steps need to be taken. Please see the installation instructions in Appendix A — Installation of all software if you have never used prioritizr before!",
     "crumbs": [
       "Preface"
     ]
@@ -64,11 +64,253 @@
     ]
   },
   {
+    "objectID": "chapters/Datapreparation.html",
+    "href": "chapters/Datapreparation.html",
+    "title": "2  Preparing input data",
+    "section": "",
+    "text": "2.1 Planning units\nSay something about what a PU file is, load and plot from the example data",
+    "crumbs": [
+      "Problem creation",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preparing input data</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/Datapreparation.html#features",
+    "href": "chapters/Datapreparation.html#features",
+    "title": "2  Preparing input data",
+    "section": "2.2 Features",
+    "text": "2.2 Features\nExplain what features are and plot",
+    "crumbs": [
+      "Problem creation",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preparing input data</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/Datapreparation.html#costs",
+    "href": "chapters/Datapreparation.html#costs",
+    "title": "2  Preparing input data",
+    "section": "2.3 Costs",
+    "text": "2.3 Costs\nExplain what costs are and how they are used",
+    "crumbs": [
+      "Problem creation",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preparing input data</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/Datapreparation.html#other-constraints-protected-areas",
+    "href": "chapters/Datapreparation.html#other-constraints-protected-areas",
+    "title": "2  Preparing input data",
+    "section": "2.4 Other constraints (Protected areas)",
+    "text": "2.4 Other constraints (Protected areas)\nShowcase a protected area file and exclusion areas as example",
+    "crumbs": [
+      "Problem creation",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preparing input data</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/Datapreparation.html#other-data-for-the-prioritization",
+    "href": "chapters/Datapreparation.html#other-data-for-the-prioritization",
+    "title": "2  Preparing input data",
+    "section": "2.5 Other data for the prioritization",
+    "text": "2.5 Other data for the prioritization\nMention weights, targets, etc and give example for each",
+    "crumbs": [
+      "Problem creation",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preparing input data</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/Datapreparation.html#preparing-data-in-different-formats",
+    "href": "chapters/Datapreparation.html#preparing-data-in-different-formats",
+    "title": "2  Preparing input data",
+    "section": "2.6 Preparing data in different formats",
+    "text": "2.6 Preparing data in different formats\nShowcase different dataformats as input alternative\nlibrary(tidyverse)\n1trees |&gt;\n  mutate(                                        \n2  volume_girth = volume * girth\n  )                                              \n\n1\n\nTake dataset and mutate\n\n2\n\nUpdate with interaction term",
+    "crumbs": [
+      "Problem creation",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preparing input data</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/Problemsolving.html",
+    "href": "chapters/Problemsolving.html",
+    "title": "4  Solving a conservation planning problem",
+    "section": "",
+    "text": "4.1 Ensure that a solver is available",
+    "crumbs": [
+      "Solving a problem",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Solving a conservation planning problem</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/Problemsolving.html#create-a-solution",
+    "href": "chapters/Problemsolving.html#create-a-solution",
+    "title": "4  Solving a conservation planning problem",
+    "section": "4.2 Create a solution",
+    "text": "4.2 Create a solution",
+    "crumbs": [
+      "Solving a problem",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Solving a conservation planning problem</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/Problemsolving.html#plot-the-solution",
+    "href": "chapters/Problemsolving.html#plot-the-solution",
+    "title": "4  Solving a conservation planning problem",
+    "section": "4.3 Plot the solution",
+    "text": "4.3 Plot the solution",
+    "crumbs": [
+      "Solving a problem",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Solving a conservation planning problem</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/SolutionInterpretation.html",
+    "href": "chapters/SolutionInterpretation.html",
+    "title": "5  Interpret and analyse outputs",
+    "section": "",
+    "text": "5.1 Plot the solution",
+    "crumbs": [
+      "Solving a problem",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Interpret and analyse outputs</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/SolutionInterpretation.html#calculate-performance-evaluation-metrics",
+    "href": "chapters/SolutionInterpretation.html#calculate-performance-evaluation-metrics",
+    "title": "5  Interpret and analyse outputs",
+    "section": "5.2 Calculate performance evaluation metrics",
+    "text": "5.2 Calculate performance evaluation metrics\nArea statistics, Mean representation, Target shortfall",
+    "crumbs": [
+      "Solving a problem",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Interpret and analyse outputs</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/SolutionInterpretation.html#irreplaceability",
+    "href": "chapters/SolutionInterpretation.html#irreplaceability",
+    "title": "5  Interpret and analyse outputs",
+    "section": "5.3 Irreplaceability",
+    "text": "5.3 Irreplaceability\nCalculater ferrier irreplacibility and RWR",
+    "crumbs": [
+      "Solving a problem",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Interpret and analyse outputs</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/ObjectiveFunctions.html",
+    "href": "chapters/ObjectiveFunctions.html",
+    "title": "6  Objective functions",
+    "section": "",
+    "text": "6.1 The need for targets",
+    "crumbs": [
+      "Adding complexity",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Objective functions</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/ObjectiveFunctions.html#minimum-set",
+    "href": "chapters/ObjectiveFunctions.html#minimum-set",
+    "title": "6  Objective functions",
+    "section": "6.2 Minimum set",
+    "text": "6.2 Minimum set",
+    "crumbs": [
+      "Adding complexity",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Objective functions</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/ObjectiveFunctions.html#maximum-coverage",
+    "href": "chapters/ObjectiveFunctions.html#maximum-coverage",
+    "title": "6  Objective functions",
+    "section": "6.3 Maximum coverage",
+    "text": "6.3 Maximum coverage",
+    "crumbs": [
+      "Adding complexity",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Objective functions</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/ObjectiveFunctions.html#creating-ranked-priority-maps",
+    "href": "chapters/ObjectiveFunctions.html#creating-ranked-priority-maps",
+    "title": "6  Objective functions",
+    "section": "6.4 Creating ranked priority maps",
+    "text": "6.4 Creating ranked priority maps",
+    "crumbs": [
+      "Adding complexity",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Objective functions</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/ProblemComplexity.html",
+    "href": "chapters/ProblemComplexity.html",
+    "title": "7  Adding complexity to conservation planning",
+    "section": "",
+    "text": "7.1 Decision variables",
+    "crumbs": [
+      "Adding complexity",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Adding complexity to conservation planning</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/ProblemComplexity.html#adding-socio-economic-costs",
+    "href": "chapters/ProblemComplexity.html#adding-socio-economic-costs",
+    "title": "7  Adding complexity to conservation planning",
+    "section": "7.2 Adding (socio-economic) costs",
+    "text": "7.2 Adding (socio-economic) costs",
+    "crumbs": [
+      "Adding complexity",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Adding complexity to conservation planning</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/ProblemComplexity.html#feature-weights",
+    "href": "chapters/ProblemComplexity.html#feature-weights",
+    "title": "7  Adding complexity to conservation planning",
+    "section": "7.3 Feature weights",
+    "text": "7.3 Feature weights",
+    "crumbs": [
+      "Adding complexity",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Adding complexity to conservation planning</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/ProblemComplexity.html#linear-penalities",
+    "href": "chapters/ProblemComplexity.html#linear-penalities",
+    "title": "7  Adding complexity to conservation planning",
+    "section": "7.4 Linear penalities",
+    "text": "7.4 Linear penalities",
+    "crumbs": [
+      "Adding complexity",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Adding complexity to conservation planning</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/Connectivity.html",
+    "href": "chapters/Connectivity.html",
+    "title": "8  Connectivity",
+    "section": "",
+    "text": "8.1 Spatial coherence",
+    "crumbs": [
+      "Advanced topics",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Connectivity</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/Connectivity.html#connectivity-constraints",
+    "href": "chapters/Connectivity.html#connectivity-constraints",
+    "title": "8  Connectivity",
+    "section": "8.2 Connectivity constraints",
+    "text": "8.2 Connectivity constraints",
+    "crumbs": [
+      "Advanced topics",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Connectivity</span>"
+    ]
+  },
+  {
     "objectID": "glossary.html",
     "href": "glossary.html",
     "title": "Glossary",
     "section": "",
-    "text": "A glossary of key terms used in this Training course\n\n\n\n\n\n\n\nTerm\nAbbrevication if any\nDefinition\n\n\n\n\nPlanning unit\nPU\nThe fundamental unit at which decisions in SCP are realized. Can be of multiple formats such as grid cells or farms",
+    "text": "A glossary of key terms used in this Training course\n\n\nTerm\nAbbreviation if any\nDefinition\n\n\n\n\nCARE\nCARE\nA often used abbreviation that stands for Connectivity, Adequacy, Representation, and Effectiveness which key principles that should be considered when designing a conservation network. See the Marxan website for more information.\n\n\nConservation Prioritization\n\nThe computational process of identifying (spatial) priorities for a given conservation objective (such as for identifying protected areas). Usually comes in in the form of a map.\n\n\nInteger\n\nIn programmatic terms a full number (e.g. -1, 1, 2, 3, …)\n\n\nInteger Linear Programming\nILP\nMathematical problem formulation using Linear Programming (ILP) where the variables are integer values and the objective function and equations are linear.\n\n\nPlanning unit\nPU\nThe fundamental unit at which decisions in SCP are realized. Can be of multiple formats such as grid cells or farms\n\n\nSystematic Conservation Planning\nSCP\nA framework and step-wise approach towards mapping conservation areas. Usually involves multiple steps such as the identification of a problem and the theory of change, data collection and preparation, conservation prioritization, evaluation and finally implementation. See Margules & Pressey (2000)\n\n\n\n\n\n\n\n\n\n\n\n\nMargules, C.R. & Pressey, R.L. (2000). Systematic conservation planning. Nature, 405, 243–253.",
     "crumbs": [
       "Glossary"
     ]
@@ -78,7 +320,7 @@
     "href": "references.html",
     "title": "References",
     "section": "",
-    "text": "Hanson, J.O., Schuster, R., Strimas-Mackey, M. & Bennett, J.R.\n(2019). Optimality in prioritizing conservation projects. Methods in\nEcology and Evolution, 10, 1655–1663.",
+    "text": "Hanson, J.O., Schuster, R., Strimas-Mackey, M. & Bennett, J.R.\n(2019). Optimality in prioritizing conservation projects. Methods in\nEcology and Evolution, 10, 1655–1663.\n\n\nMargules, C.R. & Pressey, R.L. (2000). Systematic conservation\nplanning. Nature, 405, 243–253.",
     "crumbs": [
       "References"
     ]
@@ -88,7 +330,40 @@
     "href": "appendices/installation.html",
     "title": "Appendix A — Installation of all software",
     "section": "",
-    "text": "Say something about Rstudio\nSay something about R\nSay something about R tools\nSay something about R packages",
+    "text": "A.1 Say something about Rstudio",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Installation of all software</span>"
+    ]
+  },
+  {
+    "objectID": "appendices/installation.html#say-something-about-r",
+    "href": "appendices/installation.html#say-something-about-r",
+    "title": "Appendix A — Installation of all software",
+    "section": "A.2 Say something about R",
+    "text": "A.2 Say something about R",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Installation of all software</span>"
+    ]
+  },
+  {
+    "objectID": "appendices/installation.html#say-something-about-r-tools",
+    "href": "appendices/installation.html#say-something-about-r-tools",
+    "title": "Appendix A — Installation of all software",
+    "section": "A.3 Say something about R tools",
+    "text": "A.3 Say something about R tools",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Installation of all software</span>"
+    ]
+  },
+  {
+    "objectID": "appendices/installation.html#say-something-about-r-packages",
+    "href": "appendices/installation.html#say-something-about-r-packages",
+    "title": "Appendix A — Installation of all software",
+    "section": "A.4 Say something about R packages",
+    "text": "A.4 Say something about R packages",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>A</span>  <span class='chapter-title'>Installation of all software</span>"

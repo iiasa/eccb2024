@@ -2,26 +2,54 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://iiasa.github.io/eccb2024/index.html</loc>
-    <lastmod>2024-05-24T08:40:30.684Z</lastmod>
+    <lastmod>2024-05-26T19:30:00.948Z</lastmod>
   </url>
   <url>
     <loc>https://iiasa.github.io/eccb2024/chapters/intro.html</loc>
-    <lastmod>2024-05-24T08:40:30.684Z</lastmod>
+    <lastmod>2024-05-26T19:30:00.948Z</lastmod>
+  </url>
+  <url>
+    <loc>https://iiasa.github.io/eccb2024/chapters/Datapreparation.html</loc>
+    <lastmod>2024-05-26T19:30:00.948Z</lastmod>
+  </url>
+  <url>
+    <loc>https://iiasa.github.io/eccb2024/chapters/Problemcreation.html</loc>
+    <lastmod>2024-05-26T19:30:00.948Z</lastmod>
+  </url>
+  <url>
+    <loc>https://iiasa.github.io/eccb2024/chapters/Problemsolving.html</loc>
+    <lastmod>2024-05-26T19:30:00.948Z</lastmod>
+  </url>
+  <url>
+    <loc>https://iiasa.github.io/eccb2024/chapters/SolutionInterpretation.html</loc>
+    <lastmod>2024-05-26T19:30:00.948Z</lastmod>
+  </url>
+  <url>
+    <loc>https://iiasa.github.io/eccb2024/chapters/ObjectiveFunctions.html</loc>
+    <lastmod>2024-05-26T19:30:00.948Z</lastmod>
+  </url>
+  <url>
+    <loc>https://iiasa.github.io/eccb2024/chapters/ProblemComplexity.html</loc>
+    <lastmod>2024-05-26T19:30:00.948Z</lastmod>
+  </url>
+  <url>
+    <loc>https://iiasa.github.io/eccb2024/chapters/Connectivity.html</loc>
+    <lastmod>2024-05-26T19:30:00.948Z</lastmod>
   </url>
   <url>
     <loc>https://iiasa.github.io/eccb2024/glossary.html</loc>
-    <lastmod>2024-05-24T08:40:30.684Z</lastmod>
+    <lastmod>2024-05-26T19:30:00.948Z</lastmod>
   </url>
   <url>
     <loc>https://iiasa.github.io/eccb2024/references.html</loc>
-    <lastmod>2024-05-24T08:40:30.692Z</lastmod>
+    <lastmod>2024-05-26T19:30:00.960Z</lastmod>
   </url>
   <url>
     <loc>https://iiasa.github.io/eccb2024/appendices/installation.html</loc>
-    <lastmod>2024-05-24T08:40:30.684Z</lastmod>
+    <lastmod>2024-05-26T19:30:00.948Z</lastmod>
   </url>
   <url>
     <loc>https://iiasa.github.io/eccb2024/An-introduction-to-Systematic-conservation-planning-with-prioritzr.pdf</loc>
-    <lastmod>2024-05-24T08:41:38.408Z</lastmod>
+    <lastmod>2024-05-26T19:31:21.281Z</lastmod>
   </url>
 </urlset>
