@@ -14,7 +14,7 @@
     "href": "index.html#what-you-will-learn",
     "title": "An introduction to Systematic conservation planning with prioritzr",
     "section": "What you will learn",
-    "text": "What you will learn\n\nThe basic concepts of Systematic conservation planning (SCP) and Integer Linear Programming (ILP) in particular\nHow to prepare your input data for a Conservation planning project\nHow to setup and run your first prioritization\nHow outputs can be analysed and interpreted.\nHow to adding complexity factors and changing your conservation planning outcomes\nAdvanced topics such as management zones\n\nCompleting all course materials will take you on average 120 minutes, although people who have been exposed to similar methods or introduction before might take less. training materials before might less amount of time.\nIn this training course a number of different terms will be used. Whenever there are uncertainties with regards to definitions, see the ?sec-glossary.\nIf you have already heard before about the basic concepts of SCP and ILP (For example from the lecture then feel to jump to section 2 and data preparation 2  Preparing input data for a SCP project.\n\n\n\n\n\n\nBefore you start…\n\n\n\nIn order to run the materials on this course website, some preparatory steps need to be taken. Please see the installation instructions in Appendix A — Installation of all software if you have never used prioritizr before!",
+    "text": "What you will learn\n\nThe basic concepts of Systematic conservation planning (SCP) and Integer Linear Programming (ILP) in particular\nHow to prepare your input data for a Conservation planning project\nHow to setup and run your first prioritization\nHow outputs can be analysed and interpreted.\nHow to adding complexity factors and changing your conservation planning outcomes\nAdvanced topics such as management zones\n\nCompleting all course materials will take you on average 120 minutes, although people who have been exposed to similar methods or introduction before might take less. training materials before might less amount of time.\nIn this training course a number of different terms will be used. Whenever there are uncertainties with regards to definitions, see the Glossary.\nIf you have already heard before about the basic concepts of SCP and ILP (For example from the lecture then feel to jump to section 2 and data preparation 2  Preparing input data.\n\n\n\n\n\n\nBefore you start…\n\n\n\nIn order to run the materials on this course website, some preparatory steps need to be taken. Please see the installation instructions in Appendix A — Installation of all software if you have never used prioritizr before!",
     "crumbs": [
       "Preface"
     ]
@@ -125,6 +125,72 @@
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>A</span>  <span class='chapter-title'>Installation of all software</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/Datapreparation.html",
+    "href": "chapters/Datapreparation.html",
+    "title": "2  Preparing input data",
+    "section": "",
+    "text": "2.1 Planning units\nSay something about what a PU file is, load and plot from the example data",
+    "crumbs": [
+      "Introduction to SCP",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preparing input data</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/Datapreparation.html#features",
+    "href": "chapters/Datapreparation.html#features",
+    "title": "2  Preparing input data",
+    "section": "2.2 Features",
+    "text": "2.2 Features\nExplain what features are and plot",
+    "crumbs": [
+      "Introduction to SCP",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preparing input data</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/Datapreparation.html#costs",
+    "href": "chapters/Datapreparation.html#costs",
+    "title": "2  Preparing input data",
+    "section": "2.3 Costs",
+    "text": "2.3 Costs\nExplain what costs are and how they are used",
+    "crumbs": [
+      "Introduction to SCP",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preparing input data</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/Datapreparation.html#other-constraints-protected-areas",
+    "href": "chapters/Datapreparation.html#other-constraints-protected-areas",
+    "title": "2  Preparing input data",
+    "section": "2.4 Other constraints (Protected areas)",
+    "text": "2.4 Other constraints (Protected areas)\nShowcase a protected area file and exclusion areas as example",
+    "crumbs": [
+      "Introduction to SCP",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preparing input data</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/Datapreparation.html#other-data-for-the-prioritization",
+    "href": "chapters/Datapreparation.html#other-data-for-the-prioritization",
+    "title": "2  Preparing input data",
+    "section": "2.5 Other data for the prioritization",
+    "text": "2.5 Other data for the prioritization\nMention weights, targets, etc and give example for each",
+    "crumbs": [
+      "Introduction to SCP",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preparing input data</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/Datapreparation.html#preparing-data-in-different-formats",
+    "href": "chapters/Datapreparation.html#preparing-data-in-different-formats",
+    "title": "2  Preparing input data",
+    "section": "2.6 Preparing data in different formats",
+    "text": "2.6 Preparing data in different formats\nShowcase different dataformats as input alternative\nlibrary(tidyverse)\n1trees |&gt;\n  mutate(                                        \n2  volume_girth = volume * girth\n  )                                              \n\n1\n\nTake dataset and mutate\n\n2\n\nUpdate with interaction term",
+    "crumbs": [
+      "Introduction to SCP",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preparing input data</span>"
     ]
   }
 ]

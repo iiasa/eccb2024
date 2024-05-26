@@ -27,11 +27,21 @@ book:
     - part: "Introduction to SCP"
       chapters:
         - chapters/Intro.qmd
+    - part: "Problem creation"
+      chapters:
         - chapters/Datapreparation.qmd
-    - part: "Preparing data"
+        - chapters/Problemcreation.qmd
     - part: "Solving a problem"
+      chapters:
+        - chapters/Problemsolving.qmd
+        - chapters/SolutionInterpretation.qmd
     - part: "Adding complexity"
+      chapters:
+        - chapters/ObjectiveFunctions.qmd
+        - chapters/ProblemComplexity.qmd
     - part: "Advanced topics"
+      chapters:
+        - chapters/Connectivity.qmd
     - glossary.qmd
     - references.qmd
   appendices:
