@@ -2,26 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://iiasa.github.io/eccb2024/index.html</loc>
-    <lastmod>2024-05-24T08:14:36.636Z</lastmod>
+    <lastmod>2024-05-26T18:32:26.398Z</lastmod>
   </url>
   <url>
-    <loc>https://iiasa.github.io/eccb2024/chapters/intro.html</loc>
-    <lastmod>2024-05-24T08:14:36.632Z</lastmod>
+    <loc>https://iiasa.github.io/eccb2024/chapters/Intro.html</loc>
+    <lastmod>2024-05-26T18:25:47.917Z</lastmod>
+  </url>
+  <url>
+    <loc>https://iiasa.github.io/eccb2024/chapters/Datapreparation.html</loc>
+    <lastmod>2024-05-26T18:09:26.461Z</lastmod>
   </url>
   <url>
     <loc>https://iiasa.github.io/eccb2024/glossary.html</loc>
-    <lastmod>2024-05-24T08:14:36.633Z</lastmod>
+    <lastmod>2024-05-26T18:19:32.304Z</lastmod>
   </url>
   <url>
     <loc>https://iiasa.github.io/eccb2024/references.html</loc>
-    <lastmod>2024-05-24T08:14:36.683Z</lastmod>
+    <lastmod>2024-05-25T14:51:18.601Z</lastmod>
   </url>
   <url>
     <loc>https://iiasa.github.io/eccb2024/appendices/installation.html</loc>
-    <lastmod>2024-05-24T08:14:36.632Z</lastmod>
+    <lastmod>2024-05-26T18:31:12.592Z</lastmod>
   </url>
   <url>
     <loc>https://iiasa.github.io/eccb2024/An-introduction-to-Systematic-conservation-planning-with-prioritzr.pdf</loc>
-    <lastmod>2024-05-24T08:15:21.613Z</lastmod>
+    <lastmod>2024-05-26T18:25:47.710Z</lastmod>
   </url>
 </urlset>

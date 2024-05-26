@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "An introduction to Systematic conservation planning with prioritzr",
     "section": "",
-    "text": "Preface\nWelcome to the training course in systematic conservation planning with the prioritzr.\nLorem ipsum …",
+    "text": "Preface\nWelcome to the training course in systematic conservation planning with the prioritzr. This training course was originally held at the 2024 European Congress of Conservation biology in Bologna, although the materials found here will be preserved even after the conference and be openly available to everyone.",
     "crumbs": [
       "Preface"
     ]
@@ -14,14 +14,14 @@
     "href": "index.html#what-you-will-learn",
     "title": "An introduction to Systematic conservation planning with prioritzr",
     "section": "What you will learn",
-    "text": "What you will learn\n\nThe basic concepts of ILP\nHow to prepare your input data\nSetup and run your first prioritization\nAnalyse and intepret outputs\nAdding complexity to\nAdvanced topics such as management zones\n\nIf you have already heard about the basic concepts of ILP then feel to jump to section 2.\nIn section 1.2 Exact algorithms and integer programming you fill learn about what ILP is.",
+    "text": "What you will learn\n\nThe basic concepts of Systematic conservation planning (SCP) and Integer Linear Programming (ILP) in particular\nHow to prepare your input data for a Conservation planning project\nHow to setup and run your first prioritization\nHow outputs can be analysed and interpreted.\nHow to adding complexity factors and changing your conservation planning outcomes\nAdvanced topics such as management zones\n\nCompleting all course materials will take you on average 120 minutes, although people who have been exposed to similar methods or introduction before might take less. training materials before might less amount of time.\nIn this training course a number of different terms will be used. Whenever there are uncertainties with regards to definitions, see the ?sec-glossary.\nIf you have already heard before about the basic concepts of SCP and ILP (For example from the lecture then feel to jump to section 2 and data preparation 2  Preparing input data for a SCP project.\n\n\n\n\n\n\nBefore you start…\n\n\n\nIn order to run the materials on this course website, some preparatory steps need to be taken. Please see the installation instructions in Appendix A — Installation of all software if you have never used prioritizr before!",
     "crumbs": [
       "Preface"
     ]
   },
   {
-    "objectID": "chapters/intro.html",
-    "href": "chapters/intro.html",
+    "objectID": "chapters/Intro.html",
+    "href": "chapters/Intro.html",
     "title": "1  Introduction",
     "section": "",
     "text": "1.1 Systematic conservation planning",
@@ -31,8 +31,8 @@
     ]
   },
   {
-    "objectID": "chapters/intro.html#systematic-conservation-planning",
-    "href": "chapters/intro.html#systematic-conservation-planning",
+    "objectID": "chapters/Intro.html#systematic-conservation-planning",
+    "href": "chapters/Intro.html#systematic-conservation-planning",
     "title": "1  Introduction",
     "section": "",
     "text": "1.1.1 Key concepts",
@@ -42,8 +42,8 @@
     ]
   },
   {
-    "objectID": "chapters/intro.html#sec-what-is-integer-programming",
-    "href": "chapters/intro.html#sec-what-is-integer-programming",
+    "objectID": "chapters/Intro.html#sec-what-is-integer-programming",
+    "href": "chapters/Intro.html#sec-what-is-integer-programming",
     "title": "1  Introduction",
     "section": "1.2 Exact algorithms and integer programming",
     "text": "1.2 Exact algorithms and integer programming",
@@ -53,8 +53,8 @@
     ]
   },
   {
-    "objectID": "chapters/intro.html#tools-and-software",
-    "href": "chapters/intro.html#tools-and-software",
+    "objectID": "chapters/Intro.html#tools-and-software",
+    "href": "chapters/Intro.html#tools-and-software",
     "title": "1  Introduction",
     "section": "1.3 Tools and software",
     "text": "1.3 Tools and software\n\n\n\n\nHanson, J.O., Schuster, R., Strimas-Mackey, M. & Bennett, J.R. (2019). Optimality in prioritizing conservation projects. Methods in Ecology and Evolution, 10, 1655–1663.",
@@ -68,7 +68,7 @@
     "href": "glossary.html",
     "title": "Glossary",
     "section": "",
-    "text": "A glossary of key terms used in this Training course\n\n\n\n\n\n\n\nTerm\nAbbrevication if any\nDefinition\n\n\n\n\nPlanning unit\nPU\nThe fundamental unit at which decisions in SCP are realized. Can be of multiple formats such as grid cells or farms",
+    "text": "A glossary of key terms used in this Training course\n\n\nTerm\nAbbreviation if any\nDefinition\n\n\n\n\nCARE\nCARE\nA often used abbreviation that stands for Connectivity, Adequacy, Representation, and Effectiveness which key principles that should be considered when designing a conservation network. See the Marxan website for more information.\n\n\nConservation Prioritization\n\nThe computational process of identifying (spatial) priorities for a given conservation objective (such as for identifying protected areas). Usually comes in in the form of a map.\n\n\nInteger\n\nIn programmatic terms a full number (e.g. -1, 1, 2, 3, …)\n\n\nInteger Linear Programming\nILP\nMathematical problem formulation using Linear Programming (ILP) where the variables are integer values and the objective function and equations are linear.\n\n\nPlanning unit\nPU\nThe fundamental unit at which decisions in SCP are realized. Can be of multiple formats such as grid cells or farms\n\n\nSystematic Conservation Planning\nSCP\nA framework and step-wise approach towards mapping conservation areas. Usually involves multiple steps such as the identification of a problem and the theory of change, data collection and preparation, conservation prioritization, evaluation and finally implementation. See Margules & Pressey (2000)\n\n\n\n\n\n\n\n\n\n\n\n\nMargules, C.R. & Pressey, R.L. (2000). Systematic conservation planning. Nature, 405, 243–253.",
     "crumbs": [
       "Glossary"
     ]
@@ -78,7 +78,7 @@
     "href": "references.html",
     "title": "References",
     "section": "",
-    "text": "Hanson, J.O., Schuster, R., Strimas-Mackey, M. & Bennett, J.R.\n(2019). Optimality in prioritizing conservation projects. Methods in\nEcology and Evolution, 10, 1655–1663.",
+    "text": "Hanson, J.O., Schuster, R., Strimas-Mackey, M. & Bennett, J.R.\n(2019). Optimality in prioritizing conservation projects. Methods in\nEcology and Evolution, 10, 1655–1663.\n\n\nMargules, C.R. & Pressey, R.L. (2000). Systematic conservation\nplanning. Nature, 405, 243–253.",
     "crumbs": [
       "References"
     ]
@@ -88,7 +88,40 @@
     "href": "appendices/installation.html",
     "title": "Appendix A — Installation of all software",
     "section": "",
-    "text": "Say something about Rstudio\nSay something about R\nSay something about R tools\nSay something about R packages",
+    "text": "A.1 Say something about Rstudio",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Installation of all software</span>"
+    ]
+  },
+  {
+    "objectID": "appendices/installation.html#say-something-about-r",
+    "href": "appendices/installation.html#say-something-about-r",
+    "title": "Appendix A — Installation of all software",
+    "section": "A.2 Say something about R",
+    "text": "A.2 Say something about R",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Installation of all software</span>"
+    ]
+  },
+  {
+    "objectID": "appendices/installation.html#say-something-about-r-tools",
+    "href": "appendices/installation.html#say-something-about-r-tools",
+    "title": "Appendix A — Installation of all software",
+    "section": "A.3 Say something about R tools",
+    "text": "A.3 Say something about R tools",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Installation of all software</span>"
+    ]
+  },
+  {
+    "objectID": "appendices/installation.html#say-something-about-r-packages",
+    "href": "appendices/installation.html#say-something-about-r-packages",
+    "title": "Appendix A — Installation of all software",
+    "section": "A.4 Say something about R packages",
+    "text": "A.4 Say something about R packages",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>A</span>  <span class='chapter-title'>Installation of all software</span>"

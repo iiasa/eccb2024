@@ -6,8 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Louise O’Connor &amp; Martin Jung">
-<meta name="dcterms.date" content="2024-05-24">
+<meta name="author" content="Martin Jung &amp; Louise O’Connor">
+<meta name="dcterms.date" content="2024-05-26">
 
 <title>An introduction to Systematic conservation planning with prioritzr</title>
 <style>
@@ -32,8 +32,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./chapters/intro.html" rel="next">
-<link href="./resources/favicon.ico" rel="icon">
+<link href="./chapters/Intro.html" rel="next">
+<link href=".//resources/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -133,8 +133,14 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="./chapters/Intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/Datapreparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preparing input data for a SCP project</span></span></a>
   </div>
 </li>
       </ul>
@@ -190,7 +196,7 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
-<p><img src="./resources/IIASA_logo_small.png" class="img-fluid"></p>
+<p><img src=".\resources/IIASA_logo_small.png" class="img-fluid"></p>
 </div></div>
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
@@ -218,14 +224,14 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Louise O’Connor &amp; Martin Jung </p>
+             <p>Martin Jung &amp; Louise O’Connor </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 24, 2024</p>
+      <p class="date">May 26, 2024</p>
     </div>
   </div>
   
@@ -239,21 +245,34 @@ ul.task-list li input[type="checkbox"] {
 
 
 <section id="preface" class="level1 unnumbered">
-<h1 class="unnumbered">Preface</h1><p><img src="resources/logo.png" title="An introduction to Systematic conservation planning with prioritzr" class="quarto-cover-image img-fluid" alt="An introduction to Systematic conservation planning with prioritzr "></p>
-<p>Welcome to the training course in systematic conservation planning with the <a href="https://prioritizr.net/" title="Website of the prioritzr package">prioritzr</a>.</p>
-<p>Lorem ipsum …</p>
+<h1 class="unnumbered">Preface</h1><p><img src=".\resources/logo.png" title="An introduction to Systematic conservation planning with prioritzr" class="quarto-cover-image img-fluid" alt="An introduction to Systematic conservation planning with prioritzr "></p>
+<p>Welcome to the training course in systematic conservation planning with the <a href="https://prioritizr.net/" title="Website of the prioritzr package">prioritzr</a>. This training course was originally held at the <a href="https://eccb2024.eu/">2024 European Congress of Conservation biology</a> in Bologna, although the materials found here will be preserved even after the conference and be openly available to everyone.</p>
 <section id="what-you-will-learn" class="level2">
 <h2 class="anchored" data-anchor-id="what-you-will-learn">What you will learn</h2>
 <ul>
-<li>The basic concepts of ILP</li>
-<li>How to prepare your input data</li>
-<li>Setup and run your first prioritization</li>
-<li>Analyse and intepret outputs</li>
-<li>Adding complexity to</li>
+<li>The basic concepts of Systematic conservation planning (SCP) and Integer Linear Programming (ILP) in particular</li>
+<li>How to prepare your input data for a Conservation planning project</li>
+<li>How to setup and run your first prioritization</li>
+<li>How outputs can be analysed and interpreted.</li>
+<li>How to adding complexity factors and changing your conservation planning outcomes</li>
 <li>Advanced topics such as management zones</li>
 </ul>
-<p>If you have already heard about the basic concepts of ILP then feel to jump to section 2.</p>
-<p>In section <a href="chapters/intro.html#sec-what-is-integer-programming" class="quarto-xref"><span>1.2 Exact algorithms and integer programming</span></a> you fill learn about what ILP is.</p>
+<p>Completing all course materials will take you on average 120 minutes, although people who have been exposed to similar methods or introduction before might take less. training materials before might less amount of time.</p>
+<p>In this training course a number of different terms will be used. Whenever there are uncertainties with regards to definitions, see the <span class="quarto-unresolved-ref">?sec-glossary</span>.</p>
+<p>If you have already heard before about the basic concepts of SCP and ILP (For example from the lecture then feel to jump to section 2 and data preparation <a href="chapters/Datapreparation.html" class="quarto-xref"><span>2&nbsp; Preparing input data for a SCP project</span></a>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Before you start…
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In order to run the materials on this course website, some preparatory steps need to be taken. Please see the installation instructions in <a href="appendices/installation.html" class="quarto-xref"><span>Appendix A — Installation of all software</span></a> if you have never used <strong>prioritizr</strong> before!</p>
+</div>
+</div>
 
 
 </section>
@@ -698,7 +717,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapters/intro.html" class="pagination-link" aria-label="Introduction">
+      <a href="./chapters/Intro.html" class="pagination-link" aria-label="Introduction">
         <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
@@ -707,10 +726,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>All content licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a> <br> © Louise O’Connor, Martin Jung.</p>
+<p>All content licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a> <br> © Martin Jung &amp; Louise O’Connor.</p>
 </div>   
     <div class="nav-footer-center">
-<p>Supported by the <a href="https://naturaconnect.eu">NaturaConnect</a> project | <img src="resources/Natura-Connect-logo.png" height="20" alt="NaturaConnect"></p>
+<p>Supported by the <a href="https://naturaconnect.eu">NaturaConnect</a> project | <img src=".\resources/Natura-Connect-logo.png" height="20" alt="NaturaConnect"></p>
 </div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org/">Quarto</a>.</p>
