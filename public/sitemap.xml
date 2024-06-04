@@ -2,10 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://iiasa.github.io/eccb2024/index.html</loc>
-    <lastmod>2024-05-26T19:18:44.876Z</lastmod>
+    <lastmod>2024-06-04T20:46:25.457Z</lastmod>
   </url>
   <url>
-    <loc>https://iiasa.github.io/eccb2024/chapters/Intro.html</loc>
+    <loc>https://iiasa.github.io/eccb2024/chapters/intro.html</loc>
     <lastmod>2024-05-25T14:51:18.575Z</lastmod>
   </url>
   <url>
@@ -46,10 +46,6 @@
   </url>
   <url>
     <loc>https://iiasa.github.io/eccb2024/appendices/installation.html</loc>
-    <lastmod>2024-05-26T19:18:44.871Z</lastmod>
-  </url>
-  <url>
-    <loc>https://iiasa.github.io/eccb2024/An-introduction-to-Systematic-conservation-planning-with-prioritzr.pdf</loc>
-    <lastmod>2024-05-26T19:22:28.346Z</lastmod>
+    <lastmod>2024-06-04T21:32:18.836Z</lastmod>
   </url>
 </urlset>
