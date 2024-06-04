@@ -26,7 +26,7 @@ book:
     - index.qmd
     - part: "Introduction to SCP"
       chapters:
-        - chapters/Intro.qmd
+        - chapters/intro.qmd
     - part: "Problem creation"
       chapters:
         - chapters/Datapreparation.qmd
