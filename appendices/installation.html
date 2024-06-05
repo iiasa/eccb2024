@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.554">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>An introduction to Systematic conservation planning with prioritzr - Appendix A — Installation of all software</title>
+<title>An introduction to Systematic conservation planning with prioritzr - Appendix A — Installation of all required software</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -84,7 +118,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendices/installation.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendices/installation.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Installation of all software</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendices/installation.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendices/installation.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Installation of all required software</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -247,7 +281,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../appendices/installation.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Installation of all software</span></span></a>
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Installation of all required software</span></span></a>
   </div>
 </li>
       </ul>
@@ -264,19 +298,19 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#say-something-about-rstudio" id="toc-say-something-about-rstudio" class="nav-link active" data-scroll-target="#say-something-about-rstudio"><span class="header-section-number">A.1</span> Say something about Rstudio</a></li>
-  <li><a href="#say-something-about-r" id="toc-say-something-about-r" class="nav-link" data-scroll-target="#say-something-about-r"><span class="header-section-number">A.2</span> Say something about R</a></li>
-  <li><a href="#say-something-about-r-tools" id="toc-say-something-about-r-tools" class="nav-link" data-scroll-target="#say-something-about-r-tools"><span class="header-section-number">A.3</span> Say something about R tools</a></li>
-  <li><a href="#say-something-about-r-packages" id="toc-say-something-about-r-packages" class="nav-link" data-scroll-target="#say-something-about-r-packages"><span class="header-section-number">A.4</span> Say something about R packages</a></li>
+  <li><a href="#install-r" id="toc-install-r" class="nav-link active" data-scroll-target="#install-r"><span class="header-section-number">A.1</span> Install R</a></li>
+  <li><a href="#install-a-ide-such-as-rstudio" id="toc-install-a-ide-such-as-rstudio" class="nav-link" data-scroll-target="#install-a-ide-such-as-rstudio"><span class="header-section-number">A.2</span> Install a IDE such as Rstudio</a></li>
+  <li><a href="#install-a-solver-in-r" id="toc-install-a-solver-in-r" class="nav-link" data-scroll-target="#install-a-solver-in-r"><span class="header-section-number">A.3</span> Install a solver in R</a></li>
+  <li><a href="#install-required-r-packages" id="toc-install-required-r-packages" class="nav-link" data-scroll-target="#install-required-r-packages"><span class="header-section-number">A.4</span> Install required R packages</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendices/installation.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendices/installation.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Installation of all software</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendices/installation.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendices/installation.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Installation of all required software</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-installation" class="quarto-section-identifier">Appendix A — Installation of all software</span></h1>
+<h1 class="title"><span id="sec-installation" class="quarto-section-identifier">Appendix A — Installation of all required software</span></h1>
 </div>
 
 
@@ -293,17 +327,74 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="say-something-about-rstudio" class="level2" data-number="A.1">
-<h2 data-number="A.1" class="anchored" data-anchor-id="say-something-about-rstudio"><span class="header-section-number">A.1</span> Say something about Rstudio</h2>
+<p>Opposed to other conservation planning software (e.g.&nbsp;<a href="https://zonationteam.github.io/Zonation5/" title="Zonation 5 website">Zonation 5</a>) using prioritizr requires prior knowledge on how to use <strong>R</strong>.</p>
+<section id="install-r" class="level2" data-number="A.1">
+<h2 data-number="A.1" class="anchored" data-anchor-id="install-r"><span class="header-section-number">A.1</span> Install R</h2>
+<p>R is a programming language and environment specifically designed for statistical computing and graphics. It is widely used among statisticians and data analysts for its extensive capabilities in data manipulation, statistical modelling, and graphical representation.</p>
+<p>To install R, please go to the following <a href="https://cran.r-project.org/" title="R Cran website">website</a>, then:</p>
+<ol type="1">
+<li><p>Click on the link at the top for your respective operating system</p></li>
+<li><p>Recommended is the <strong>base</strong> version of R particular for new users. Select the latest version 4.4, download and execute.</p></li>
+<li><p>Follow the instructions in the installation popup.</p></li>
+</ol>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Although older R-versions can work as well (e.g.&nbsp;R 4.3), we recommend the latest version with which the training materials have been tested.</p>
+</div>
+</div>
+</div>
+<p>In addition, we also recommend the installation of <strong>RTools</strong> on the same website (here for example for <a href="https://cran.r-project.org/bin/windows/Rtools/rtools44/rtools.html" title="RTools">Windows</a>). RTools contains a range of code compilation software, such as a C++ compiler. These software are often necessary to install additional R-packages, particular when they are not available in binary format.</p>
+<p>To download RTools, click the “Rtools44 installer” link, download and execute and follow the instructions.</p>
 </section>
-<section id="say-something-about-r" class="level2" data-number="A.2">
-<h2 data-number="A.2" class="anchored" data-anchor-id="say-something-about-r"><span class="header-section-number">A.2</span> Say something about R</h2>
+<section id="install-a-ide-such-as-rstudio" class="level2" data-number="A.2">
+<h2 data-number="A.2" class="anchored" data-anchor-id="install-a-ide-such-as-rstudio"><span class="header-section-number">A.2</span> Install a IDE such as Rstudio</h2>
+<p>By default R is terminal based, meaning inputs are parsed as entered. To create reproducible scripts we recommend the use of an integrated development environment (IDE) and here in particular <a href="https://www.rstudio.com/products/rstudio/download/" title="Rstudio download website">Rstudio</a>. Of course other alternative IDEs can also be used such as for example Visual Code. It is free to use in its basic version and available for most operating systems, including Windows 10/11, Linux and MacOS distributions.</p>
+<p>To download and install Rstudio follow the instructions on <a href="https://posit.co/download/rstudio-desktop/">this website</a>.</p>
 </section>
-<section id="say-something-about-r-tools" class="level2" data-number="A.3">
-<h2 data-number="A.3" class="anchored" data-anchor-id="say-something-about-r-tools"><span class="header-section-number">A.3</span> Say something about R tools</h2>
+<section id="install-a-solver-in-r" class="level2" data-number="A.3">
+<h2 data-number="A.3" class="anchored" data-anchor-id="install-a-solver-in-r"><span class="header-section-number">A.3</span> Install a solver in R</h2>
+<p>To use prioritizr and solve a conservation problem, we require a solver. Solvers are specialized algorithms or software designed to find the best solution (or an optimal solution) to a mathematical problem that involves maximizing or minimizing a particular function subject to certain constraints. For different mathematical problems, for example linear or mixed programming, different solvers are often necessary or perform better.</p>
+<p>Many state-of-the-art solvers are proprietary and often used by large companies to solve problems related to supply chain or financial risk managements. Although freely available and open-source solver slowly catch up, they usually cannot compete with proprietary such as Gurobi or CPLEX. For a comprehensive overview of different available and supported solvers a detailed vignette can be found on the <a href="https://prioritizr.net/articles/solver_benchmarks.html">prioritizr</a> website.</p>
+<p>For new users we recommend the use of the <em>HiGHS</em> solver, which is free to use and can be installed across a range of operating systems. To enable it run the following code and make sure it runs through without issues.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"highs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If for some reason the installation of he package fails, another option could be the <em>cbc</em> solver, which can currently only be installed directly from the developers Github repository. For this to work you likely need to have RTools installed (see A.1 above).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(remotes)) <span class="fu">install.packages</span>(<span class="st">"remotes"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"dirkschumacher/rcbc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Gurobi
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Gurobi solver is among the fastest supported ones for prioritizr. Unfortunately it is not openly available and purchasing it can be quite costly. However for academic users (those with an academic email) and researchers it is possible to obtain a time-limited (usually 12 months) license for research projects. This License can also be renewed.<br>
+For further information see the <a href="https://prioritizr.net/articles/gurobi_installation_guide.html" title="Installing Gurobi for academic users">installation vignette</a> on the prioritizr homepage!</p>
+</div>
+</div>
 </section>
-<section id="say-something-about-r-packages" class="level2" data-number="A.4">
-<h2 data-number="A.4" class="anchored" data-anchor-id="say-something-about-r-packages"><span class="header-section-number">A.4</span> Say something about R packages</h2>
+<section id="install-required-r-packages" class="level2" data-number="A.4">
+<h2 data-number="A.4" class="anchored" data-anchor-id="install-required-r-packages"><span class="header-section-number">A.4</span> Install required R packages</h2>
+<p>In addition to the R and the solver packages above, we need to install several packages related to (spatial) data handling. These include for example <em>dplyr</em>, <em>terra</em> and sf, but also <em>ggplot2</em> for plotting.</p>
+<p>To install please run the following code in your R terminal:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"dplyr"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"terra"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"sf"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyterra"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Make sure that every line executes without an error. If you see an error, check first online for potential solutions (google) and afterwards get in touch with the course organizers.</p>
 
 
 </section>

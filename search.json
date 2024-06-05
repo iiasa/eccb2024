@@ -14,7 +14,7 @@
     "href": "index.html#what-you-will-learn",
     "title": "An introduction to Systematic conservation planning with prioritzr",
     "section": "What you will learn",
-    "text": "What you will learn\n\nThe basic concepts of Systematic conservation planning (SCP) and Integer Linear Programming (ILP) in particular\nHow to prepare your input data for a Conservation planning project\nHow to setup and run your first prioritization\nHow outputs can be analysed and interpreted.\nHow to adding complexity factors and changing your conservation planning outcomes\nAdvanced topics such as management zones\n\nCompleting all course materials will take you on average 120 minutes, although people who have been exposed to similar methods or introduction before might take less. training materials before might less amount of time.\nIn this training course a number of different terms will be used. Whenever there are uncertainties with regards to definitions, see the Glossary.\nIf you have already heard before about the basic concepts of SCP and ILP (For example from the lecture then feel to jump to section 2 and data preparation 2  Preparing input data.\n\n\n\n\n\n\nBefore you start…\n\n\n\nIn order to run the materials on this course website, some preparatory steps need to be taken. Please see the installation instructions in Appendix A — Installation of all software if you have never used prioritizr before!",
+    "text": "What you will learn\n\nThe basic concepts of Systematic conservation planning (SCP) and Integer Linear Programming (ILP) in particular\nHow to prepare your input data for a Conservation planning project\nHow to setup and run your first prioritization\nHow outputs can be analysed and interpreted.\nHow to adding complexity factors and changing your conservation planning outcomes\nAdvanced topics such as accounting for connectivity and management zones\n\nCompleting all course materials will take you on average 120 minutes, although people who have been exposed to similar methods or introduction before might take less. training materials before might less amount of time.\nIn this training course a number of different terms will be used. Whenever there are uncertainties with regards to definitions, see the Glossary.\nIf you have already heard before about the basic concepts of SCP and ILP (For example from the lecture then feel to jump to section 2 and data preparation 2  Preparing input data.\n\n\n\n\n\n\nBefore you start…\n\n\n\nIn order to run the materials on this course website, some preparatory steps need to be taken. Please see the installation instructions in Appendix A — Installation of all required software if you have never used prioritizr before!",
     "crumbs": [
       "Preface"
     ]
@@ -24,7 +24,7 @@
     "href": "chapters/intro.html",
     "title": "1  Introduction",
     "section": "",
-    "text": "1.1 Systematic conservation planning",
+    "text": "1.1 Systematic conservation planning\nThe classical definition of Systematic conservation planning (SCP) is that of a structured, scientific approach to identifying and prioritizing areas for conservation (REFs). Its goal is to ensure that biodiversity is maintained and ecosystems are protected in a way that maximizes ecological, economic, and social benefits. Although SCP has been conceived specifically for creating and expanding reserve networks (usually protected areas), it can be used for much more including for example the identification of restoration, land-use planning or monitoring options.\nIt is also a common misconception that a project implementing SCP is only about prioritization (the algorithm part). Rather, it describes a whole framework typically ranging from",
     "crumbs": [
       "Introduction to SCP",
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
@@ -35,7 +35,7 @@
     "href": "chapters/intro.html#systematic-conservation-planning",
     "title": "1  Introduction",
     "section": "",
-    "text": "1.1.1 Key concepts",
+    "text": "Defining Conservation goals and objectives\nEliciting pathways to impact and theory of change with stakeholders\nCompiling and preparing data\nIdentifying targets, constraints and costs\nFormulating a planning problem and identifying priorities for it\nEvaluating said priorities through robust performance metrics\nImplementing the priorities in exchange with stakeholders\nMonitoring the performance and adapting plans where necessary.\n\n\n1.1.1 Key concepts",
     "crumbs": [
       "Introduction to SCP",
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
@@ -46,7 +46,7 @@
     "href": "chapters/intro.html#sec-what-is-integer-programming",
     "title": "1  Introduction",
     "section": "1.2 Exact algorithms and integer programming",
-    "text": "1.2 Exact algorithms and integer programming",
+    "text": "1.2 Exact algorithms and integer programming\nSee Hanson et al. (2019) for additional discussion of optimality in linear programming.",
     "crumbs": [
       "Introduction to SCP",
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
@@ -57,7 +57,7 @@
     "href": "chapters/intro.html#tools-and-software",
     "title": "1  Introduction",
     "section": "1.3 Tools and software",
-    "text": "1.3 Tools and software\n\n\n\n\nHanson, J.O., Schuster, R., Strimas-Mackey, M. & Bennett, J.R. (2019). Optimality in prioritizing conservation projects. Methods in Ecology and Evolution, 10, 1655–1663.",
+    "text": "1.3 Tools and software\nWe stress that prioritizr is not the only software available\n\n\n\n\nHanson, J.O., Schuster, R., Strimas-Mackey, M. & Bennett, J.R. (2019). Optimality in prioritizing conservation projects. Methods in Ecology and Evolution, 10, 1655–1663.",
     "crumbs": [
       "Introduction to SCP",
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
@@ -328,45 +328,56 @@
   {
     "objectID": "appendices/installation.html",
     "href": "appendices/installation.html",
-    "title": "Appendix A — Installation of all software",
+    "title": "Appendix A — Installation of all required software",
     "section": "",
-    "text": "A.1 Say something about Rstudio",
+    "text": "A.1 Install R\nR is a programming language and environment specifically designed for statistical computing and graphics. It is widely used among statisticians and data analysts for its extensive capabilities in data manipulation, statistical modelling, and graphical representation.\nTo install R, please go to the following website, then:\nIn addition, we also recommend the installation of RTools on the same website (here for example for Windows). RTools contains a range of code compilation software, such as a C++ compiler. These software are often necessary to install additional R-packages, particular when they are not available in binary format.\nTo download RTools, click the “Rtools44 installer” link, download and execute and follow the instructions.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Installation of all software</span>"
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Installation of all required software</span>"
     ]
   },
   {
-    "objectID": "appendices/installation.html#say-something-about-r",
-    "href": "appendices/installation.html#say-something-about-r",
-    "title": "Appendix A — Installation of all software",
-    "section": "A.2 Say something about R",
-    "text": "A.2 Say something about R",
+    "objectID": "appendices/installation.html#install-r",
+    "href": "appendices/installation.html#install-r",
+    "title": "Appendix A — Installation of all required software",
+    "section": "",
+    "text": "Click on the link at the top for your respective operating system\nRecommended is the base version of R particular for new users. Select the latest version 4.4, download and execute.\nFollow the instructions in the installation popup.\n\n\n\n\n\n\n\nAlthough older R-versions can work as well (e.g. R 4.3), we recommend the latest version with which the training materials have been tested.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Installation of all software</span>"
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Installation of all required software</span>"
     ]
   },
   {
-    "objectID": "appendices/installation.html#say-something-about-r-tools",
-    "href": "appendices/installation.html#say-something-about-r-tools",
-    "title": "Appendix A — Installation of all software",
-    "section": "A.3 Say something about R tools",
-    "text": "A.3 Say something about R tools",
+    "objectID": "appendices/installation.html#install-a-ide-such-as-rstudio",
+    "href": "appendices/installation.html#install-a-ide-such-as-rstudio",
+    "title": "Appendix A — Installation of all required software",
+    "section": "A.2 Install a IDE such as Rstudio",
+    "text": "A.2 Install a IDE such as Rstudio\nBy default R is terminal based, meaning inputs are parsed as entered. To create reproducible scripts we recommend the use of an integrated development environment (IDE) and here in particular Rstudio. Of course other alternative IDEs can also be used such as for example Visual Code. It is free to use in its basic version and available for most operating systems, including Windows 10/11, Linux and MacOS distributions.\nTo download and install Rstudio follow the instructions on this website.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Installation of all software</span>"
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Installation of all required software</span>"
     ]
   },
   {
-    "objectID": "appendices/installation.html#say-something-about-r-packages",
-    "href": "appendices/installation.html#say-something-about-r-packages",
-    "title": "Appendix A — Installation of all software",
-    "section": "A.4 Say something about R packages",
-    "text": "A.4 Say something about R packages",
+    "objectID": "appendices/installation.html#install-a-solver-in-r",
+    "href": "appendices/installation.html#install-a-solver-in-r",
+    "title": "Appendix A — Installation of all required software",
+    "section": "A.3 Install a solver in R",
+    "text": "A.3 Install a solver in R\nTo use prioritizr and solve a conservation problem, we require a solver. Solvers are specialized algorithms or software designed to find the best solution (or an optimal solution) to a mathematical problem that involves maximizing or minimizing a particular function subject to certain constraints. For different mathematical problems, for example linear or mixed programming, different solvers are often necessary or perform better.\nMany state-of-the-art solvers are proprietary and often used by large companies to solve problems related to supply chain or financial risk managements. Although freely available and open-source solver slowly catch up, they usually cannot compete with proprietary such as Gurobi or CPLEX. For a comprehensive overview of different available and supported solvers a detailed vignette can be found on the prioritizr website.\nFor new users we recommend the use of the HiGHS solver, which is free to use and can be installed across a range of operating systems. To enable it run the following code and make sure it runs through without issues.\n\ninstall.packages(\"highs\")\n\nIf for some reason the installation of he package fails, another option could be the cbc solver, which can currently only be installed directly from the developers Github repository. For this to work you likely need to have RTools installed (see A.1 above).\n\nif (!require(remotes)) install.packages(\"remotes\")\nremotes::install_github(\"dirkschumacher/rcbc\")\n\n\n\n\n\n\n\nGurobi\n\n\n\nThe Gurobi solver is among the fastest supported ones for prioritizr. Unfortunately it is not openly available and purchasing it can be quite costly. However for academic users (those with an academic email) and researchers it is possible to obtain a time-limited (usually 12 months) license for research projects. This License can also be renewed.\nFor further information see the installation vignette on the prioritizr homepage!",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Installation of all software</span>"
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Installation of all required software</span>"
+    ]
+  },
+  {
+    "objectID": "appendices/installation.html#install-required-r-packages",
+    "href": "appendices/installation.html#install-required-r-packages",
+    "title": "Appendix A — Installation of all required software",
+    "section": "A.4 Install required R packages",
+    "text": "A.4 Install required R packages\nIn addition to the R and the solver packages above, we need to install several packages related to (spatial) data handling. These include for example dplyr, terra and sf, but also ggplot2 for plotting.\nTo install please run the following code in your R terminal:\n\ninstall.packages(\"dplyr\")\ninstall.packages(\"terra\")\ninstall.packages(\"sf\")\ninstall.packages(\"ggplot2\")\ninstall.packages(\"tidyterra\")\n\nMake sure that every line executes without an error. If you see an error, check first online for potential solutions (google) and afterwards get in touch with the course organizers.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Installation of all required software</span>"
     ]
   }
 ]
