@@ -4,7 +4,7 @@ Opposed to other conservation planning software (e.g. [Zonation 5](https://zonat
 
 ## Install R
 
-R is a programming language and environment specifically designed for statistical computing and graphics. It is widely used among statisticians and data analysts for its extensive capabilities in data manipulation, statistical modeling, and graphical representation.
+R is a programming language and environment specifically designed for statistical computing and graphics. It is widely used among statisticians and data analysts for its extensive capabilities in data manipulation, statistical modelling, and graphical representation.
 
 To install R, please go to the following [website](https://cran.r-project.org/ "R Cran website"), then:
 
@@ -30,30 +30,17 @@ To download and install Rstudio follow the instructions on [this website](https:
 
 ## Install a solver in R
 
-To use prioritizr and solve a conservation problem, we require a solver. Solvers are specialized algorithms or software designed to find the best solution (or an optimal solution) to a mathematical problem that involves maximizing or minimizing a particular function subject to certain constraints. For different mathematical problems, for example linear or mixed programming, different solvers are often necessary or perform better.
+To use prioritizr and solve a conservation problem, we require a solver.
 
-Many state-of-the-art solvers are proprietary and often used by large companies to solve problems related to supply chain or financial risk managements. Although freely available and open-source solver slowly catch up, they usually cannot compete with proprietary such as Gurobi or CPLEX. For a comprehensive overview of different available and supported solvers a detailed vignette can be found on the [prioritizr](https://prioritizr.net/articles/solver_benchmarks.html) website.
+For a comprehensive overview of different available and supported solvers a detailed vignette can be found on the [prioritizr](https://prioritizr.net/articles/solver_benchmarks.html) website.
 
-For new users we recommend the use of the *HiGHS* solver, which is free to use and can be installed across a range of operating systems. To enable it run the following code and make sure it runs through without issues.
+For new users we recommend the use of the HiGHS solver, which is free to use and can be installed across a range of systems. To enable it run the following code and make sure it runs through without issues.
 
 ```{r, eval = FALSE}
 install.packages("highs")
 ```
 
-If for some reason the installation of he package fails, another option could be the *cbc* solver, which can currently only be installed directly from the developers Github repository. For this to work you likely need to have RTools installed (see A.1 above).
-
-```{r, eval = FALSE}
-if (!require(remotes)) install.packages("remotes")
-remotes::install_github("dirkschumacher/rcbc")
-
-```
-
-::: callout-tip
-## Gurobi
-
-The Gurobi solver is among the fastest supported ones for prioritizr. Unfortunately it is not openly available and purchasing it can be quite costly. However for academic users (those with an academic email) and researchers it is possible to obtain a time-limited (usually 12 months) license for research projects. This License can also be renewed. \
-For further information see the [installation vignette](https://prioritizr.net/articles/gurobi_installation_guide.html "Installing Gurobi for academic users") on the prioritizr homepage!
-:::
+If for some reason the installation of he package fails, see..
 
 ## Install required R packages
 
