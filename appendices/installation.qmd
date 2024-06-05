@@ -4,7 +4,7 @@ Opposed to other conservation planning software (e.g. [Zonation 5](https://zonat
 
 ## Install R
 
-R is a programming language and environment specifically designed for statistical computing and graphics. It is widely used among statisticians and data analysts for its extensive capabilities in data manipulation, statistical modeling, and graphical representation.
+R is a programming language and environment specifically designed for statistical computing and graphics. It is widely used among statisticians and data analysts for its extensive capabilities in data manipulation, statistical modelling, and graphical representation.
 
 To install R, please go to the following [website](https://cran.r-project.org/ "R Cran website"), then:
 
