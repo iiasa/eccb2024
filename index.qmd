@@ -9,7 +9,7 @@ Welcome to the training course in systematic conservation planning with the [pri
 -   How to setup and run your first prioritization
 -   How outputs can be analysed and interpreted.
 -   How to adding complexity factors and changing your conservation planning outcomes
--   Advanced topics such as management zones
+-   Advanced topics such as accounting for connectivity and management zones
 
 Completing all course materials will take you on average 120 minutes, although people who have been exposed to similar methods or introduction before might take less. training materials before might less amount of time.
 
