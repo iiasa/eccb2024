@@ -288,7 +288,18 @@
     "href": "chapters/Connectivity.html",
     "title": "8  Connectivity",
     "section": "",
-    "text": "8.1 Spatial coherence",
+    "text": "8.1 Boundary penalties\nThe inclusion of boundary penalties is one of the oldest and most widely applied ways of forcing a prioritization output (Ball et al. 2009). By setting a boundary length modifier (BLM) or penalty constant, we effectively penalize solutions that result in overly fragmented patches. Since it is a penality it does not fully prevent them however.\nUnfortunately, and similar to other penalty values, there are no specific guidelines of what might work or not, so often it might be worth exploring a few options.\nAs in previous tutorials we first load our data. However as noted above, we focus on the Alpine region only to make this interpretable. To do so we first crop and mask our PU and feature data to the alps.\n# Crop. Focus on the alps here\nalps &lt;- sf::st_read('extdata/boundary_alps/AlpineConvention.shp') |&gt;\n  sf::st_transform(crs = sf::st_crs(4326))\n\nPU &lt;- PU |&gt; terra::crop(alps) |&gt; terra::mask(alps)\nspp &lt;- spp |&gt; terra::crop(alps) |&gt; terra::mask(alps)\nNow we can create a conservation planning problem for this region.\n1p &lt;- problem(PU, spp) |&gt;\n2  add_min_set_objective() |&gt;\n3  add_relative_targets(targets = 0.3) |&gt;\n4  add_binary_decisions() |&gt;\n5  add_default_solver()\n\n\n1\n\nA problem with the cropped data (Planning units and features)\n\n2\n\nUsing a minimum set operation here.\n\n3\n\nArbitrary targets of 30% of the feature distribution\n\n4\n\nBinary decisions\n\n5\n\nUse the fastest solver installed/available (usually Gurobi or cbc)\nNow lets add some boundary constraints to the same problem.,\n# First we precompute the boundary matrix (large matrix of neighbourhoods)\nbm &lt;- boundary_matrix(PU)\n# Then we rescale it for better performance\nbm &lt;- rescale_matrix(bm)\n\n# Now create a new problem using the settings from above, but with a boundary penality\ns_blm &lt;- p |&gt;\n1  add_boundary_penalties(penalty = 1e-4, data = bm) |&gt;\n  solve()\n\n\n1\n\nSpecify a boundary penalty. Usually this requires some trial-and-error.\nAs you can see the solution is effectively more ‘clumped’. But what about the area selected? Do we need more area to get the best complementary solution here?\n# calculate costs (sum of area)\ndplyr::bind_rows(\n  eval_cost_summary(p, s),\n  eval_cost_summary(p, s_blm)\n)\n\n# Answer is...?",
+    "crumbs": [
+      "Advanced topics",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Connectivity</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/Connectivity.html#boundary-penalties",
+    "href": "chapters/Connectivity.html#boundary-penalties",
+    "title": "8  Connectivity",
+    "section": "",
+    "text": "Boundary length modifier (BLM), which is effectively a penalty (Source: Marxan solutions)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPerformance\n\n\n\nBoundary length penalties generally solve faster with simpler objective functions, such as a minimum set objective function.",
     "crumbs": [
       "Advanced topics",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Connectivity</span>"
@@ -299,7 +310,7 @@
     "href": "chapters/Connectivity.html#connectivity-constraints",
     "title": "8  Connectivity",
     "section": "8.2 Connectivity constraints",
-    "text": "8.2 Connectivity constraints",
+    "text": "8.2 Connectivity constraints\n\n\n\n\nBall, I.R., Possingham, H.P. & Watts, M. (2009). Marxan and relatives: Software for spatial conservation prioritisation. Spatial conservation prioritisation: Quantitative methods and computational tools, 14, 185–196.\n\n\nBeger, M., Metaxas, A., Balbar, A.C., McGowan, J.A., Daigle, R., Kuempel, C.D., Treml, E.A. & Possingham, H.P. (2022). Demystifying ecological connectivity for actionable spatial conservation planning. Trends in Ecology & Evolution, S0169534722002221.\n\n\nDaigle, R.M., Metaxas, A., Balbar, A.C., McGowan, J., Treml, E.A., Kuempel, C.D., Possingham, H.P. & Beger, M. (2020). Operationalizing ecological connectivity in spatial conservation planning with marxan connect (N. Golding, Ed.). Methods in Ecology and Evolution, 11, 570–579.\n\n\nHanson, J.O., Vincent, J., Schuster, R., Fahrig, L., Brennan, A., Martin, A.E., Hughes, J.S., Pither, R. & Bennett, J.R. (2022). A comparison of approaches for including connectivity in systematic conservation planning. Journal of Applied Ecology, 59, 2507–2519.",
     "crumbs": [
       "Advanced topics",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Connectivity</span>"
@@ -310,7 +321,7 @@
     "href": "glossary.html",
     "title": "Glossary",
     "section": "",
-    "text": "A glossary of key terms used in this Training course\n\n\nTerm\nAbbreviation if any\nDefinition\n\n\n\n\nCARE\nCARE\nA often used abbreviation that stands for Connectivity, Adequacy, Representation, and Effectiveness which key principles that should be considered when designing a conservation network. See the Marxan website for more information.\n\n\nConservation Prioritization\n\nThe computational process of identifying (spatial) priorities for a given conservation objective (such as for identifying protected areas). Usually comes in in the form of a map.\n\n\nInteger\n\nIn programmatic terms a full number (e.g. -1, 1, 2, 3, …)\n\n\nInteger Linear Programming\nILP\nMathematical problem formulation using Linear Programming (ILP) where the variables are integer values and the objective function and equations are linear.\n\n\nPlanning unit\nPU\nThe fundamental unit at which decisions in SCP are realized. Can be of multiple formats such as grid cells or farms\n\n\nSystematic Conservation Planning\nSCP\nA framework and step-wise approach towards mapping conservation areas. Usually involves multiple steps such as the identification of a problem and the theory of change, data collection and preparation, conservation prioritization, evaluation and finally implementation. See Margules & Pressey (2000)\n\n\n\n\n\n\n\n\n\n\n\n\nMargules, C.R. & Pressey, R.L. (2000). Systematic conservation planning. Nature, 405, 243–253.",
+    "text": "A glossary of key terms used in this Training course\n\n\nTerm\nAbbreviation if any\nDefinition\n\n\n\n\nBoundary Length Modifier\nBLM\nA penalty constant added to a conservation problem that penalizes selecting isolated patches. Results in overall more compact solutions.\n\n\nCARE\nCARE\nA often used abbreviation that stands for Connectivity, Adequacy, Representation, and Effectiveness which key principles that should be considered when designing a conservation network. See the Marxan website for more information.\n\n\nConservation Prioritization\n\nThe computational process of identifying (spatial) priorities for a given conservation objective (such as for identifying protected areas). Usually comes in in the form of a map.\n\n\nInteger\n\nIn programmatic terms a full number (e.g. -1, 1, 2, 3, …)\n\n\nInteger Linear Programming\nILP\nMathematical problem formulation using Linear Programming (ILP) where the variables are integer values and the objective function and equations are linear.\n\n\nPlanning unit\nPU\nThe fundamental unit at which decisions in SCP are realized. Can be of multiple formats such as grid cells or farms\n\n\nSystematic Conservation Planning\nSCP\nA framework and step-wise approach towards mapping conservation areas. Usually involves multiple steps such as the identification of a problem and the theory of change, data collection and preparation, conservation prioritization, evaluation and finally implementation. See Margules & Pressey (2000)\n\n\n\n\n\n\n\n\n\n\n\n\nMargules, C.R. & Pressey, R.L. (2000). Systematic conservation planning. Nature, 405, 243–253.",
     "crumbs": [
       "Glossary"
     ]
@@ -320,7 +331,7 @@
     "href": "references.html",
     "title": "References",
     "section": "",
-    "text": "Hanson, J.O., Schuster, R., Strimas-Mackey, M. & Bennett, J.R.\n(2019). Optimality in prioritizing conservation projects. Methods in\nEcology and Evolution, 10, 1655–1663.\n\n\nMargules, C.R. & Pressey, R.L. (2000). Systematic conservation\nplanning. Nature, 405, 243–253.",
+    "text": "Ball, I.R., Possingham, H.P. & Watts, M. (2009). Marxan and\nrelatives: Software for spatial conservation prioritisation. Spatial\nconservation prioritisation: Quantitative methods and computational\ntools, 14, 185–196.\n\n\nDaigle, R.M., Metaxas, A., Balbar, A.C., McGowan, J., Treml, E.A.,\nKuempel, C.D., Possingham, H.P. & Beger, M. (2020). Operationalizing\necological connectivity in spatial conservation planning with marxan\nconnect (N. Golding, Ed.). Methods in Ecology and\nEvolution, 11, 570–579.\n\n\nHanson, J.O., Schuster, R., Strimas-Mackey, M. & Bennett, J.R.\n(2019). Optimality in prioritizing conservation projects. Methods in\nEcology and Evolution, 10, 1655–1663.\n\n\nMargules, C.R. & Pressey, R.L. (2000). Systematic conservation\nplanning. Nature, 405, 243–253.",
     "crumbs": [
       "References"
     ]
