@@ -1,0 +1,7 @@
+# Solving a conservation planning problem
+
+## Ensure that a solver is available
+
+## Create a solution
+
+## Plot the solution

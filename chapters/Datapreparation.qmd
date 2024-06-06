@@ -1,0 +1,40 @@
+---
+code-annotations: hover
+---
+
+# Preparing input data {#sec-dataprep}
+
+## Planning units
+
+Say something about what a PU file is, load and plot from the example data
+
+## Features
+
+Explain what features are and plot
+
+## Costs
+
+Explain what costs are and how they are used
+
+## Other constraints (Protected areas)
+
+Showcase a protected area file and exclusion areas as example
+
+## Other data for the prioritization
+
+Mention weights, targets, etc and give example for each
+
+## Preparing data in different formats
+
+Showcase different dataformats as input alternative
+
+``` r
+library(tidyverse)
+trees |>                                         # <1>
+  mutate(                                        
+  volume_girth = volume * girth                  # <2>
+  )                                              
+```
+
+1.  Take dataset and mutate
+2.  Update with interaction term

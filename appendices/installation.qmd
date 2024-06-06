@@ -1,9 +1,72 @@
-# Installation of all software
+# Installation of all required software {#sec-installation}
 
-Say something about Rstudio
+Opposed to other conservation planning software (e.g. [Zonation 5](https://zonationteam.github.io/Zonation5/ "Zonation 5 website")) using prioritizr requires prior knowledge on how to use **R**.
 
-Say something about R
+## Install R
 
-Say something about R tools
+R is a programming language and environment specifically designed for statistical computing and graphics. It is widely used among statisticians and data analysts for its extensive capabilities in data manipulation, statistical modelling, and graphical representation.
 
-Say something about R packages
+To install R, please go to the following [website](https://cran.r-project.org/ "R Cran website"), then:
+
+1.  Click on the link at the top for your respective operating system
+
+2.  Recommended is the **base** version of R particular for new users. Select the latest version 4.4, download and execute.
+
+3.  Follow the instructions in the installation popup.
+
+::: {.callout-note appearance="simple"}
+Although older R-versions can work as well (e.g. R 4.3), we recommend the latest version with which the training materials have been tested.
+:::
+
+In addition, we also recommend the installation of **RTools** on the same website (here for example for [Windows](https://cran.r-project.org/bin/windows/Rtools/rtools44/rtools.html "RTools")). RTools contains a range of code compilation software, such as a C++ compiler. These software are often necessary to install additional R-packages, particular when they are not available in binary format.
+
+To download RTools, click the "Rtools44 installer" link, download and execute and follow the instructions.
+
+## Install a IDE such as Rstudio
+
+By default R is terminal based, meaning inputs are parsed as entered. To create reproducible scripts we recommend the use of an integrated development environment (IDE) and here in particular [Rstudio](https://www.rstudio.com/products/rstudio/download/ "Rstudio download website"). Of course other alternative IDEs can also be used such as for example Visual Code. It is free to use in its basic version and available for most operating systems, including Windows 10/11, Linux and MacOS distributions.
+
+To download and install Rstudio follow the instructions on [this website](https://posit.co/download/rstudio-desktop/).
+
+## Install a solver in R
+
+To use prioritizr and solve a conservation problem, we require a solver. Solvers are specialized algorithms or software designed to find the best solution (or an optimal solution) to a mathematical problem that involves maximizing or minimizing a particular function subject to certain constraints. For different mathematical problems, for example linear or mixed programming, different solvers are often necessary or perform better.
+
+Many state-of-the-art solvers are proprietary and often used by large companies to solve problems related to supply chain or financial risk managements. Although freely available and open-source solver slowly catch up, they usually cannot compete with proprietary such as Gurobi or CPLEX. For a comprehensive overview of different available and supported solvers a detailed vignette can be found on the [prioritizr](https://prioritizr.net/articles/solver_benchmarks.html) website.
+
+For new users we recommend the use of the *HiGHS* solver, which is free to use and can be installed across a range of operating systems. To enable it run the following code and make sure it runs through without issues.
+
+```{r, eval = FALSE}
+install.packages("highs")
+```
+
+If for some reason the installation of he package fails, another option could be the *cbc* solver, which can currently only be installed directly from the developers Github repository. For this to work you likely need to have RTools installed (see A.1 above).
+
+```{r, eval = FALSE}
+if (!require(remotes)) install.packages("remotes")
+remotes::install_github("dirkschumacher/rcbc")
+
+```
+
+::: callout-tip
+## Gurobi
+
+The Gurobi solver is among the fastest supported ones for prioritizr. Unfortunately it is not openly available and purchasing it can be quite costly. However for academic users (those with an academic email) and researchers it is possible to obtain a time-limited (usually 12 months) license for research projects. This License can also be renewed. \
+For further information see the [installation vignette](https://prioritizr.net/articles/gurobi_installation_guide.html "Installing Gurobi for academic users") on the prioritizr homepage!
+:::
+
+## Install required R packages
+
+In addition to the R and the solver packages above, we need to install several packages related to (spatial) data handling. These include for example *dplyr*, *terra* and sf, but also *ggplot2* for plotting.
+
+To install please run the following code in your R terminal:
+
+```{r, eval = FALSE}
+install.packages("dplyr")
+install.packages("terra")
+install.packages("sf")
+install.packages("ggplot2")
+install.packages("tidyterra")
+```
+
+Make sure that every line executes without an error. If you see an error, check first online for potential solutions (google) and afterwards get in touch with the course organizers.

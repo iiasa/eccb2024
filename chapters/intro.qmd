@@ -1,13 +1,41 @@
 # Introduction
 
-This is a book created from markdown and executable code.
+Welcome to this short introduction to systematic conservation planning with prioritizr! On this page you will learn about the basic concepts of systematic conservation planning (SCP) and more specifically algorithmic solutions identifying planning outcomes.
 
-See @hanson2019optimality for additional discussion of optimality in linear programming.
+::: {.callout-note appearance="minimal"}
+## Course info
+
+If you have taken part in person to the introduction on the day, you might want to skip this section and directly start with handling and preparing data at @sec-dataprep .
+:::
 
 ## Systematic conservation planning
+
+The classical definition of Systematic conservation planning (SCP) is that of a structured, scientific approach to identifying and prioritizing areas for conservation (REFs). Its goal is to ensure that biodiversity is maintained and ecosystems are protected in a way that maximizes ecological, economic, and social benefits. Although SCP has been conceived specifically for creating and expanding reserve networks (usually protected areas), it can be used for much more including for example the identification of restoration, land-use planning or monitoring options.
+
+It is also a common misconception that a project implementing SCP is only about prioritization (the algorithm part). Rather, it describes a whole framework typically ranging from
+
+1.  Defining Conservation goals and objectives
+
+2.  Eliciting pathways to impact and theory of change with stakeholders
+
+3.  Compiling and preparing data
+
+4.  Identifying targets, constraints and costs
+
+5.  Formulating a planning problem and identifying priorities for it
+
+6.  Evaluating said priorities through robust performance metrics
+
+7.  Implementing the priorities in exchange with stakeholders
+
+8.  Monitoring the performance and adapting plans where necessary.
 
 ### Key concepts
 
 ## Exact algorithms and integer programming {#sec-what-is-integer-programming}
 
+See @hanson2019optimality for additional discussion of optimality in linear programming.
+
 ## Tools and software
+
+We stress that prioritizr is not the only software available
