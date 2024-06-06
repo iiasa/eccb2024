@@ -16,6 +16,5 @@ Note: all spatial raster data is at 10x10 km resolution and harmonized spatially
 - protectedareas_I_II.tif : strictly protected areas (IUCN categories I and II) for the study area from WDPA
 - species_red_list.csv : global and European assessment of conservation status of these 67 species 
 
-The R script prep_data.R cleans and prepares this data. 
 
 
