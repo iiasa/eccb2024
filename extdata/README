@@ -1,0 +1,21 @@
+Description of data for ECCB prioritizr workshop.
+Date: 6 June 2024
+Author: Louise O'Connor 
+
+The data zip folder contains: 
+
+Spatial raster data at 10x10 km resolution:  
+- Planning units raster
+- Species Distributions Modelled under current and future climate (scenarios RCP 8.5) for 67 tree species. SDM were built by Thiago Cavalcante. 
+- NDVI : proxy for dense and healthy vegetation cover. Data extracted and prepared for Europe by Thiago Cavalcante. 
+- ghm: global human modification index. Data extracted and prepared for Europe by Thiago Cavalcante. For further details on the species distributions, NDVI and GHM layers, see https://github.com/zonationteam/Zonation5-training/tree/main/2024%20Europe/Exercises/data
+- urban_prct and HI_forest_prct.tif : percentage coverage per 10x10 grid cell of urban/periurban, and high-intensity forests, respectively. Aggregated to 10x10k from  European land systems dataset by Dou et al ., 2021, originally at 1km resolution. 
+- protectedareas.tif : all protected areas for the study area from WDPA
+- protectedareas_I_II.tif : strictly protected areas (IUCN categories I and II) for the study area from WDPA
+
+Tabular csv data: 
+- species_red_list.csv : global and European assessment of conservation status of these species 
+
+The R script prep_data.R cleans and prepares this data. 
+
+
