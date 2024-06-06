@@ -1,5 +1,111 @@
+---
+code-annotations: hover
+---
+
 # Connectivity
 
-## Spatial coherence
+Conservation planning can be used to obtain area-based solutions to identify options for (improved) conservation of species. In reality however many seemingly 'optimal' solutions in terms of complementarity (e.g. covering the best areas for conserving selected features) might not work for species that persist only in isolated populations, which are thus more prone to extinction. Here a strategy is not to identify (and conserve) a single site, but manage a network of sites that are ideally as much as possible connected.
+
+What this imply for area-based conservation planning? It means ideally sites are selected in a way that not only maximizes complementarity but also results in compact and/or structurally and functionally connected areas.
+
+The aim of this section is to describe different way of 'directly' considering connectivity in area-based conservation planning with *prioritizr*. For a comprehensive overview on the general principles of considering connectivity in area-based planning we recommend several recent reviews and perspectives [@daigle2020, @beger2022, @hanson2022]
+
+::: callout-important
+## Note
+
+Much of the code examples in this section might take quite a bit of time to run and requires knowledge of how to set up a problem formulation. We suggest to try these options only as you are familiar with modifying problem formulations and altering outputs.\
+For demonstration purposes we focus on the Alpine region for these examples. You can obtain a shapefile of their outline [here](https://esdac.jrc.ec.europa.eu/projects/Alpsis/alpine_region_gis_data.html "Alpine regions").
+:::
+
+Although by no means comprehensive, we broadly consider three commonly applied but different ways of considering connectivity in prioritzr.
+
+1.  Boundary penalties that prefer larger compared to smaller sites [@ball2009marxan].
+
+2.  TODO: Connectivity constraints. Synchronous and asynchronous
+
+3.  TODO: Connectivity features
+
+## Boundary penalties
+
+The inclusion of boundary penalties is one of the oldest and most widely applied ways of forcing a prioritization output [@ball2009marxan]. By setting a boundary length modifier (BLM) or penalty constant, we effectively penalize solutions that result in overly fragmented patches. Since it is a penality it does not fully prevent them however.
+
+[![Boundary length modifier (BLM), which is effectively a penalty (Source: Marxan solutions)](/figures/Connectivity_blm_marxan.png){fig-align="center"}](https://marxansolutions.org/boundary-length-modifier-vs-zone-boundary-cost/)
+
+Unfortunately, and similar to other penalty values, there are no specific guidelines of what might work or not, so often it might be worth exploring a few options.
+
+As in previous tutorials we first load our data. However as noted above, we focus on the Alpine region only to make this interpretable. To do so we first crop and mask our PU and feature data to the alps.
+
+```{r, eval=FALSE}
+# Crop. Focus on the alps here
+alps <- sf::st_read('extdata/boundary_alps/AlpineConvention.shp') |>
+  sf::st_transform(crs = sf::st_crs(4326))
+
+PU <- PU |> terra::crop(alps) |> terra::mask(alps)
+spp <- spp |> terra::crop(alps) |> terra::mask(alps)
+```
+
+Now we can create a conservation planning problem for this region.
+
+```{r, eval =FALSE}
+
+p <- problem(PU, spp) |>                     # <1>
+  add_min_set_objective() |>                 # <2>
+  add_relative_targets(targets = 0.3) |>     # <3>
+  add_binary_decisions() |>                  # <4>
+  add_default_solver()                       # <5>
+
+```
+
+1.  A problem with the cropped data (Planning units and features)
+
+2.  Using a minimum set operation here.
+
+3.  Arbitrary targets of 30% of the feature distribution
+
+4.  Binary decisions
+
+5.  Use the fastest solver installed/available (usually Gurobi or cbc)
+
+![](/figures/connectivity_blm_none.png){width="500"}
+
+Now lets add some boundary constraints to the same problem.,
+
+```{r eval=FALSE}
+# First we precompute the boundary matrix (large matrix of neighbourhoods)
+bm <- boundary_matrix(PU)
+# Then we rescale it for better performance
+bm <- rescale_matrix(bm)
+
+# Now create a new problem using the settings from above, but with a boundary penality
+s_blm <- p |>
+  add_boundary_penalties(penalty = 1e-4, data = bm) |>                # <1>
+  solve()
+
+
+```
+
+1.  Specify a boundary penalty. Usually this requires some trial-and-error.
+
+![](/figures/connectivity_blm.png){width="500"}
+
+As you can see the solution is effectively more '*clumped*'. But what about the area selected? Do we need more area to get the best complementary solution here?
+
+```{r, eval=FALSE}
+
+# calculate costs (sum of area)
+dplyr::bind_rows(
+  eval_cost_summary(p, s),
+  eval_cost_summary(p, s_blm)
+)
+
+# Answer is...?
+
+```
+
+::: callout-note
+## Performance
+
+Boundary length penalties generally solve faster with simpler objective functions, such as a minimum set objective function.
+:::
 
 ## Connectivity constraints
