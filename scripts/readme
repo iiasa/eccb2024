@@ -1,4 +1,4 @@
 prioritizr_tuto.R creates and solves prioritisation problems and plots outputs. This is the main R script for the prioritizr workshop. 
 
-prep_data.R cleans and prepares the input data in the extdata folder. 
+prep_data.R cleans and prepares the input data in the extdata folder and should not be used during the workshop! 
 
