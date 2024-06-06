@@ -1,0 +1,4 @@
+R scripts: 
+- prioritizr_tuto : contains the base code for the workshop. Reads data, creates and solves different problems, and analyses/plots outputs. 
+- prep_data: script used to prepare the data for the workshop. This should not be used during the workshop.  
+- FUNCTIONS: useful homemade functions. 
