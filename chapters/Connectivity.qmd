@@ -8,7 +8,7 @@ Conservation planning can be used to obtain area-based solutions to identify opt
 
 What this imply for area-based conservation planning? It means ideally sites are selected in a way that not only maximizes complementarity but also results in compact and/or structurally and functionally connected areas.
 
-The aim of this section is to describe different way of 'directly' considering connectivity in area-based conservation planning with *prioritizr*. For a comprehensive overview on the general principles of considering connectivity in area-based planning we recommend several recent reviews and perspectives [@daigle2020, @beger2022, @hanson2022]
+The aim of this section is to describe different way of 'directly' considering connectivity in area-based conservation planning with *prioritizr*. For a comprehensive overview on the general principles of considering connectivity in area-based planning we recommend several recent reviews and perspectives [@daigle2020] [@beger2022] [@hanson2022].
 
 ::: callout-important
 ## Note
@@ -17,13 +17,15 @@ Much of the code examples in this section might take quite a bit of time to run 
 For demonstration purposes we focus on the Alpine region for these examples. You can obtain a shapefile of their outline [here](https://esdac.jrc.ec.europa.eu/projects/Alpsis/alpine_region_gis_data.html "Alpine regions").
 :::
 
-Although by no means comprehensive, we broadly consider three commonly applied but different ways of considering connectivity in prioritzr.
+Although by no means comprehensive, we broadly consider four commonly applied but different ways of considering connectivity in prioritzr.
 
 1.  Boundary penalties that prefer larger compared to smaller sites [@ball2009marxan].
 
-2.  TODO: Connectivity constraints. Synchronous and asynchronous
+2.  Connectivity penalties
 
-3.  TODO: Connectivity features
+3.  TODO: Connectivity constraints. Synchronous and asynchronous
+
+4.  Connectivity features
 
 ## Boundary penalties
 
@@ -108,4 +110,80 @@ dplyr::bind_rows(
 Boundary length penalties generally solve faster with simpler objective functions, such as a minimum set objective function.
 :::
 
+## Connectivity penalties
+
+Another more direct way to ingest some connectivity into a problem formulation is to use a certain auxillary layer, for example green infrastructure, (inverse) costs of transversal or connectivity estimates run through software like Circuitscape, as linear penalty. When including connectivity estimates as penalties in conservation planning we usually distinguish between [symmetric]{.underline} and [asymmetric]{.underline} penalties.
+
+### Symmetric connectivity penalties
+
+Symmetric connectivity penalties describe information that is non-directional, in other words the same penalties apply when for example a species moves from west to east or from east to west across the study region (see also [@alagador2012linking]).
+
+In the following example we again define a minimum set problem as before. We then load a pressure layer (the Human modification index) under the assumption that higher human modification values reduce the (structural) connectivity value of a landscape. Again we require a penalty term and it is advised to carefully calibrate this constant in practice.
+
+```{r, eval=FALSE}
+
+# Define a minimum set problem
+p <- problem(PU, spp) |>                     
+  add_min_set_objective() |>                 
+  add_relative_targets(targets = 0.3) |>     
+  add_binary_decisions() |>                  
+  add_default_solver() 
+
+
+# Load the Human Modification index and clip to the alps
+HM <- rast("extdata/gHM.tif") |> terra::crop(alps) |> terra::mask(alps)
+
+# Now prepare the connectivity matrix and rescale
+bm <- connectivity_matrix(PU,HM)
+# rescale matrix
+bm <- rescale_matrix(bm)
+
+# Update the problem formulation and solve with a small penalty.
+s_con1 <- p |>
+  add_connectivity_penalties(penalty = 1e-4, data = bm) |>
+  solve()
+
+plot(s_con1)
+```
+
+![Prioritization with symmetric connectivity penalties](/figures/connectivity_con_penalty.png){width="500"}
+
+::: callout-tip
+## Influence of penalty values
+
+Try changing the penalty parameter. How do the results change? If you encounter unusual results (all values identical) the reason is often an inappropriate penalty.\
+In real world example it usually recommended to calibrate such quite impactful parameters so as to ensure realistic outcomes. See this [vignette](https://prioritizr.net/articles/calibrating_trade-offs_tutorial.html "Calibrating trade-offs") for more information on how to do so.
+:::
+
+Another alternative approach could be to not use a separate layer, but constrain the area-based prioritization by some prior knowledge about minimum or maximum distance constraints. For example, one can envisage a case where we know that most species are unlikely to disperse further than 10 km from any selected patch. In this case it can be beneficial to avoid prioritizing such areas for conservation to avoid further fragmentation and possibly extinction of local populations.
+
+Let's try it out (Note: this can take quite a bit longer to solve):
+
+```{r,eval=FALSE}
+# Here we precompute a proximity matrix with maximum distance of about ~10km (WGS84 projection)
+cm <- proximity_matrix(PU, distance = 0.1) 
+# rescale boundary data
+cm <- rescale_matrix(cm)
+
+# Do one with boundary constraints
+s_con2 <- p |>
+  add_connectivity_penalties(penalty = 1e-4, data = cm) |>
+  add_cbc_solver(time_limit = 240,first_feasible = TRUE) |> 
+  solve()
+
+plot(s_con2)
+```
+
+![Proximity penalties(10km)](/figures/connectivity_con_proximitypen.png){width="500"}
+
+::: callout-tip
+There is also a matrix function called 'adjacency_matrix()'. Can you imagine what this one does?
+:::
+
+### Asymmetric connectivity constraints
+
+TODO [@beger2010incorporating]
+
 ## Connectivity constraints
+
+Another, relatively straight forward way, to 'account' for connectivity is to directly add features representing connectivity *per se* and ensure that solutions conserve not only the areas a species occurs in but also the area it transverse through. For example [@kujala2013conservation] considered both current and future projected distributions of species (constrained by dispersal distance) to identify potential stepping stones or refugia in response to climate change.
