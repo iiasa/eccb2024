@@ -319,7 +319,18 @@ div.csl-indent {
    
   <ul>
   <li><a href="#boundary-penalties" id="toc-boundary-penalties" class="nav-link active" data-scroll-target="#boundary-penalties"><span class="header-section-number">8.1</span> Boundary penalties</a></li>
-  <li><a href="#connectivity-constraints" id="toc-connectivity-constraints" class="nav-link" data-scroll-target="#connectivity-constraints"><span class="header-section-number">8.2</span> Connectivity constraints</a></li>
+  <li><a href="#connectivity-penalties" id="toc-connectivity-penalties" class="nav-link" data-scroll-target="#connectivity-penalties"><span class="header-section-number">8.2</span> Connectivity penalties</a>
+  <ul class="collapse">
+  <li><a href="#symmetric-connectivity-penalties" id="toc-symmetric-connectivity-penalties" class="nav-link" data-scroll-target="#symmetric-connectivity-penalties"><span class="header-section-number">8.2.1</span> Symmetric connectivity penalties</a></li>
+  <li><a href="#asymmetric-connectivity-constraints" id="toc-asymmetric-connectivity-constraints" class="nav-link" data-scroll-target="#asymmetric-connectivity-constraints"><span class="header-section-number">8.2.2</span> Asymmetric connectivity constraints</a></li>
+  </ul></li>
+  <li><a href="#connectivity-constraints" id="toc-connectivity-constraints" class="nav-link" data-scroll-target="#connectivity-constraints"><span class="header-section-number">8.3</span> Connectivity constraints</a>
+  <ul class="collapse">
+  <li><a href="#neighbour-constraints" id="toc-neighbour-constraints" class="nav-link" data-scroll-target="#neighbour-constraints"><span class="header-section-number">8.3.1</span> Neighbour constraints</a></li>
+  <li><a href="#contiguity-constraints" id="toc-contiguity-constraints" class="nav-link" data-scroll-target="#contiguity-constraints"><span class="header-section-number">8.3.2</span> Contiguity constraints</a></li>
+  <li><a href="#linear-constraints" id="toc-linear-constraints" class="nav-link" data-scroll-target="#linear-constraints"><span class="header-section-number">8.3.3</span> Linear constraints</a></li>
+  </ul></li>
+  <li><a href="#sec-connectivity-features" id="toc-sec-connectivity-features" class="nav-link" data-scroll-target="#sec-connectivity-features"><span class="header-section-number">8.4</span> Connectivity features</a></li>
   </ul>
 </nav>
     </div>
@@ -347,7 +358,7 @@ div.csl-indent {
 
 <p>Conservation planning can be used to obtain area-based solutions to identify options for (improved) conservation of species. In reality however many seemingly ‘optimal’ solutions in terms of complementarity (e.g.&nbsp;covering the best areas for conserving selected features) might not work for species that persist only in isolated populations, which are thus more prone to extinction. Here a strategy is not to identify (and conserve) a single site, but manage a network of sites that are ideally as much as possible connected.</p>
 <p>What this imply for area-based conservation planning? It means ideally sites are selected in a way that not only maximizes complementarity but also results in compact and/or structurally and functionally connected areas.</p>
-<p>The aim of this section is to describe different way of ‘directly’ considering connectivity in area-based conservation planning with <em>prioritizr</em>. For a comprehensive overview on the general principles of considering connectivity in area-based planning we recommend several recent reviews and perspectives <span class="citation" data-cites="daigle2020">Hanson <em>et al.</em> (<a href="../references.html#ref-hanson2022" role="doc-biblioref">2022</a>)</span></p>
+<p>The aim of this section is to describe different way of ‘directly’ considering connectivity in area-based conservation planning with <em>prioritizr</em>. For a comprehensive overview on the general principles of considering connectivity in area-based planning we recommend several recent reviews and perspectives <span class="citation" data-cites="daigle2020">(<a href="../references.html#ref-daigle2020" role="doc-biblioref">Daigle <em>et al.</em> 2020</a>)</span> <span class="citation" data-cites="beger2022">(<a href="../references.html#ref-beger2022" role="doc-biblioref">Beger <em>et al.</em> 2022</a>)</span> <span class="citation" data-cites="hanson2022">(<a href="../references.html#ref-hanson2022" role="doc-biblioref">Hanson <em>et al.</em> 2022</a>)</span>.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -362,11 +373,12 @@ Note
 For demonstration purposes we focus on the Alpine region for these examples. You can obtain a shapefile of their outline <a href="https://esdac.jrc.ec.europa.eu/projects/Alpsis/alpine_region_gis_data.html" title="Alpine regions">here</a>.</p>
 </div>
 </div>
-<p>Although by no means comprehensive, we broadly consider three commonly applied but different ways of considering connectivity in prioritzr.</p>
+<p>Although by no means comprehensive, we broadly consider four commonly applied but different ways of considering connectivity in prioritzr.</p>
 <ol type="1">
 <li><p>Boundary penalties that prefer larger compared to smaller sites <span class="citation" data-cites="ball2009marxan">(<a href="../references.html#ref-ball2009marxan" role="doc-biblioref">Ball <em>et al.</em> 2009</a>)</span>.</p></li>
-<li><p>TODO: Connectivity constraints. Synchronous and asynchronous</p></li>
-<li><p>TODO: Connectivity features</p></li>
+<li><p>Connectivity penalties that penalize (unconnected) solutions <span class="citation" data-cites="alagador2012linking">(<a href="../references.html#ref-alagador2012linking" role="doc-biblioref">Alagador <em>et al.</em> 2012</a>)</span>.</p></li>
+<li><p>Connectivity constraints to (hard) constrain solutions to certain criteria such as proximity <span class="citation" data-cites="hanson2022">(<a href="../references.html#ref-hanson2022" role="doc-biblioref">Hanson <em>et al.</em> 2022</a>)</span>.</p></li>
+<li><p>Connectivity features such present/future layers or connectivity layers <span class="citation" data-cites="kujala2013conservation">(<a href="../references.html#ref-kujala2013conservation" role="doc-biblioref">Kujala <em>et al.</em> 2013</a>)</span>.</p></li>
 </ol>
 <section id="boundary-penalties" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="boundary-penalties"><span class="header-section-number">8.1</span> Boundary penalties</h2>
@@ -469,22 +481,302 @@ Performance
 </div>
 </div>
 </section>
-<section id="connectivity-constraints" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="connectivity-constraints"><span class="header-section-number">8.2</span> Connectivity constraints</h2>
+<section id="connectivity-penalties" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="connectivity-penalties"><span class="header-section-number">8.2</span> Connectivity penalties</h2>
+<p>Another more direct way to ingest some connectivity into a problem formulation is to use a certain auxillary layer, for example green infrastructure, (inverse) costs of transversal or connectivity estimates run through software like Circuitscape, as linear penalty. When including connectivity estimates as penalties in conservation planning we usually distinguish between <u>symmetric</u> and <u>asymmetric</u> penalties.</p>
+<section id="symmetric-connectivity-penalties" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="symmetric-connectivity-penalties"><span class="header-section-number">8.2.1</span> Symmetric connectivity penalties</h3>
+<p>Symmetric connectivity penalties describe information that is non-directional, in other words the same penalties apply when for example a species moves from west to east or from east to west across the study region (see also <span class="citation" data-cites="alagador2012linking">(<a href="../references.html#ref-alagador2012linking" role="doc-biblioref">Alagador <em>et al.</em> 2012</a>)</span>).</p>
+<p>In the following example we again define a minimum set problem as before. We then load a pressure layer (the Human modification index) under the assumption that higher human modification values reduce the (structural) connectivity value of a landscape. Again we require a penalty term and it is advised to carefully calibrate this constant in practice.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a minimum set problem</span></span>
+<span id="annotated-cell-5-2"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, spp) <span class="sc">|&gt;</span>                     </span>
+<span id="annotated-cell-5-3"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_min_set_objective</span>() <span class="sc">|&gt;</span>                 </span>
+<span id="annotated-cell-5-4"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_relative_targets</span>(<span class="at">targets =</span> <span class="fl">0.3</span>) <span class="sc">|&gt;</span>     </span>
+<span id="annotated-cell-5-5"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_binary_decisions</span>() <span class="sc">|&gt;</span>                  </span>
+<span id="annotated-cell-5-6"><a href="#annotated-cell-5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_default_solver</span>() </span>
+<span id="annotated-cell-5-7"><a href="#annotated-cell-5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-5-8"><a href="#annotated-cell-5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-5-9"><a href="#annotated-cell-5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the Human Modification index and clip to the alps</span></span>
+<span id="annotated-cell-5-10"><a href="#annotated-cell-5-10" aria-hidden="true" tabindex="-1"></a>HM <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"extdata/gHM.tif"</span>) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">crop</span>(alps) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">mask</span>(alps)</span>
+<span id="annotated-cell-5-11"><a href="#annotated-cell-5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-5-12"><a href="#annotated-cell-5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Now prepare the connectivity matrix and rescale</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-13" class="code-annotation-target"><a href="#annotated-cell-5-13" aria-hidden="true" tabindex="-1"></a>bm <span class="ot">&lt;-</span> <span class="fu">connectivity_matrix</span>(PU,HM)</span>
+<span id="annotated-cell-5-14"><a href="#annotated-cell-5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># rescale matrix</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2">2</button><span id="annotated-cell-5-15" class="code-annotation-target"><a href="#annotated-cell-5-15" aria-hidden="true" tabindex="-1"></a>bm <span class="ot">&lt;-</span> <span class="fu">rescale_matrix</span>(bm)</span>
+<span id="annotated-cell-5-16"><a href="#annotated-cell-5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-5-17"><a href="#annotated-cell-5-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Update the problem formulation and solve with a small penalty.</span></span>
+<span id="annotated-cell-5-18"><a href="#annotated-cell-5-18" aria-hidden="true" tabindex="-1"></a>s_con1 <span class="ot">&lt;-</span> p <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3">3</button><span id="annotated-cell-5-19" class="code-annotation-target"><a href="#annotated-cell-5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_connectivity_penalties</span>(<span class="at">penalty =</span> <span class="fl">1e-4</span>, <span class="at">data =</span> bm) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-5-20"><a href="#annotated-cell-5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span>
+<span id="annotated-cell-5-21"><a href="#annotated-cell-5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-5-22"><a href="#annotated-cell-5-22" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s_con1)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="13" data-code-annotation="1">This command calculates a cross-product between the Planning unit and a pressure layer</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="15" data-code-annotation="2">Rescaling is usually necessary to achieve better convergence</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="19" data-code-annotation="3">The Penalty constant chosen reflects the magnitude of influence dedicated to this layer.</span>
+</dd>
+</dl>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/connectivity_con_penalty.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>Prioritization with symmetric connectivity penalties</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Influence of penalty values
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Try changing the penalty parameter. How do the results change? If you encounter unusual results (all values identical) the reason is often an inappropriate penalty.<br>
+In real world example it usually recommended to calibrate such quite parameters so as to ensure realistic outcomes. See this <a href="https://prioritizr.net/articles/calibrating_trade-offs_tutorial.html" title="Calibrating trade-offs">vignette</a> for more information on how to do so.</p>
+</div>
+</div>
+<p>Another alternative approach could be to not use a separate layer, but constrain the area-based prioritization by some prior knowledge about minimum or maximum distance constraints. For example, one can envisage a case where we know that most species are unlikely to disperse further than 10 km from any selected patch. In this case it can be beneficial to avoid prioritizing such areas for conservation to avoid further fragmentation and possibly extinction of local populations.</p>
+<p>Let’s try it out (Note: this can take quite a bit longer to solve):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we precompute a proximity matrix with maximum distance of about ~10km (WGS84 projection)</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-2" class="code-annotation-target"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">proximity_matrix</span>(PU, <span class="at">distance =</span> <span class="fl">0.1</span>)</span>
+<span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># rescale boundary data</span></span>
+<span id="annotated-cell-6-4"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">rescale_matrix</span>(cm)</span>
+<span id="annotated-cell-6-5"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-6-6"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Do one with boundary constraints</span></span>
+<span id="annotated-cell-6-7"><a href="#annotated-cell-6-7" aria-hidden="true" tabindex="-1"></a>s_con2 <span class="ot">&lt;-</span> p <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-6-8"><a href="#annotated-cell-6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_connectivity_penalties</span>(<span class="at">penalty =</span> <span class="fl">1e-4</span>, <span class="at">data =</span> cm) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-6-9"><a href="#annotated-cell-6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_cbc_solver</span>(<span class="at">time_limit =</span> <span class="dv">240</span>,<span class="at">first_feasible =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-6-10"><a href="#annotated-cell-6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span>
+<span id="annotated-cell-6-11"><a href="#annotated-cell-6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-6-12"><a href="#annotated-cell-6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s_con2)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="2" data-code-annotation="1">Note the different command compared to before. This calculates proximity constraints.</span>
+</dd>
+</dl>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/connectivity_con_proximitypen.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>Proximity penalties(10km)</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There is also a matrix function called ‘adjacency_matrix()’. Can you imagine what this one does?</p>
+</div>
+</div>
+</section>
+<section id="asymmetric-connectivity-constraints" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="asymmetric-connectivity-constraints"><span class="header-section-number">8.2.2</span> Asymmetric connectivity constraints</h3>
+<p>TODO <span class="citation" data-cites="beger2010incorporating">(<a href="../references.html#ref-beger2010incorporating" role="doc-biblioref">Beger <em>et al.</em> 2010</a>)</span></p>
+</section>
+</section>
+<section id="connectivity-constraints" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="connectivity-constraints"><span class="header-section-number">8.3</span> Connectivity constraints</h2>
+<p>So far we have made use of penalties to <em>nudge</em> solutions into to being more connected or less fragmented. Penalties however can not guarantee <em>per se</em> that a solution satisfies the desired criteria for example having only a few rather than many continuous patches. Constraints force a solution to, regardless of the optimality gap used to generate a prioritization, always exhibit the intended characteristics (or being infeasible).</p>
+<section id="neighbour-constraints" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="neighbour-constraints"><span class="header-section-number">8.3.1</span> Neighbour constraints</h3>
+<p>This simply constraint specifies that each selected PU has to have at least X neighbours in the solution.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-7"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-7-1"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a problem</span></span>
+<span id="annotated-cell-7-2"><a href="#annotated-cell-7-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, spp) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-7-3"><a href="#annotated-cell-7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_min_set_objective</span>() <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-7-4"><a href="#annotated-cell-7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_relative_targets</span>(<span class="at">targets =</span> <span class="fl">0.3</span>) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-7-5"><a href="#annotated-cell-7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_binary_decisions</span>() <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-7-6"><a href="#annotated-cell-7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_default_solver</span>()</span>
+<span id="annotated-cell-7-7"><a href="#annotated-cell-7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-7-8"><a href="#annotated-cell-7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtain only solutions with PU that have at least 2 neighbouring PU</span></span>
+<span id="annotated-cell-7-9"><a href="#annotated-cell-7-9" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span></span>
+<span id="annotated-cell-7-10"><a href="#annotated-cell-7-10" aria-hidden="true" tabindex="-1"></a>  p <span class="sc">%&gt;%</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1">1</button><span id="annotated-cell-7-11" class="code-annotation-target"><a href="#annotated-cell-7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_neighbor_constraints</span>(<span class="at">k =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="annotated-cell-7-12"><a href="#annotated-cell-7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span>
+<span id="annotated-cell-7-13"><a href="#annotated-cell-7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-7-14"><a href="#annotated-cell-7-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="11" data-code-annotation="1">Try changing the k parameter to 3 or 4. What happens?</span>
+</dd>
+</dl>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/connectivity_con_neighbour.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>A solution with a hard connectivity constraint of having at least 2 neighbouring PUs</figcaption>
+</figure>
+</div>
+</section>
+<section id="contiguity-constraints" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="contiguity-constraints"><span class="header-section-number">8.3.2</span> Contiguity constraints</h3>
+<p>On the extreme end of the SLOSS (Single large vs several small) debate are single continuous reserves. Such planning solutions can be beneficial for example when the aim is to adequately conserve the most area under large budget constraints. For such cases prioritizr supports so called contiguity constraints, which form a single large reserve instead of multiple.</p>
+<p>Contiguity constraints are very time-consuming to solve and an installation of a commercial solver (like Gurobi) is highly advised.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create problem with added contiguity constraints and solve it</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>s2 <span class="ot">&lt;-</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  p <span class="sc">|&gt;</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_contiguity_constraints</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_relative_targets</span>(<span class="at">targets =</span> <span class="fl">0.1</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_gurobi_solver</span>(<span class="at">time_limit =</span> <span class="dv">2400</span>, <span class="at">first_feasible =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="linear-constraints" class="level3" data-number="8.3.3">
+<h3 data-number="8.3.3" class="anchored" data-anchor-id="linear-constraints"><span class="header-section-number">8.3.3</span> Linear constraints</h3>
+<p>Linear constraints are not directly linked to connectivity, but can in theory used for this purpose (and more). Linear constraints simply specify that the solution has to satisfy a criteria, such as for example having at least XX% of area or covering at least YY% of ‘connectivity’ features. They are thus quite similar to including connectivity as a feature <span class="citation" data-cites="daigle2020">(<a href="../references.html#ref-daigle2020" role="doc-biblioref">Daigle <em>et al.</em> 2020</a>)</span> (see also below for connectivity features), but are implemented directly as constraints.</p>
+<p>For example, in this problem formulation we constrain the solutions to only those that also contain a certain (admittedly) arbitrary amount of ‘greenness’ (quantified by the NDVI).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-9"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-9-1"><a href="#annotated-cell-9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load and clip the ndvi layer</span></span>
+<span id="annotated-cell-9-2"><a href="#annotated-cell-9-2" aria-hidden="true" tabindex="-1"></a>ndvi <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"extdata/ndvi.tif"</span>) <span class="sc">|&gt;</span> <span class="fu">crop</span>(alps) <span class="sc">|&gt;</span> <span class="fu">mask</span>(alps)</span>
+<span id="annotated-cell-9-3"><a href="#annotated-cell-9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-9-4"><a href="#annotated-cell-9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># The threshold for linear constraints. We want at least this much!</span></span>
+<span id="annotated-cell-9-5"><a href="#annotated-cell-9-5" aria-hidden="true" tabindex="-1"></a>threshold <span class="ot">&lt;-</span> <span class="fu">global</span>(ndvi, <span class="st">"sum"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)[[<span class="dv">1</span>]] <span class="sc">*</span> <span class="fl">0.3</span></span>
+<span id="annotated-cell-9-6"><a href="#annotated-cell-9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-9-7"><a href="#annotated-cell-9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Update the solution.</span></span>
+<span id="annotated-cell-9-8"><a href="#annotated-cell-9-8" aria-hidden="true" tabindex="-1"></a>s3 <span class="ot">&lt;-</span></span>
+<span id="annotated-cell-9-9"><a href="#annotated-cell-9-9" aria-hidden="true" tabindex="-1"></a>  p <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-9-10"><a href="#annotated-cell-9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_linear_constraints</span>(</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="1">1</button><span id="annotated-cell-9-11" class="code-annotation-target"><a href="#annotated-cell-9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> ndvi, <span class="at">threshold =</span> threshold, <span class="at">sense =</span> <span class="st">"&gt;="</span></span>
+<span id="annotated-cell-9-12"><a href="#annotated-cell-9-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-9-13"><a href="#annotated-cell-9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span>
+<span id="annotated-cell-9-14"><a href="#annotated-cell-9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-9-15"><a href="#annotated-cell-9-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s3)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-9" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-9" data-code-lines="11" data-code-annotation="1">We specify a greater/equal sense here. Different directions such &lt; or &lt;= are also possible.</span>
+</dd>
+</dl>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/connectivity_con_linear.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>A prioritization including certain minimal amounts of greenness as constraint</figcaption>
+</figure>
+</div>
+<p>Can you think of a reason why it might be beneficial to modify the input layers beforehand? Consider that it can incurs costs (in terms of area) to select PU as part of the solution.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Linear constrains are extremely flexible and can be used to constrain priorities into many directions. For example, with them it is easily feasible to obtain a solution that satisfies at least 10% of total area over the studyregion, while maximizing target achievement.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-connectivity-features" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="sec-connectivity-features"><span class="header-section-number">8.4</span> Connectivity features</h2>
+<p>Another, relatively straight forward way, to ‘account’ for connectivity is to directly add features representing connectivity <em>per se</em> and ensure that solutions conserve not only the areas a species occurs in but also the area it transverse through. For example <span class="citation" data-cites="kujala2013conservation">(<a href="../references.html#ref-kujala2013conservation" role="doc-biblioref">Kujala <em>et al.</em> 2013</a>)</span> considered both current and future projected distributions of species (constrained by dispersal distance) to identify potential stepping stones or refugia in response to climate change. For a comprehensive overview see also the recent work on climate-smart metrics for conservation planning <span class="citation" data-cites="buenafe2023metric">(<a href="../references.html#ref-buenafe2023metric" role="doc-biblioref">Buenafe <em>et al.</em> 2023</a>)</span>.</p>
+<p>As an example here we aim to identify the top ‘priorities’ that account for present as well as future distributions of species in a simplified manner. This approach can certainly be improved further, for example by considering dispersal constraints or weights of present against future distributions (discounting), but illustrates the concept.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-10"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-10-1"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a>budget.area <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fl">0.3</span> <span class="sc">*</span> <span class="fu">length</span>(<span class="fu">cells</span>(PU))) <span class="do">##  30 percent</span></span>
+<span id="annotated-cell-10-2"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-10-3"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify the solution for a maximum coverage problem and contemporary only</span></span>
+<span id="annotated-cell-10-4"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a>s0 <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, spp) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-10-5"><a href="#annotated-cell-10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_max_features_objective</span>(<span class="at">budget =</span> budget.area) <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-10-6"><a href="#annotated-cell-10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_relative_targets</span>(<span class="at">targets =</span> <span class="fl">0.3</span>) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-10-7"><a href="#annotated-cell-10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_binary_decisions</span>() <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-10-8"><a href="#annotated-cell-10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_default_solver</span>() <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-10-9"><a href="#annotated-cell-10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span>
+<span id="annotated-cell-10-10"><a href="#annotated-cell-10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-10-11"><a href="#annotated-cell-10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Now add the future distributions of the species as well as their </span></span>
+<span id="annotated-cell-10-12"><a href="#annotated-cell-10-12" aria-hidden="true" tabindex="-1"></a>spp.list <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"extdata/SpeciesDistributions/"</span>, <span class="at">full.names =</span> T, <span class="at">recursive =</span> T, <span class="at">pattern =</span> <span class="st">"tif$"</span>)</span>
+<span id="annotated-cell-10-13"><a href="#annotated-cell-10-13" aria-hidden="true" tabindex="-1"></a>sppf <span class="ot">&lt;-</span> <span class="fu">rast</span>(spp.list[<span class="fu">grep</span>(<span class="st">"rcp85"</span>, spp.list)])</span>
+<span id="annotated-cell-10-14"><a href="#annotated-cell-10-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Crop and mask</span></span>
+<span id="annotated-cell-10-15"><a href="#annotated-cell-10-15" aria-hidden="true" tabindex="-1"></a>sppf <span class="ot">&lt;-</span> sppf <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">crop</span>(alps) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">mask</span>(alps)</span>
+<span id="annotated-cell-10-16"><a href="#annotated-cell-10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-10-17"><a href="#annotated-cell-10-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Add to stack</span></span>
+<span id="annotated-cell-10-18"><a href="#annotated-cell-10-18" aria-hidden="true" tabindex="-1"></a>s1 <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, <span class="fu">c</span>(spp, sppf)) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-10-19"><a href="#annotated-cell-10-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_max_features_objective</span>(<span class="at">budget =</span> budget.area) <span class="sc">|&gt;</span> </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1">1</button><span id="annotated-cell-10-20" class="code-annotation-target"><a href="#annotated-cell-10-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_relative_targets</span>(<span class="at">targets =</span> <span class="fl">0.3</span>) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-10-21"><a href="#annotated-cell-10-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_binary_decisions</span>() <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-10-22"><a href="#annotated-cell-10-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_default_solver</span>() <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-10-23"><a href="#annotated-cell-10-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span>
+<span id="annotated-cell-10-24"><a href="#annotated-cell-10-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-10-25"><a href="#annotated-cell-10-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Overlay and compare</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="2">2</button><span id="annotated-cell-10-26" class="code-annotation-target"><a href="#annotated-cell-10-26" aria-hidden="true" tabindex="-1"></a>comb <span class="ot">&lt;-</span> s0<span class="sc">+</span>s1 <span class="sc">|&gt;</span> <span class="fu">as.factor</span>()</span>
+<span id="annotated-cell-10-27"><a href="#annotated-cell-10-27" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(comb) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"no priority"</span>, <span class="st">"current/future only"</span>, <span class="st">"current and future"</span>)</span>
+<span id="annotated-cell-10-28"><a href="#annotated-cell-10-28" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(comb, <span class="at">legend =</span> <span class="st">"bottom"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="20" data-code-annotation="1">Note that we specify identical targets for present/future. Ideally targets are specified by feature rather than flat as done here.</span>
+</dd>
+<dt data-target-cell="annotated-cell-10" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="26" data-code-annotation="2">Since the decision variable is binary, we can simply sum the result.</span>
+</dd>
+</dl>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/connectivity_feature_verticalfuture.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>Vertical connectivity with future projections</figcaption>
+</figure>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-alagador2012linking" class="csl-entry" role="listitem">
+Alagador, D., Trivino, M., Cerdeira, J.O., Bras, R., Cabeza, M. &amp; Araujo, M.B. (2012). Linking like with like: Optimising connectivity between environmentally-similar habitats. <em>Landscape Ecology</em>, <em>27</em>, 291–301.
+</div>
 <div id="ref-ball2009marxan" class="csl-entry" role="listitem">
 Ball, I.R., Possingham, H.P. &amp; Watts, M. (2009). Marxan and relatives: Software for spatial conservation prioritisation. <em>Spatial conservation prioritisation: Quantitative methods and computational tools</em>, <em>14</em>, 185–196.
 </div>
+<div id="ref-beger2010incorporating" class="csl-entry" role="listitem">
+Beger, M., Linke, S., Watts, M., Game, E., Treml, E., Ball, I. &amp; Possingham, H.P. (2010). Incorporating asymmetric connectivity into spatial decision making for conservation. <em>Conservation Letters</em>, <em>3</em>, 359–368.
+</div>
 <div id="ref-beger2022" class="csl-entry" role="listitem">
 Beger, M., Metaxas, A., Balbar, A.C., McGowan, J.A., Daigle, R., Kuempel, C.D., Treml, E.A. &amp; Possingham, H.P. (2022). <a href="https://doi.org/10.1016/j.tree.2022.09.002">Demystifying ecological connectivity for actionable spatial conservation planning</a>. <em>Trends in Ecology &amp; Evolution</em>, S0169534722002221.
+</div>
+<div id="ref-buenafe2023metric" class="csl-entry" role="listitem">
+Buenafe, K.C.V., Dunn, D.C., Everett, J.D., Brito-Morales, I., Schoeman, D.S., Hanson, J.O., Dabalà, A., Neubert, S., Cannicci, S., Kaschner, K. &amp; others. (2023). A metric-based framework for climate-smart conservation planning. <em>Ecological Applications</em>, <em>33</em>, e2852.
 </div>
 <div id="ref-daigle2020" class="csl-entry" role="listitem">
 Daigle, R.M., Metaxas, A., Balbar, A.C., McGowan, J., Treml, E.A., Kuempel, C.D., Possingham, H.P. &amp; Beger, M. (2020). <a href="https://doi.org/10.1111/2041-210X.13349">Operationalizing ecological connectivity in spatial conservation planning with marxan connect</a> (N. Golding, Ed.). <em>Methods in Ecology and Evolution</em>, <em>11</em>, 570–579.
 </div>
 <div id="ref-hanson2022" class="csl-entry" role="listitem">
 Hanson, J.O., Vincent, J., Schuster, R., Fahrig, L., Brennan, A., Martin, A.E., Hughes, J.S., Pither, R. &amp; Bennett, J.R. (2022). <a href="https://doi.org/10.1111/1365-2664.14251">A comparison of approaches for including connectivity in systematic conservation planning</a>. <em>Journal of Applied Ecology</em>, <em>59</em>, 2507–2519.
+</div>
+<div id="ref-kujala2013conservation" class="csl-entry" role="listitem">
+Kujala, H., Moilanen, A., Araujo, M.B. &amp; Cabeza, M. (2013). Conservation planning with uncertain climate change projections. <em>PloS one</em>, <em>8</em>, e53315.
 </div>
 </div>
 </section>
