@@ -42,6 +42,7 @@ book:
     - part: "Advanced topics"
       chapters:
         - chapters/Connectivity.qmd
+        - chapters/Zones.qmd
     - glossary.qmd
     - references.qmd
   appendices:
