@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>An introduction to Systematic conservation planning with prioritzr - 2&nbsp; Preparing input data</title>
+<title>An introduction to Systematic conservation planning with prioritzr - 9&nbsp; Adding zones</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -54,7 +54,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -64,8 +83,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/Problemcreation.html" rel="next">
-<link href="../chapters/intro.html" rel="prev">
+<link href="../glossary.html" rel="next">
+<link href="../chapters/Connectivity.html" rel="prev">
 <link href="..//resources/favicon.ico" rel="icon">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -119,7 +138,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/Datapreparation.html">Problem creation</a></li><li class="breadcrumb-item"><a href="../chapters/Datapreparation.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preparing input data</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/Connectivity.html">Advanced topics</a></li><li class="breadcrumb-item"><a href="../chapters/Zones.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Adding zones</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -183,7 +202,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/Datapreparation.html" class="sidebar-item-text sidebar-link active">
+  <a href="../chapters/Datapreparation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preparing input data</span></span></a>
   </div>
 </li>
@@ -258,7 +277,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/Zones.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/Zones.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Adding zones</span></span></a>
   </div>
 </li>
@@ -305,21 +324,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#planning-units" id="toc-planning-units" class="nav-link active" data-scroll-target="#planning-units"><span class="header-section-number">2.1</span> Planning units</a></li>
-  <li><a href="#features" id="toc-features" class="nav-link" data-scroll-target="#features"><span class="header-section-number">2.2</span> Features</a></li>
-  <li><a href="#costs" id="toc-costs" class="nav-link" data-scroll-target="#costs"><span class="header-section-number">2.3</span> Costs</a></li>
-  <li><a href="#other-constraints-protected-areas" id="toc-other-constraints-protected-areas" class="nav-link" data-scroll-target="#other-constraints-protected-areas"><span class="header-section-number">2.4</span> Other constraints (Protected areas)</a></li>
-  <li><a href="#other-data-for-the-prioritization" id="toc-other-data-for-the-prioritization" class="nav-link" data-scroll-target="#other-data-for-the-prioritization"><span class="header-section-number">2.5</span> Other data for the prioritization</a></li>
-  <li><a href="#preparing-data-in-different-formats" id="toc-preparing-data-in-different-formats" class="nav-link" data-scroll-target="#preparing-data-in-different-formats"><span class="header-section-number">2.6</span> Preparing data in different formats</a></li>
+  <li><a href="#zoning-for-pa-expansion-and-green-infrastructure." id="toc-zoning-for-pa-expansion-and-green-infrastructure." class="nav-link active" data-scroll-target="#zoning-for-pa-expansion-and-green-infrastructure."><span class="header-section-number">9.1</span> Zoning for PA expansion and green infrastructure.</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/Datapreparation.html">Problem creation</a></li><li class="breadcrumb-item"><a href="../chapters/Datapreparation.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preparing input data</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/Connectivity.html">Advanced topics</a></li><li class="breadcrumb-item"><a href="../chapters/Zones.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Adding zones</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-dataprep" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preparing input data</span></span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Adding zones</span></h1>
 </div>
 
 
@@ -336,46 +350,182 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="planning-units" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="planning-units"><span class="header-section-number">2.1</span> Planning units</h2>
-<p>Say something about what a PU file is, load and plot from the example data</p>
-</section>
-<section id="features" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="features"><span class="header-section-number">2.2</span> Features</h2>
-<p>Explain what features are and plot</p>
-</section>
-<section id="costs" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="costs"><span class="header-section-number">2.3</span> Costs</h2>
-<p>Explain what costs are and how they are used</p>
-</section>
-<section id="other-constraints-protected-areas" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="other-constraints-protected-areas"><span class="header-section-number">2.4</span> Other constraints (Protected areas)</h2>
-<p>Showcase a protected area file and exclusion areas as example</p>
-</section>
-<section id="other-data-for-the-prioritization" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="other-data-for-the-prioritization"><span class="header-section-number">2.5</span> Other data for the prioritization</h2>
-<p>Mention weights, targets, etc and give example for each</p>
-</section>
-<section id="preparing-data-in-different-formats" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="preparing-data-in-different-formats"><span class="header-section-number">2.6</span> Preparing data in different formats</h2>
-<p>Showcase different dataformats as input alternative</p>
-<div class="sourceCode" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>trees <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(                                        </span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-4" class="code-annotation-target"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">volume_girth =</span> volume <span class="sc">*</span> girth</span>
-<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a>  )                                              </span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The technical prioritization in SCP with prioritizr is primarily about allocating area for a given objective to a range of planning units (PUs). Yet in many (if not most) situations there is a need to not only allocate land to a single but multiple outcomes. For example, when we aim to prioritize areas across realms (land and sea) both of which are affected by different costs, features and penalties. Similarly, land could be directly prioritized to certain land system classes (forests, croplands, wetlands) instead of all land, thus increasing interpretability as well as control over the outputs. The concept of having different allocations in the same problem formulation is commonly known as ‘zoning’ and has been popularized by Marxan <span class="citation" data-cites="watts2009marxan">(<a href="../references.html#ref-watts2009marxan" role="doc-biblioref">Watts <em>et al.</em> 2009</a>)</span>.</p>
+<p>The prioritizr website contains an excellent <a href="https://prioritizr.net/articles/management_zones_tutorial.html" title="Tutorial on adding management zones">tutorial</a> about how different (management) zones can be added to a planning problem, thus we will only cover the essentials here using the testing data that comes with the training course.</p>
+<p>For demonstration purposes we focus on the Alpine region for these examples. You can obtain a shapefile of their outline <a href="https://esdac.jrc.ec.europa.eu/projects/Alpsis/alpine_region_gis_data.html" title="Alpine regions">here</a>.</p>
+<p>We consider a situation in which we have limited resources (financially or logistically) and would like to identify different priorities for areas with low or with high human modification. To do so we effectively separate our study region into low and high modified management zone.</p>
+<p>Targets can be specified per zone individually, but in the solution each PU needs to be allocated to one of the zones or not be selected at all.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the various layers we use here</span></span>
+<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>alps <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_read</span>(<span class="st">'extdata/boundary_alps/AlpineConvention.shp'</span>) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_transform</span>(<span class="at">crs =</span> sf<span class="sc">::</span><span class="fu">st_crs</span>(<span class="dv">4326</span>))</span>
+<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a>hmi <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"extdata/gHM.tif"</span>) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">crop</span>(alps) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">mask</span>(alps)</span>
+<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a>ndvi <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"extdata/ndvi.tif"</span>) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">crop</span>(alps) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">mask</span>(alps)</span>
+<span id="annotated-cell-1-7"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a>pa <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"extdata/protectedareas.tif"</span>) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">crop</span>(alps) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">mask</span>(alps)</span>
+<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a>PU <span class="ot">&lt;-</span> PU <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">crop</span>(alps) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">mask</span>(alps)</span>
+<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a>spp <span class="ot">&lt;-</span> spp <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">crop</span>(alps) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">mask</span>(alps)</span>
+<span id="annotated-cell-1-10"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-11"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Budget total of 30% totally</span></span>
+<span id="annotated-cell-1-12"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a>barea <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">global</span>(PU,<span class="st">"sum"</span>,<span class="at">na.rm=</span><span class="cn">TRUE</span>)[,<span class="dv">1</span>]<span class="sc">*</span><span class="fl">0.3</span></span>
+<span id="annotated-cell-1-13"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-14"><a href="#annotated-cell-1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Respecify targets equal to the number of features</span></span>
+<span id="annotated-cell-1-15"><a href="#annotated-cell-1-15" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow =</span> terra<span class="sc">::</span><span class="fu">nlyr</span>(spp),<span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="annotated-cell-1-16"><a href="#annotated-cell-1-16" aria-hidden="true" tabindex="-1"></a>tr[,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">0.3</span> <span class="co"># Low use zone target</span></span>
+<span id="annotated-cell-1-17"><a href="#annotated-cell-1-17" aria-hidden="true" tabindex="-1"></a>tr[,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fl">0.1</span> <span class="co"># High used zone target</span></span>
+<span id="annotated-cell-1-18"><a href="#annotated-cell-1-18" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-19" class="code-annotation-target"><a href="#annotated-cell-1-19" aria-hidden="true" tabindex="-1"></a>tr[<span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">50</span>),<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-20" class="code-annotation-target"><a href="#annotated-cell-1-20" aria-hidden="true" tabindex="-1"></a>tr[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>),<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="annotated-cell-1-21"><a href="#annotated-cell-1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-22"><a href="#annotated-cell-1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># create problem</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-23" class="code-annotation-target"><a href="#annotated-cell-1-23" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">problem</span>(<span class="fu">c</span>(PU,PU),</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><span id="annotated-cell-1-24" class="code-annotation-target"><a href="#annotated-cell-1-24" aria-hidden="true" tabindex="-1"></a>             <span class="fu">zones</span>(</span>
+<span id="annotated-cell-1-25"><a href="#annotated-cell-1-25" aria-hidden="true" tabindex="-1"></a>               <span class="st">"low_hmi"</span> <span class="ot">=</span> spp,</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="5">5</button><span id="annotated-cell-1-26" class="code-annotation-target"><a href="#annotated-cell-1-26" aria-hidden="true" tabindex="-1"></a>               <span class="st">"high_hmi"</span> <span class="ot">=</span> spp<span class="sc">*</span>hmi)</span>
+<span id="annotated-cell-1-27"><a href="#annotated-cell-1-27" aria-hidden="true" tabindex="-1"></a>             ) <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-1-28"><a href="#annotated-cell-1-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_max_features_objective</span>(<span class="at">budget =</span> barea) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-1-29"><a href="#annotated-cell-1-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_relative_targets</span>(<span class="at">targets =</span> tr) <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-1-30"><a href="#annotated-cell-1-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_binary_decisions</span>() <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-1-31"><a href="#annotated-cell-1-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_default_solver</span>()</span>
+<span id="annotated-cell-1-32"><a href="#annotated-cell-1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-33"><a href="#annotated-cell-1-33" aria-hidden="true" tabindex="-1"></a>s0 <span class="ot">&lt;-</span> <span class="fu">solve</span>(p)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="6">6</button><span id="annotated-cell-1-34" class="code-annotation-target"><a href="#annotated-cell-1-34" aria-hidden="true" tabindex="-1"></a>s0p <span class="ot">&lt;-</span> <span class="fu">category_layer</span>(s0) <span class="sc">|&gt;</span> <span class="fu">as.factor</span>()</span>
+<span id="annotated-cell-1-35"><a href="#annotated-cell-1-35" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(s0p) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"not selected"</span>, <span class="st">"low_hmi"</span>, <span class="st">"high_hmi"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="1">Take dataset and mutate</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="19" data-code-annotation="1">Some features in the highly used zone might also not receive any benefit at all</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="4" data-code-annotation="2">Update with interaction term</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="20" data-code-annotation="2">While for others in the low-used zone we aim to conserve as much as possible (target= 100%)</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="23" data-code-annotation="3">The same PU layer is used. This could also be separated by zones with different costs.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="24" data-code-annotation="4">Here we specify the feature (amount) contributing to each zone.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="26" data-code-annotation="5">Note that for highly modified zone we reduce the amount of suitable habitat by the amount of modified land.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="34" data-code-annotation="6">To display the multi-zone layer as a single categorical raster.</span>
 </dd>
 </dl>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/zones_basic.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>Selected features per zone</figcaption>
+</figure>
+</div>
+<p>What do we achieve with each zone? Here we can calculate the representation by zone in terms of the absolute held amount (related also to the total or zone amount of area).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>reps <span class="ot">&lt;-</span> <span class="fu">eval_feature_representation_summary</span>(p, s0)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Apparently some species benefit more than others from co-benefits (distribution covered beyond the target)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(reps,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> feature, <span class="at">y=</span> absolute_held, <span class="at">fill=</span> summary)) <span class="sc">+</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>summary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/zones_rep.png" class="img-fluid figure-img" width="300"></p>
+<figcaption>Relative amount held overall and per zone</figcaption>
+</figure>
+</div>
+<hr>
+<section id="zoning-for-pa-expansion-and-green-infrastructure." class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="zoning-for-pa-expansion-and-green-infrastructure."><span class="header-section-number">9.1</span> Zoning for PA expansion and green infrastructure.</h2>
+<p>Finally, Let’s think of a another example where the aim is to expand the current protected area network, while conserving as much biodiversity and green infrastructure as possible. We again define 2 management zones, one for current protected areas and expansions thereof and one for the remaining land (green infrastructure).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a manual bounded constraint data.frame to account for </span></span>
+<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># fractional shares of current protected areas</span></span>
+<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>mcon <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">pu =</span> <span class="fu">c</span>( terra<span class="sc">::</span><span class="fu">cells</span>(PU), terra<span class="sc">::</span><span class="fu">cells</span>(PU) ),</span>
+<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">zone =</span> <span class="fu">c</span>(</span>
+<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">rep</span>(<span class="st">"protected_area"</span>, <span class="fu">length</span>(terra<span class="sc">::</span><span class="fu">cells</span>(PU))),</span>
+<span id="annotated-cell-3-6"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">rep</span>(<span class="st">"gi"</span>, <span class="fu">length</span>(terra<span class="sc">::</span><span class="fu">cells</span>(PU)))</span>
+<span id="annotated-cell-3-7"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a>                   ), </span>
+<span id="annotated-cell-3-8"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span></span>
+<span id="annotated-cell-3-9"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="annotated-cell-3-10"><a href="#annotated-cell-3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Respecify the lower and upper amount of area</span></span>
+<span id="annotated-cell-3-11"><a href="#annotated-cell-3-11" aria-hidden="true" tabindex="-1"></a>mcon<span class="sc">$</span>lower[mcon<span class="sc">$</span>zone<span class="sc">==</span><span class="st">"protected_area"</span>] <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">values</span>(pa, <span class="at">dataframe=</span>T) <span class="sc">|&gt;</span> tidyr<span class="sc">::</span><span class="fu">drop_na</span>() <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">pull</span>(layer)</span>
+<span id="annotated-cell-3-12"><a href="#annotated-cell-3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-13"><a href="#annotated-cell-3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Budget total of 30% totally for the PA zone, 100% for the rest</span></span>
+<span id="annotated-cell-3-14"><a href="#annotated-cell-3-14" aria-hidden="true" tabindex="-1"></a>barea <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="annotated-cell-3-15"><a href="#annotated-cell-3-15" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">global</span>(PU,<span class="st">"sum"</span>,<span class="at">na.rm=</span><span class="cn">TRUE</span>)[,<span class="dv">1</span>] <span class="sc">*</span> .<span class="dv">3</span>,</span>
+<span id="annotated-cell-3-16"><a href="#annotated-cell-3-16" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">global</span>(hmi,<span class="st">"sum"</span>,<span class="at">na.rm=</span>T)[,<span class="dv">1</span>]</span>
+<span id="annotated-cell-3-17"><a href="#annotated-cell-3-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="annotated-cell-3-18"><a href="#annotated-cell-3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-19"><a href="#annotated-cell-3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Respecify targets</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-20" class="code-annotation-target"><a href="#annotated-cell-3-20" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow =</span> terra<span class="sc">::</span><span class="fu">nlyr</span>(spp)<span class="sc">+</span><span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="annotated-cell-3-21"><a href="#annotated-cell-3-21" aria-hidden="true" tabindex="-1"></a>tr[,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">0.3</span> <span class="co"># Protected area zone flat target</span></span>
+<span id="annotated-cell-3-22"><a href="#annotated-cell-3-22" aria-hidden="true" tabindex="-1"></a>tr[,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">1</span>   <span class="co"># Green infrastructure zone, everything goes</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-23" class="code-annotation-target"><a href="#annotated-cell-3-23" aria-hidden="true" tabindex="-1"></a>tr[<span class="fu">nrow</span>(tr),<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="annotated-cell-3-24"><a href="#annotated-cell-3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-25"><a href="#annotated-cell-3-25" aria-hidden="true" tabindex="-1"></a><span class="co"># create problem</span></span>
+<span id="annotated-cell-3-26"><a href="#annotated-cell-3-26" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">problem</span>(<span class="fu">c</span>(PU,PU),                       </span>
+<span id="annotated-cell-3-27"><a href="#annotated-cell-3-27" aria-hidden="true" tabindex="-1"></a>             <span class="fu">zones</span>(                                       </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3">3</button><span id="annotated-cell-3-28" class="code-annotation-target"><a href="#annotated-cell-3-28" aria-hidden="true" tabindex="-1"></a>               <span class="st">"protected_area"</span> <span class="ot">=</span> <span class="fu">c</span>(spp,ndvi),</span>
+<span id="annotated-cell-3-29"><a href="#annotated-cell-3-29" aria-hidden="true" tabindex="-1"></a>               <span class="st">"gi"</span> <span class="ot">=</span> <span class="fu">c</span>(spp<span class="sc">*</span>hmi,ndvi)</span>
+<span id="annotated-cell-3-30"><a href="#annotated-cell-3-30" aria-hidden="true" tabindex="-1"></a>             )</span>
+<span id="annotated-cell-3-31"><a href="#annotated-cell-3-31" aria-hidden="true" tabindex="-1"></a>             ) <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-3-32"><a href="#annotated-cell-3-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_min_shortfall_objective</span>(<span class="at">budget =</span> barea) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-3-33"><a href="#annotated-cell-3-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_manual_bounded_constraints</span>(<span class="at">data =</span> mcon) <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-3-34"><a href="#annotated-cell-3-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_relative_targets</span>(<span class="at">targets =</span> tr) <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-3-35"><a href="#annotated-cell-3-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_proportion_decisions</span>() <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-3-36"><a href="#annotated-cell-3-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_default_solver</span>()</span>
+<span id="annotated-cell-3-37"><a href="#annotated-cell-3-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-38"><a href="#annotated-cell-3-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Solve</span></span>
+<span id="annotated-cell-3-39"><a href="#annotated-cell-3-39" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">solve</span>(p)</span>
+<span id="annotated-cell-3-40"><a href="#annotated-cell-3-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-41"><a href="#annotated-cell-3-41" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="20" data-code-annotation="1">Note the addition plus one here for the greenness layer.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="23" data-code-annotation="2">This specifies a target of 0 for NDVI and the protected area zone, thus no benefits can be gained here</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="28" data-code-annotation="3">Note the addition of NDVI to the features. Also a simple discounting of modified land for the species features</span>
+</dd>
+</dl>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/zones_paexpansion.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>Expanding protected areas to 30% and the remainder to Green infrastructure</figcaption>
+</figure>
+</div>
+<p>This solutions expands from the currently protected land in the alps (29%) to (30%). Obviously not much but this also demonstrates that often the level of policy ambition - when focussing on area alone - can be relatively modest. Although in practice even small expansions can be quite challenging in implementation.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/zones_paexpansion_subset.png" class="img-fluid figure-img" width="300"></p>
+<figcaption>Subset of shares that increase from current protected areas</figcaption>
+</figure>
+</div>
+<p>Note that a very similar and more elegant way can be to use linear constraints ( add_linear_constraints() ) applied per zone to limit the allocation of area per zone.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-watts2009marxan" class="csl-entry" role="listitem">
+Watts, M.E., Ball, I.R., Stewart, R.S., Klein, C.J., Wilson, K., Steinback, C., Lourival, R., Kircher, L. &amp; Possingham, H.P. (2009). Marxan with zones: Software for optimal conservation based land-and sea-use zoning. <em>Environmental Modelling &amp; Software</em>, <em>24</em>, 1513–1521.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
@@ -854,13 +1004,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/intro.html" class="pagination-link" aria-label="Introduction">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+      <a href="../chapters/Connectivity.html" class="pagination-link" aria-label="Connectivity">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Connectivity</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/Problemcreation.html" class="pagination-link" aria-label="Problemcreation.html">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Problemcreation.html</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../glossary.html" class="pagination-link" aria-label="Glossary">
+        <span class="nav-page-text">Glossary</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
