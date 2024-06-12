@@ -42,6 +42,15 @@ names(spp) <- gsub("_ens-sdms_cur2005_prob_pot", "" ,names(spp))   # <1>
 
 ## plot the first SDM in the rasterstack
 plot(spp[[1]], axes = F)
+
+
+## also load the SDM projected under climate scenario rcp 8.5 
+# read sdm under climate scenario rcp 8.5
+spp.rcp85 <- rast(spp.list[grep("rcp85", spp.list)])
+
+# rename feature layers by species names
+names(spp.rcp85) <- gsub("_ens-sdms_rcp85_fut2065_prob_pot.tif", "" ,names(spp.rcp85))
+
 ```
 
 1.  Rename feature layers by species names. This will enable to link the features rasters to a table of feature characteristics, weights, targets, taxonomy.
@@ -49,6 +58,41 @@ plot(spp[[1]], axes = F)
 ![](/figures/feature1.PNG){width="300"}
 
 Note: features, and all other spatial data, need to be perfectly harmonized with the planning units data and (same extent, resolution, number of grid cells). This step must be done prior to the prioritisation, as part of the data preparation. For this training workshop, the data is already prepared, but bear in mind that data preparation is an essential step in the conservation planning process, which often takes time.
+
+## Protected areas
+
+Often, we do not start from scratch: we often want to identify top priorities that **complement and expand on existing** protected areas.
+
+```{r}
+
+# load protected areas data
+PA <- rast("data/protectedareas.tif")
+
+# load strict protected areas
+stPA <-  rast("data/protectedareas_I_II.tif") 
+```
+
+## Locked-out or no-go areas
+
+Here we use layers of high-intensity forests and urban areas as a proxy, using 1km² European land systems data from @dou2021new . We lock out the planning units that have over 50% of urban and peri-urban, or over 50% of high intensity forest. In doing so, we assume that, in these high-intensity areas, conservation would likely conflict with economic interests.
+
+```{r, eval = F}
+
+## create locked out constraints to define areas that should be left out of the solution.
+
+## from Dou et al., 2021
+## aggregated at 10x10 k and aligned with the planning units raster
+HI.forest <- rast("data/HI_forest_prct.tif")
+urban <- rast("data/urban_prct.tif")
+
+locked.out <- sum(HI.forest, urban)
+rclmat <- matrix(ncol = 3, nrow = 2, byrow = T,
+                 c(0,50, 0,
+                   50, 101, 1))
+
+locked.out.bin <- terra::classify(locked.out, rclmat) ## convert to binary : 1 = pu that have more than 50% coverage of urban and/or HI forest.
+
+```
 
 ## Costs
 
@@ -62,27 +106,53 @@ Costs are typically spatially-explicit socio-economic data that can be factored 
 
 -   Management cost = maintenance and management of the PA
 
-In reality, we rarely have this information and need to use proxies. Here, we use the global human modification index as a proxy for the cost of conservation.
+In reality, we rarely have this information and need to use proxies. Here, we use global human modification (GHM) as a proxy for socio-economic costs. Including the GHM as a cost layer would assume that highly human-dominated landscapes would be more costly to protect, than others.
 
-## Other constraints (Protected areas)
+```{r}
 
-Showcase a protected area file and exclusion areas as example
+gHM <- rast("data/gHM.tif")
+
+gHM[gHM<0.3] <- 0 ## set threshold so that sites that have GHM index lower than specified threshold are not penalized
+```
+
+## Vegetation quality 
+
+NDVI is often interpreted as dense and healthy vegetation, and one may be interested in selecting sites with a higher NDVI.
+
+```{r, eval  = F}
+ndvi <- rast("data/ndvi.tif")
+```
 
 ## Other data for the prioritization
 
-Mention weights, targets, etc and give example for each
+Spatial prioritisations can also be shaped by the importance of certain feature relative to others (e.g. threat status). This can be addressed by the use of feature-specific weights.
 
-## Preparing data in different formats
+For setting weights, we will use the red list dataset and assign higher weight to more vulnerable species, following @jung2021areas :
 
-Showcase different dataformats as input alternative
+-   default weight of 1 for Least Concern species.
 
-``` r
-library(tidyverse)
-trees |>                                         # <1>
-  mutate(                                        
-  volume_girth = volume * girth                  # <2>
-  )                                              
+2 for near-threatened and data-deficient species
+
+-   4 for vulnerable species
+
+-   6 for endangered species
+
+-   8 for critically endangered species.
+
+```{r, eval = FALSE}
+ 
+## read red list information
+redlist.trees <- read.csv('data/species_red_list.csv')
+
+## assign weight based on red list status
+redlist.trees$weight <- ifelse(redlist.trees$Global == "Vulnerable" | redlist.trees$Europe == "Vulnerable", 4,
+                                      ifelse(redlist.trees$Global == "Near Threatened" | redlist.trees$Europe == "Near Threatened", 2,
+                                             ifelse(redlist.trees$Global == "Data Deficient" | redlist.trees$Europe == "Data Deficient", 2, 1)))
+
+## must be in the same order as the features (spp) rasterstack
+rownames(redlist.trees) <- redlist.trees$spp_name
+redlist.trees <- redlist.trees[names(spp),]
+
 ```
 
-1.  Take dataset and mutate
-2.  Update with interaction term
+Another important aspect of planning are area-based targets, which define the amount of the distribution of each feature that is deemed sufficient to protect. One typical approach for targets is to use log-linear targets @neugarten2024mapping . Another is to use the IUCN criteria to set targets based on the minimizing extinction risk @jung2021areas .

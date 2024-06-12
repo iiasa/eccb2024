@@ -1,8 +1,13 @@
+---
+code-annotations: hover
+---
+
 # Create basic problem
 
 Create and solve a problem that finds the best areas for 30% protected area coverage on European land:
 
 ```{r, eval = F}
+
 # define area budget (unit: grid cells)
 budget.area <- round(0.3 * length(cells(PU))) 
 
