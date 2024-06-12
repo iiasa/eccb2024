@@ -310,6 +310,12 @@ div.csl-indent {
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Installation of all required software</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/FAQ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Frequently asked questions (FAQ)</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -327,8 +333,8 @@ div.csl-indent {
   <li><a href="#boundary-penalties" id="toc-boundary-penalties" class="nav-link active" data-scroll-target="#boundary-penalties"><span class="header-section-number">8.1</span> Boundary penalties</a></li>
   <li><a href="#connectivity-penalties" id="toc-connectivity-penalties" class="nav-link" data-scroll-target="#connectivity-penalties"><span class="header-section-number">8.2</span> Connectivity penalties</a>
   <ul class="collapse">
-  <li><a href="#symmetric-connectivity-penalties" id="toc-symmetric-connectivity-penalties" class="nav-link" data-scroll-target="#symmetric-connectivity-penalties"><span class="header-section-number">8.2.1</span> Symmetric connectivity penalties</a></li>
-  <li><a href="#asymmetric-connectivity-constraints" id="toc-asymmetric-connectivity-constraints" class="nav-link" data-scroll-target="#asymmetric-connectivity-constraints"><span class="header-section-number">8.2.2</span> Asymmetric connectivity constraints</a></li>
+  <li><a href="#sec-symmetric-connectivity-penalties" id="toc-sec-symmetric-connectivity-penalties" class="nav-link" data-scroll-target="#sec-symmetric-connectivity-penalties"><span class="header-section-number">8.2.1</span> Symmetric connectivity penalties</a></li>
+  <li><a href="#asymmetric-connectivity-penalties" id="toc-asymmetric-connectivity-penalties" class="nav-link" data-scroll-target="#asymmetric-connectivity-penalties"><span class="header-section-number">8.2.2</span> Asymmetric connectivity penalties</a></li>
   </ul></li>
   <li><a href="#connectivity-constraints" id="toc-connectivity-constraints" class="nav-link" data-scroll-target="#connectivity-constraints"><span class="header-section-number">8.3</span> Connectivity constraints</a>
   <ul class="collapse">
@@ -490,8 +496,8 @@ Performance
 <section id="connectivity-penalties" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="connectivity-penalties"><span class="header-section-number">8.2</span> Connectivity penalties</h2>
 <p>Another more direct way to ingest some connectivity into a problem formulation is to use a certain auxillary layer, for example green infrastructure, (inverse) costs of transversal or connectivity estimates run through software like Circuitscape, as linear penalty. When including connectivity estimates as penalties in conservation planning we usually distinguish between <u>symmetric</u> and <u>asymmetric</u> penalties.</p>
-<section id="symmetric-connectivity-penalties" class="level3" data-number="8.2.1">
-<h3 data-number="8.2.1" class="anchored" data-anchor-id="symmetric-connectivity-penalties"><span class="header-section-number">8.2.1</span> Symmetric connectivity penalties</h3>
+<section id="sec-symmetric-connectivity-penalties" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="sec-symmetric-connectivity-penalties"><span class="header-section-number">8.2.1</span> Symmetric connectivity penalties</h3>
 <p>Symmetric connectivity penalties describe information that is non-directional, in other words the same penalties apply when for example a species moves from west to east or from east to west across the study region (see also <span class="citation" data-cites="alagador2012linking">(<a href="../references.html#ref-alagador2012linking" role="doc-biblioref">Alagador <em>et al.</em> 2012</a>)</span>).</p>
 <p>In the following example we again define a minimum set problem as before. We then load a pressure layer (the Human modification index) under the assumption that higher human modification values reduce the (structural) connectivity value of a landscape. Again we require a penalty term and it is advised to carefully calibrate this constant in practice.</p>
 <div class="cell">
@@ -516,7 +522,9 @@ Performance
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3">3</button><span id="annotated-cell-5-19" class="code-annotation-target"><a href="#annotated-cell-5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_connectivity_penalties</span>(<span class="at">penalty =</span> <span class="fl">1e-4</span>, <span class="at">data =</span> bm) <span class="sc">|&gt;</span></span>
 <span id="annotated-cell-5-20"><a href="#annotated-cell-5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span>
 <span id="annotated-cell-5-21"><a href="#annotated-cell-5-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-5-22"><a href="#annotated-cell-5-22" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s_con1)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="annotated-cell-5-22"><a href="#annotated-cell-5-22" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s_con1)</span>
+<span id="annotated-cell-5-23"><a href="#annotated-cell-5-23" aria-hidden="true" tabindex="-1"></a><span class="co"># It also possible to evaluate the connectivity values via</span></span>
+<span id="annotated-cell-5-24"><a href="#annotated-cell-5-24" aria-hidden="true" tabindex="-1"></a><span class="fu">eval_connectivity_summary</span>(p,s_con1, <span class="at">data =</span> bm)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
@@ -598,9 +606,55 @@ Tip
 </div>
 </div>
 </section>
-<section id="asymmetric-connectivity-constraints" class="level3" data-number="8.2.2">
-<h3 data-number="8.2.2" class="anchored" data-anchor-id="asymmetric-connectivity-constraints"><span class="header-section-number">8.2.2</span> Asymmetric connectivity constraints</h3>
-<p>TODO <span class="citation" data-cites="beger2010incorporating">(<a href="../references.html#ref-beger2010incorporating" role="doc-biblioref">Beger <em>et al.</em> 2010</a>)</span></p>
+<section id="asymmetric-connectivity-penalties" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="asymmetric-connectivity-penalties"><span class="header-section-number">8.2.2</span> Asymmetric connectivity penalties</h3>
+<p>Opposed to symmetric connectivity penalties (<a href="#sec-symmetric-connectivity-penalties" class="quarto-xref"><span>Section 8.2.1</span></a>), asymmetric penalties have some kind of directionality. For example in situations where species can only move down PU such as rivers blocked by a dam, or for planning problems with migration corridors (south to north) (<span class="citation" data-cites="beger2010incorporating">(<a href="../references.html#ref-beger2010incorporating" role="doc-biblioref">Beger <em>et al.</em> 2010</a>)</span>). Adding this penalty to a problem penalizes solutions that have low directional connectivity among PU.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-7"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-7-1"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a directional dummy layer based on the cell numbers</span></span>
+<span id="annotated-cell-7-2"><a href="#annotated-cell-7-2" aria-hidden="true" tabindex="-1"></a>dummy <span class="ot">&lt;-</span> PU</span>
+<span id="annotated-cell-7-3"><a href="#annotated-cell-7-3" aria-hidden="true" tabindex="-1"></a>dummy[<span class="sc">!</span><span class="fu">is.na</span>(PU)] <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">cells</span>(dummy)</span>
+<span id="annotated-cell-7-4"><a href="#annotated-cell-7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-7-5"><a href="#annotated-cell-7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Now prepare the connectivity matrix and rescale</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1">1</button><span id="annotated-cell-7-6" class="code-annotation-target"><a href="#annotated-cell-7-6" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">connectivity_matrix</span>(PU, dummy)</span>
+<span id="annotated-cell-7-7"><a href="#annotated-cell-7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># rescale matrix</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2">2</button><span id="annotated-cell-7-8" class="code-annotation-target"><a href="#annotated-cell-7-8" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">rescale_matrix</span>(cm, <span class="at">max =</span> <span class="dv">1</span>)</span>
+<span id="annotated-cell-7-9"><a href="#annotated-cell-7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-7-10"><a href="#annotated-cell-7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># We only use the diagonal for this simple example, thus going north to south</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3">3</button><span id="annotated-cell-7-11" class="code-annotation-target"><a href="#annotated-cell-7-11" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> Matrix<span class="sc">::</span><span class="fu">triu</span>(cm)</span>
+<span id="annotated-cell-7-12"><a href="#annotated-cell-7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-7-13"><a href="#annotated-cell-7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Update the problem formulation and solve with a penalty.</span></span>
+<span id="annotated-cell-7-14"><a href="#annotated-cell-7-14" aria-hidden="true" tabindex="-1"></a>s_asc <span class="ot">&lt;-</span> p <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="4">4</button><span id="annotated-cell-7-15" class="code-annotation-target"><a href="#annotated-cell-7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_asym_connectivity_penalties</span>(<span class="at">penalty =</span> <span class="dv">1</span>, <span class="at">data =</span> cm) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-7-16"><a href="#annotated-cell-7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span>
+<span id="annotated-cell-7-17"><a href="#annotated-cell-7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-7-18"><a href="#annotated-cell-7-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s_asc)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="6" data-code-annotation="1">We again create a connectivity matrix using the dummy cell numbers</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="8" data-code-annotation="2">Rescale and make sure values are from 0 to 1 for better convergence.</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="11" data-code-annotation="3">We take only the diagonal for simplicity. This effectively removes one geographical dimension (top to bottom).</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="15" data-code-annotation="4">Solve the solution. Note the higher penalty for this dummy example.</span>
+</dd>
+</dl>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/connectivity_con_asym_penalty.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>Asymmetric connectivity penalty from North to South</figcaption>
+</figure>
+</div>
 </section>
 </section>
 <section id="connectivity-constraints" class="level2" data-number="8.3">
@@ -610,25 +664,25 @@ Tip
 <h3 data-number="8.3.1" class="anchored" data-anchor-id="neighbour-constraints"><span class="header-section-number">8.3.1</span> Neighbour constraints</h3>
 <p>This simply constraint specifies that each selected PU has to have at least X neighbours in the solution.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-7"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-7-1"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a problem</span></span>
-<span id="annotated-cell-7-2"><a href="#annotated-cell-7-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, spp) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-7-3"><a href="#annotated-cell-7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_min_set_objective</span>() <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-7-4"><a href="#annotated-cell-7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_relative_targets</span>(<span class="at">targets =</span> <span class="fl">0.3</span>) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-7-5"><a href="#annotated-cell-7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_binary_decisions</span>() <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-7-6"><a href="#annotated-cell-7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_default_solver</span>()</span>
-<span id="annotated-cell-7-7"><a href="#annotated-cell-7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-7-8"><a href="#annotated-cell-7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtain only solutions with PU that have at least 2 neighbouring PU</span></span>
-<span id="annotated-cell-7-9"><a href="#annotated-cell-7-9" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span></span>
-<span id="annotated-cell-7-10"><a href="#annotated-cell-7-10" aria-hidden="true" tabindex="-1"></a>  p <span class="sc">%&gt;%</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1">1</button><span id="annotated-cell-7-11" class="code-annotation-target"><a href="#annotated-cell-7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_neighbor_constraints</span>(<span class="at">k =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
-<span id="annotated-cell-7-12"><a href="#annotated-cell-7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span>
-<span id="annotated-cell-7-13"><a href="#annotated-cell-7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-7-14"><a href="#annotated-cell-7-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-8"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-8-1"><a href="#annotated-cell-8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a problem</span></span>
+<span id="annotated-cell-8-2"><a href="#annotated-cell-8-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, spp) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-8-3"><a href="#annotated-cell-8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_min_set_objective</span>() <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-8-4"><a href="#annotated-cell-8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_relative_targets</span>(<span class="at">targets =</span> <span class="fl">0.3</span>) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-8-5"><a href="#annotated-cell-8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_binary_decisions</span>() <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-8-6"><a href="#annotated-cell-8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_default_solver</span>()</span>
+<span id="annotated-cell-8-7"><a href="#annotated-cell-8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-8-8"><a href="#annotated-cell-8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtain only solutions with PU that have at least 2 neighbouring PU</span></span>
+<span id="annotated-cell-8-9"><a href="#annotated-cell-8-9" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span></span>
+<span id="annotated-cell-8-10"><a href="#annotated-cell-8-10" aria-hidden="true" tabindex="-1"></a>  p <span class="sc">%&gt;%</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1">1</button><span id="annotated-cell-8-11" class="code-annotation-target"><a href="#annotated-cell-8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_neighbor_constraints</span>(<span class="at">k =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="annotated-cell-8-12"><a href="#annotated-cell-8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span>
+<span id="annotated-cell-8-13"><a href="#annotated-cell-8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-8-14"><a href="#annotated-cell-8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="11" data-code-annotation="1">Try changing the k parameter to 3 or 4. What happens?</span>
+<span data-code-cell="annotated-cell-8" data-code-lines="11" data-code-annotation="1">Try changing the k parameter to 3 or 4. What happens?</span>
 </dd>
 </dl>
 </div>
@@ -659,26 +713,26 @@ Tip
 <p>Linear constraints are not directly linked to connectivity, but can in theory used for this purpose (and more). Linear constraints simply specify that the solution has to satisfy a criteria, such as for example having at least XX% of area or covering at least YY% of ‘connectivity’ features. They are thus quite similar to including connectivity as a feature <span class="citation" data-cites="daigle2020">(<a href="../references.html#ref-daigle2020" role="doc-biblioref">Daigle <em>et al.</em> 2020</a>)</span> (see also below for connectivity features), but are implemented directly as constraints.</p>
 <p>For example, in this problem formulation we constrain the solutions to only those that also contain a certain (admittedly) arbitrary amount of ‘greenness’ (quantified by the NDVI).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-9"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-9-1"><a href="#annotated-cell-9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load and clip the ndvi layer</span></span>
-<span id="annotated-cell-9-2"><a href="#annotated-cell-9-2" aria-hidden="true" tabindex="-1"></a>ndvi <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"extdata/ndvi.tif"</span>) <span class="sc">|&gt;</span> <span class="fu">crop</span>(alps) <span class="sc">|&gt;</span> <span class="fu">mask</span>(alps)</span>
-<span id="annotated-cell-9-3"><a href="#annotated-cell-9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-9-4"><a href="#annotated-cell-9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># The threshold for linear constraints. We want at least this much!</span></span>
-<span id="annotated-cell-9-5"><a href="#annotated-cell-9-5" aria-hidden="true" tabindex="-1"></a>threshold <span class="ot">&lt;-</span> <span class="fu">global</span>(ndvi, <span class="st">"sum"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)[[<span class="dv">1</span>]] <span class="sc">*</span> <span class="fl">0.3</span></span>
-<span id="annotated-cell-9-6"><a href="#annotated-cell-9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-9-7"><a href="#annotated-cell-9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Update the solution.</span></span>
-<span id="annotated-cell-9-8"><a href="#annotated-cell-9-8" aria-hidden="true" tabindex="-1"></a>s3 <span class="ot">&lt;-</span></span>
-<span id="annotated-cell-9-9"><a href="#annotated-cell-9-9" aria-hidden="true" tabindex="-1"></a>  p <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-9-10"><a href="#annotated-cell-9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_linear_constraints</span>(</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="1">1</button><span id="annotated-cell-9-11" class="code-annotation-target"><a href="#annotated-cell-9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> ndvi, <span class="at">threshold =</span> threshold, <span class="at">sense =</span> <span class="st">"&gt;="</span></span>
-<span id="annotated-cell-9-12"><a href="#annotated-cell-9-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-9-13"><a href="#annotated-cell-9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span>
-<span id="annotated-cell-9-14"><a href="#annotated-cell-9-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-9-15"><a href="#annotated-cell-9-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s3)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-10"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-10-1"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load and clip the ndvi layer</span></span>
+<span id="annotated-cell-10-2"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a>ndvi <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"extdata/ndvi.tif"</span>) <span class="sc">|&gt;</span> <span class="fu">crop</span>(alps) <span class="sc">|&gt;</span> <span class="fu">mask</span>(alps)</span>
+<span id="annotated-cell-10-3"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-10-4"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># The threshold for linear constraints. We want at least this much!</span></span>
+<span id="annotated-cell-10-5"><a href="#annotated-cell-10-5" aria-hidden="true" tabindex="-1"></a>threshold <span class="ot">&lt;-</span> <span class="fu">global</span>(ndvi, <span class="st">"sum"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)[[<span class="dv">1</span>]] <span class="sc">*</span> <span class="fl">0.3</span></span>
+<span id="annotated-cell-10-6"><a href="#annotated-cell-10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-10-7"><a href="#annotated-cell-10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Update the solution.</span></span>
+<span id="annotated-cell-10-8"><a href="#annotated-cell-10-8" aria-hidden="true" tabindex="-1"></a>s3 <span class="ot">&lt;-</span></span>
+<span id="annotated-cell-10-9"><a href="#annotated-cell-10-9" aria-hidden="true" tabindex="-1"></a>  p <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-10-10"><a href="#annotated-cell-10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_linear_constraints</span>(</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1">1</button><span id="annotated-cell-10-11" class="code-annotation-target"><a href="#annotated-cell-10-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> ndvi, <span class="at">threshold =</span> threshold, <span class="at">sense =</span> <span class="st">"&gt;="</span></span>
+<span id="annotated-cell-10-12"><a href="#annotated-cell-10-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-10-13"><a href="#annotated-cell-10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span>
+<span id="annotated-cell-10-14"><a href="#annotated-cell-10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-10-15"><a href="#annotated-cell-10-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s3)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-9" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-9" data-code-lines="11" data-code-annotation="1">We specify a greater/equal sense here. Different directions such &lt; or &lt;= are also possible.</span>
+<span data-code-cell="annotated-cell-10" data-code-lines="11" data-code-annotation="1">We specify a greater/equal sense here. Different directions such &lt; or &lt;= are also possible.</span>
 </dd>
 </dl>
 </div>
@@ -710,43 +764,43 @@ Tip
 <p>Another, relatively straight forward way, to ‘account’ for connectivity is to directly add features representing connectivity <em>per se</em> and ensure that solutions conserve not only the areas a species occurs in but also the area it transverse through. For example <span class="citation" data-cites="kujala2013conservation">(<a href="../references.html#ref-kujala2013conservation" role="doc-biblioref">Kujala <em>et al.</em> 2013</a>)</span> considered both current and future projected distributions of species (constrained by dispersal distance) to identify potential stepping stones or refugia in response to climate change. For a comprehensive overview see also the recent work on climate-smart metrics for conservation planning <span class="citation" data-cites="buenafe2023metric">(<a href="../references.html#ref-buenafe2023metric" role="doc-biblioref">Buenafe <em>et al.</em> 2023</a>)</span>.</p>
 <p>As an example here we aim to identify the top ‘priorities’ that account for present as well as future distributions of species in a simplified manner. This approach can certainly be improved further, for example by considering dispersal constraints or weights of present against future distributions (discounting), but illustrates the concept.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-10"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-10-1"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a>budget.area <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fl">0.3</span> <span class="sc">*</span> <span class="fu">length</span>(<span class="fu">cells</span>(PU))) <span class="do">##  30 percent</span></span>
-<span id="annotated-cell-10-2"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-10-3"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify the solution for a maximum coverage problem and contemporary only</span></span>
-<span id="annotated-cell-10-4"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a>s0 <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, spp) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-10-5"><a href="#annotated-cell-10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_max_features_objective</span>(<span class="at">budget =</span> budget.area) <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-10-6"><a href="#annotated-cell-10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_relative_targets</span>(<span class="at">targets =</span> <span class="fl">0.3</span>) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-10-7"><a href="#annotated-cell-10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_binary_decisions</span>() <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-10-8"><a href="#annotated-cell-10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_default_solver</span>() <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-10-9"><a href="#annotated-cell-10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span>
-<span id="annotated-cell-10-10"><a href="#annotated-cell-10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-10-11"><a href="#annotated-cell-10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Now add the future distributions of the species as well as their </span></span>
-<span id="annotated-cell-10-12"><a href="#annotated-cell-10-12" aria-hidden="true" tabindex="-1"></a>spp.list <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"extdata/SpeciesDistributions/"</span>, <span class="at">full.names =</span> T, <span class="at">recursive =</span> T, <span class="at">pattern =</span> <span class="st">"tif$"</span>)</span>
-<span id="annotated-cell-10-13"><a href="#annotated-cell-10-13" aria-hidden="true" tabindex="-1"></a>sppf <span class="ot">&lt;-</span> <span class="fu">rast</span>(spp.list[<span class="fu">grep</span>(<span class="st">"rcp85"</span>, spp.list)])</span>
-<span id="annotated-cell-10-14"><a href="#annotated-cell-10-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Crop and mask</span></span>
-<span id="annotated-cell-10-15"><a href="#annotated-cell-10-15" aria-hidden="true" tabindex="-1"></a>sppf <span class="ot">&lt;-</span> sppf <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">crop</span>(alps) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">mask</span>(alps)</span>
-<span id="annotated-cell-10-16"><a href="#annotated-cell-10-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-10-17"><a href="#annotated-cell-10-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Add to stack</span></span>
-<span id="annotated-cell-10-18"><a href="#annotated-cell-10-18" aria-hidden="true" tabindex="-1"></a>s1 <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, <span class="fu">c</span>(spp, sppf)) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-10-19"><a href="#annotated-cell-10-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_max_features_objective</span>(<span class="at">budget =</span> budget.area) <span class="sc">|&gt;</span> </span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1">1</button><span id="annotated-cell-10-20" class="code-annotation-target"><a href="#annotated-cell-10-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_relative_targets</span>(<span class="at">targets =</span> <span class="fl">0.3</span>) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-10-21"><a href="#annotated-cell-10-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_binary_decisions</span>() <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-10-22"><a href="#annotated-cell-10-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_default_solver</span>() <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-10-23"><a href="#annotated-cell-10-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span>
-<span id="annotated-cell-10-24"><a href="#annotated-cell-10-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-10-25"><a href="#annotated-cell-10-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Overlay and compare</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="2">2</button><span id="annotated-cell-10-26" class="code-annotation-target"><a href="#annotated-cell-10-26" aria-hidden="true" tabindex="-1"></a>comb <span class="ot">&lt;-</span> s0<span class="sc">+</span>s1 <span class="sc">|&gt;</span> <span class="fu">as.factor</span>()</span>
-<span id="annotated-cell-10-27"><a href="#annotated-cell-10-27" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(comb) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"no priority"</span>, <span class="st">"current/future only"</span>, <span class="st">"current and future"</span>)</span>
-<span id="annotated-cell-10-28"><a href="#annotated-cell-10-28" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(comb, <span class="at">legend =</span> <span class="st">"bottom"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-11"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-11-1"><a href="#annotated-cell-11-1" aria-hidden="true" tabindex="-1"></a>budget.area <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fl">0.3</span> <span class="sc">*</span> <span class="fu">length</span>(<span class="fu">cells</span>(PU))) <span class="do">##  30 percent</span></span>
+<span id="annotated-cell-11-2"><a href="#annotated-cell-11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-11-3"><a href="#annotated-cell-11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify the solution for a maximum coverage problem and contemporary only</span></span>
+<span id="annotated-cell-11-4"><a href="#annotated-cell-11-4" aria-hidden="true" tabindex="-1"></a>s0 <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, spp) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-11-5"><a href="#annotated-cell-11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_max_features_objective</span>(<span class="at">budget =</span> budget.area) <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-11-6"><a href="#annotated-cell-11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_relative_targets</span>(<span class="at">targets =</span> <span class="fl">0.3</span>) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-11-7"><a href="#annotated-cell-11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_binary_decisions</span>() <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-11-8"><a href="#annotated-cell-11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_default_solver</span>() <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-11-9"><a href="#annotated-cell-11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span>
+<span id="annotated-cell-11-10"><a href="#annotated-cell-11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-11-11"><a href="#annotated-cell-11-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Now add the future distributions of the species as well as their </span></span>
+<span id="annotated-cell-11-12"><a href="#annotated-cell-11-12" aria-hidden="true" tabindex="-1"></a>spp.list <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"extdata/SpeciesDistributions/"</span>, <span class="at">full.names =</span> T, <span class="at">recursive =</span> T, <span class="at">pattern =</span> <span class="st">"tif$"</span>)</span>
+<span id="annotated-cell-11-13"><a href="#annotated-cell-11-13" aria-hidden="true" tabindex="-1"></a>sppf <span class="ot">&lt;-</span> <span class="fu">rast</span>(spp.list[<span class="fu">grep</span>(<span class="st">"rcp85"</span>, spp.list)])</span>
+<span id="annotated-cell-11-14"><a href="#annotated-cell-11-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Crop and mask</span></span>
+<span id="annotated-cell-11-15"><a href="#annotated-cell-11-15" aria-hidden="true" tabindex="-1"></a>sppf <span class="ot">&lt;-</span> sppf <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">crop</span>(alps) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">mask</span>(alps)</span>
+<span id="annotated-cell-11-16"><a href="#annotated-cell-11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-11-17"><a href="#annotated-cell-11-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Add to stack</span></span>
+<span id="annotated-cell-11-18"><a href="#annotated-cell-11-18" aria-hidden="true" tabindex="-1"></a>s1 <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, <span class="fu">c</span>(spp, sppf)) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-11-19"><a href="#annotated-cell-11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_max_features_objective</span>(<span class="at">budget =</span> budget.area) <span class="sc">|&gt;</span> </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="1">1</button><span id="annotated-cell-11-20" class="code-annotation-target"><a href="#annotated-cell-11-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_relative_targets</span>(<span class="at">targets =</span> <span class="fl">0.3</span>) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-11-21"><a href="#annotated-cell-11-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_binary_decisions</span>() <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-11-22"><a href="#annotated-cell-11-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_default_solver</span>() <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-11-23"><a href="#annotated-cell-11-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span>
+<span id="annotated-cell-11-24"><a href="#annotated-cell-11-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-11-25"><a href="#annotated-cell-11-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Overlay and compare</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="2">2</button><span id="annotated-cell-11-26" class="code-annotation-target"><a href="#annotated-cell-11-26" aria-hidden="true" tabindex="-1"></a>comb <span class="ot">&lt;-</span> s0<span class="sc">+</span>s1 <span class="sc">|&gt;</span> <span class="fu">as.factor</span>()</span>
+<span id="annotated-cell-11-27"><a href="#annotated-cell-11-27" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(comb) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"no priority"</span>, <span class="st">"current/future only"</span>, <span class="st">"current and future"</span>)</span>
+<span id="annotated-cell-11-28"><a href="#annotated-cell-11-28" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(comb, <span class="at">legend =</span> <span class="st">"bottom"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-10" data-code-lines="20" data-code-annotation="1">Note that we specify identical targets for present/future. Ideally targets are specified by feature rather than flat as done here.</span>
+<span data-code-cell="annotated-cell-11" data-code-lines="20" data-code-annotation="1">Note that we specify identical targets for present/future. Ideally targets are specified by feature rather than flat as done here.</span>
 </dd>
-<dt data-target-cell="annotated-cell-10" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-10" data-code-lines="26" data-code-annotation="2">Since the decision variable is binary, we can simply sum the result.</span>
+<span data-code-cell="annotated-cell-11" data-code-lines="26" data-code-annotation="2">Since the decision variable is binary, we can simply sum the result.</span>
 </dd>
 </dl>
 </div>

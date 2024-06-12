@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>An introduction to Systematic conservation planning with prioritzr - 1&nbsp; Introduction</title>
+<title>An introduction to Systematic conservation planning with prioritzr - Appendix B — Frequently asked questions (FAQ)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 /* CSS for citations */
 div.csl-bib-body { }
@@ -49,8 +83,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/Datapreparation.html" rel="next">
-<link href="../index.html" rel="prev">
+<link href="../appendices/installation.html" rel="prev">
 <link href="..//resources/favicon.ico" rel="icon">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -104,7 +137,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/intro.html">Introduction to SCP</a></li><li class="breadcrumb-item"><a href="../chapters/intro.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendices/installation.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendices/FAQ.html"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Frequently asked questions (FAQ)</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -151,7 +184,7 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/intro.html" class="sidebar-item-text sidebar-link active">
+  <a href="../chapters/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
@@ -278,7 +311,7 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../appendices/FAQ.html" class="sidebar-item-text sidebar-link">
+  <a href="../appendices/FAQ.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Frequently asked questions (FAQ)</span></span></a>
   </div>
 </li>
@@ -296,21 +329,19 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#systematic-conservation-planning" id="toc-systematic-conservation-planning" class="nav-link active" data-scroll-target="#systematic-conservation-planning"><span class="header-section-number">1.1</span> Systematic conservation planning</a>
-  <ul class="collapse">
-  <li><a href="#key-concepts" id="toc-key-concepts" class="nav-link" data-scroll-target="#key-concepts"><span class="header-section-number">1.1.1</span> Key concepts</a></li>
-  </ul></li>
-  <li><a href="#sec-what-is-integer-programming" id="toc-sec-what-is-integer-programming" class="nav-link" data-scroll-target="#sec-what-is-integer-programming"><span class="header-section-number">1.2</span> Exact algorithms and integer programming</a></li>
-  <li><a href="#tools-and-software" id="toc-tools-and-software" class="nav-link" data-scroll-target="#tools-and-software"><span class="header-section-number">1.3</span> Tools and software</a></li>
+  <li><a href="#i-dont-understand-the-outputs" id="toc-i-dont-understand-the-outputs" class="nav-link active" data-scroll-target="#i-dont-understand-the-outputs"><span class="header-section-number">B.1</span> I don’t understand the outputs</a></li>
+  <li><a href="#i-cant-install-any-software" id="toc-i-cant-install-any-software" class="nav-link" data-scroll-target="#i-cant-install-any-software"><span class="header-section-number">B.2</span> I can’t install any software</a></li>
+  <li><a href="#my-computer-is-freezing" id="toc-my-computer-is-freezing" class="nav-link" data-scroll-target="#my-computer-is-freezing"><span class="header-section-number">B.3</span> My Computer is freezing</a></li>
+  <li><a href="#solving-the-problem-takes-too-long" id="toc-solving-the-problem-takes-too-long" class="nav-link" data-scroll-target="#solving-the-problem-takes-too-long"><span class="header-section-number">B.4</span> Solving the problem takes too long</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/intro.html">Introduction to SCP</a></li><li class="breadcrumb-item"><a href="../chapters/intro.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendices/installation.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendices/FAQ.html"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Frequently asked questions (FAQ)</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></h1>
+<h1 class="title">Appendix B — Frequently asked questions (FAQ)</h1>
 </div>
 
 
@@ -327,50 +358,55 @@ div.csl-indent {
 </header>
 
 
-<p>Welcome to this short introduction to systematic conservation planning with prioritizr! On this page you will learn about the basic concepts of systematic conservation planning (SCP) and more specifically algorithmic solutions identifying planning outcomes.</p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<p>On this page we list some answers to possible issues or problems encountered when running. See the sub headers for more information.</p>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
+<i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Course info
+Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If you have taken part in person to the introduction on the day, you might want to skip this section and directly start with handling and preparing data at <a href="Datapreparation.html" class="quarto-xref"><span>Chapter 2</span></a> .</p>
+<p>This page will be updated during the day in case new issues are discovered. In case any issue can not be answered by the information on this site, please get in touch with the course organizers (Martin or Louise).</p>
 </div>
 </div>
-<section id="systematic-conservation-planning" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="systematic-conservation-planning"><span class="header-section-number">1.1</span> Systematic conservation planning</h2>
-<p>The classical definition of Systematic conservation planning (SCP) is that of a structured, scientific approach to identifying and prioritizing areas for conservation (REFs). Its goal is to ensure that biodiversity is maintained and ecosystems are protected in a way that maximizes ecological, economic, and social benefits. Although SCP has been conceived specifically for creating and expanding reserve networks (usually protected areas), it can be used for much more including for example the identification of restoration, land-use planning or monitoring options.</p>
-<p>It is also a common misconception that a project implementing SCP is only about prioritization (the algorithm part). Rather, it describes a whole framework typically ranging from</p>
-<ol type="1">
-<li><p>Defining Conservation goals and objectives</p></li>
-<li><p>Eliciting pathways to impact and theory of change with stakeholders</p></li>
-<li><p>Compiling and preparing data</p></li>
-<li><p>Identifying targets, constraints and costs</p></li>
-<li><p>Formulating a planning problem and identifying priorities for it</p></li>
-<li><p>Evaluating said priorities through robust performance metrics</p></li>
-<li><p>Implementing the priorities in exchange with stakeholders</p></li>
-<li><p>Monitoring the performance and adapting plans where necessary.</p></li>
-</ol>
-<section id="key-concepts" class="level3" data-number="1.1.1">
-<h3 data-number="1.1.1" class="anchored" data-anchor-id="key-concepts"><span class="header-section-number">1.1.1</span> Key concepts</h3>
+<section id="i-dont-understand-the-outputs" class="level2" data-number="B.1">
+<h2 data-number="B.1" class="anchored" data-anchor-id="i-dont-understand-the-outputs"><span class="header-section-number">B.1</span> I don’t understand the outputs</h2>
+<p>If you can not interpret the outputs based on the course materials and instructions, please see the help pages of the function (enter ??command in the R console or F1 on your keyboard).</p>
+<p>The <a href="https://prioritizr.net/" title="Prioritizr homepage">Prioritizr homepage</a> can also be a quite valuable resource for looking up parameters and instructions. If nothing else, get in touch with the coordinators!</p>
 </section>
+<section id="i-cant-install-any-software" class="level2" data-number="B.2">
+<h2 data-number="B.2" class="anchored" data-anchor-id="i-cant-install-any-software"><span class="header-section-number">B.2</span> I can’t install any software</h2>
+<p>To install R, RStudio and often also R-packages on any Computer (Windows/Linux/MacOS) usually requires adminstrator (or <em>sudo</em>) rights.</p>
+<p>If you are not able at all to install any or all of the software listed in the installation instructions (@sec-installation), please <strong>get in touch with the course organizers</strong> and we will try our best to find a way forward!</p>
 </section>
-<section id="sec-what-is-integer-programming" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="sec-what-is-integer-programming"><span class="header-section-number">1.2</span> Exact algorithms and integer programming</h2>
-<p>See <span class="citation" data-cites="hanson2019optimality">Hanson <em>et al.</em> (<a href="../references.html#ref-hanson2019optimality" role="doc-biblioref">2019</a>)</span> for additional discussion of optimality in linear programming.</p>
+<section id="my-computer-is-freezing" class="level2" data-number="B.3">
+<h2 data-number="B.3" class="anchored" data-anchor-id="my-computer-is-freezing"><span class="header-section-number">B.3</span> My Computer is freezing</h2>
+<p>Solving particular large conservation planning problems can take quite some computational resources. This becomes especially an issue with larger conservation problems, for example when planning over larger area or more highly resolved planning units (<em>i.e.</em> spatial scale).</p>
+<p>By solving your planning problem the entire dataset can be bigger than you might anticipate (Number of features times number of planning units times number of constraints) and needs to be processed as a whole. Because of this the amount of memory available on your operating system is usually the limitation. For example, in a global prioritization effort done with ~10km planning units (<span class="citation" data-cites="jung2021areas">(<a href="../references.html#ref-jung2021areas" role="doc-biblioref">Jung <em>et al.</em> 2021</a>)</span>), at least 140GB of RAM (Computer memory) was needed to solve the conservation problems.</p>
+<p>If - during the solving - your computer suddenly starts to freeze, then you likely don’t have enough computational resources to solve the problem formulation. In this case I would recommend to subset the features and PU to a smaller extent, for example using the outline of the Alps from <a href="https://esdac.jrc.ec.europa.eu/projects/Alpsis/alpine_region_gis_data.html" title="Alpine regions">here</a>.<br>
+<br>
+Then subset as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>alps <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_read</span>(<span class="st">"layer"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>layer <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">crop</span>(alps) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">mask</span>(alps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="tools-and-software" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="tools-and-software"><span class="header-section-number">1.3</span> Tools and software</h2>
-<p>We stress that prioritizr is not the only software available</p>
+<section id="solving-the-problem-takes-too-long" class="level2" data-number="B.4">
+<h2 data-number="B.4" class="anchored" data-anchor-id="solving-the-problem-takes-too-long"><span class="header-section-number">B.4</span> Solving the problem takes too long</h2>
+<p>Other than using a faster solver or simplifying the problem (see also suggestion above), there are few options available directly with the solver:</p>
+<ul>
+<li><p>(Parameter gap in the solver) Increase the gap (Default is 0.1) to a larger estimate. This can result in suboptimal but still feasible solutions which are usually very close.</p></li>
+<li><p>(Parameter time_limit in the solver) Increasing this number caps the computation time. Units are in seconds.</p></li>
+<li><p>(Parameter first_feasible in the solver) Setting this to TRUE makes the solver return the first feasible solution, which might not be optimal one, but is usually quite close.</p></li>
+</ul>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
-<div id="ref-hanson2019optimality" class="csl-entry" role="listitem">
-Hanson, J.O., Schuster, R., Strimas-Mackey, M. &amp; Bennett, J.R. (2019). Optimality in prioritizing conservation projects. <em>Methods in Ecology and Evolution</em>, <em>10</em>, 1655–1663.
+<div id="ref-jung2021areas" class="csl-entry" role="listitem">
+Jung, M., Arnell, A., De Lamo, X., Garcı́a-Rangel, S., Lewis, M., Mark, J., Merow, C., Miles, L., Ondo, I., Pironon, S. &amp; others. (2021). Areas of global importance for conserving terrestrial biodiversity, carbon and water. <em>Nature Ecology &amp; Evolution</em>, <em>5</em>, 1499–1509.
 </div>
 </div>
 </section>
@@ -812,14 +848,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../index.html" class="pagination-link" aria-label="Preface">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      <a href="../appendices/installation.html" class="pagination-link" aria-label="Installation of all required software">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Installation of all required software</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/Datapreparation.html" class="pagination-link" aria-label="Preparing input data">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preparing input data</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
