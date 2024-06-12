@@ -1,0 +1,22 @@
+# Create basic problem
+
+Create and solve a problem that finds the best areas for 30% protected area coverage on European land:
+
+```{r, eval = F}
+# define area budget (unit: grid cells)
+budget.area <- round(0.3 * length(cells(PU))) 
+
+p <- problem(PU, spp)%>%
+  add_min_shortfall_objective(budget = budget.area)%>%
+  add_relative_targets(targets = 1) %>%  
+  # <1> 
+  add_cbc_solver()%>% 
+  # <2> 
+  add_proportion_decisions()
+  # <3>
+
+```
+
+1.  target is 100% for all species distributions.
+2.  CBC has the best performance across open solvers.
+3.  proportional decisions means that proportions of planning units can be selected in the solution. This typically solve faster and better than binary decisions.

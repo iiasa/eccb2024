@@ -1,7 +1,21 @@
 # Solving a conservation planning problem
 
-## Ensure that a solver is available
-
 ## Create a solution
 
+```{r, eval = FALSE}
+
+# solve and create the solution
+s <- solve(p)
+
+```
+
 ## Plot the solution
+
+```{r, eval = FALSE}
+
+# plot the solution map
+plot(s,  col = viridisLite::mako(n = 10, direction = -1), axes = F)
+
+```
+
+![](/figures/solution0.PNG)

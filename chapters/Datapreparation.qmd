@@ -6,23 +6,63 @@ code-annotations: hover
 
 ## Planning units
 
-Planning units (PU) contains the spatial data of the study area. Here, we use raster format. The planning units are 10x10 km grid cells in Europe.
+Planning units (PU) contains the spatial data of the study area. Here, we use raster format, so the planning units are 10x10 km grid cells in Europe.
 
-Let's read the planning units data.
+Let's read and plot the planning units raster.
 
-```{r, eval = F}
+```{r, eval = FALSE}
 
-rast("data/PlanningUnits.tif")
+library(terra)
+library(viridisLite)
 
+PU <- rast("data/PlanningUnits.tif")
+plot(PU, col = viridisLite::mako(n = 1))
 ```
+
+![](/figures/PUmap.png){width="367"}
+
+The value of the planning units determines the cost of each planning unit in the prioritisation. In our case, we want to reach 30% area coverage. This means that in the Planning Units raster, each grid cell should have an equal value of 1 (so that the budget will be expressed in number of grid cells in prioritizr).
 
 ## Features
 
-Explain what features are and plot
+A feature is spatial data on the distribution of a biodiversity entity, typically a species, habitat, ecosystem service, etc.
+
+Here, we consider the SDM of 67 tree species in Europe as features. We will focus on current distributions but we also have projected distributions under future climate (RCP 8.5) as part of this workshop.
+
+Let's read the current SDM as a raster stack and plot one species as an example:
+
+```{r, eval = FALSE}
+
+spp.list <- list.files(path = "data/SpeciesDistributions/", full.names = T, recursive = T, pattern = "tif$")
+
+spp <- rast(spp.list[grep("current", spp.list)])
+
+
+names(spp) <- gsub("_ens-sdms_cur2005_prob_pot", "" ,names(spp))   # <1>
+
+## plot the first SDM in the rasterstack
+plot(spp[[1]], axes = F)
+```
+
+1.  Rename feature layers by species names. This will enable to link the features rasters to a table of feature characteristics, weights, targets, taxonomy.
+
+![](/figures/feature1.PNG){width="300"}
+
+Note: features, and all other spatial data, need to be perfectly harmonized with the planning units data and (same extent, resolution, number of grid cells). This step must be done prior to the prioritisation, as part of the data preparation. For this training workshop, the data is already prepared, but bear in mind that data preparation is an essential step in the conservation planning process, which often takes time.
 
 ## Costs
 
-Explain what costs are and how they are used
+Costs are typically spatially-explicit socio-economic data that can be factored into a prioritization to account for the feasibility of implementing conservation in a planning unit. There are different types of costs:
+
+-   Acquisition cost = price of land/water area
+
+-   Opportunity cost = lost revenue to other land use types
+
+-   Transaction cost = e.g. cost of negotiating protection
+
+-   Management cost = maintenance and management of the PA
+
+In reality, we rarely have this information and need to use proxies. Here, we use the global human modification index as a proxy for the cost of conservation.
 
 ## Other constraints (Protected areas)
 

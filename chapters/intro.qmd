@@ -38,4 +38,4 @@ See @hanson2019optimality for additional discussion of optimality in linear prog
 
 ## Tools and software
 
-We stress that prioritizr is not the only software available
+We stress that prioritizr is not the only software available. For example, Zonation and Marxan are other well-known complementarity-based spatial conservation prioritization software.
