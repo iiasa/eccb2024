@@ -131,7 +131,7 @@ For setting weights, we will use the red list dataset and assign higher weight t
 
 -   default weight of 1 for Least Concern species.
 
-2 for near-threatened and data-deficient species
+-   2 for near-threatened and data-deficient species
 
 -   4 for vulnerable species
 
