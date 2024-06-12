@@ -2,12 +2,49 @@
 
 ## Plot the solution
 
+```{r, eval = FALSE}
+
+# plot the solution map
+plot(s,  col = viridisLite::mako(n = 10, direction = -1), axes = F)
+
+```
+
+![](/figures/solution0.PNG){width="255"}
+
 ## Calculate performance evaluation metrics
 
-Area statistics, Mean representation, Target shortfall
+We can assess the performance of this solution for the species by assessing their representation and their target shortfall.
+
+```{r, eval = F}
+
+rpz_target_spp <- eval_target_coverage_summary(p, s)
+
+## mean representation across all species 
+mean(rpz_target_spp$relative_held)
+
+## mean target shortfall across all species 
+mean(rpz_target_spp$relative_shortfall)
+```
 
 ## Irreplaceability 
 
-Calculater ferrier irreplacibility and RWR
+Calculate irreplaceability of the solution using different methods.
+
+The replacement cost scores can be calculated for small and moderate sized problems but may not be feasible for large problems (e.g., more than 100,000 planning units). For large problems, it is recommended to use the Ferrier method, which can be calculated relatively quickly for large-sized problems and it explicitly accounts for representation targets. Rarity weighted richness should only be used when neither of the other two methods can be used.
+
+```{r, eval = F}
+
+## to calculate importance scores using replacement cost: 
+# ir1 <- eval_replacement_importance(p, s)
+## do not run: this only works for small problems. 
+
+# calculate importance scores using Ferrier et al 2000 method,
+# and extract the total importance scores
+ir2 <- eval_ferrier_importance(p, s)[["total"]]
+
+# calculate importance scores using rarity weighted richness scores
+ir3 <- eval_rare_richness_importance(p, s)
 
 
+plot(c(ir1, ir2, ir3), axes = F, col = viridisLite::magma(n = 100, direction =-1))
+```

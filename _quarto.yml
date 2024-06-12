@@ -39,6 +39,7 @@ book:
       chapters:
         - chapters/ObjectiveFunctions.qmd
         - chapters/ProblemComplexity.qmd
+        - chapters/CompareSolutions.qmd
     - part: "Advanced topics"
       chapters:
         - chapters/Connectivity.qmd

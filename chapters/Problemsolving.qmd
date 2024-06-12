@@ -1,3 +1,7 @@
+---
+code-annotations: hover
+---
+
 # Solving a conservation planning problem
 
 ## Create a solution
@@ -18,4 +22,4 @@ plot(s,  col = viridisLite::mako(n = 10, direction = -1), axes = F)
 
 ```
 
-![](/figures/solution0.PNG)
+![](/figures/solution0.PNG){width="255"}

@@ -1,3 +1,8 @@
+---
+code-annotations: hover
+---
+
+
 # Adding complexity to conservation planning
 
 ## Modify targets
@@ -234,8 +239,6 @@ p8 <- problem(PU, spp)%>%
   add_proportion_decisions()
 
 s8 <- solve(p8)
-
-
 ```
 
 ## 
