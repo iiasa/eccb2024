@@ -1,0 +1,44 @@
+# Frequently asked questions (FAQ)
+
+On this page we list some answers to possible issues or problems encountered when running. See the sub headers for more information.
+
+::: callout-note
+This page will be updated during the day in case new issues are discovered. In case any issue can not be answered by the information on this site, please get in touch with the course organizers (Martin or Louise).
+:::
+
+## I don't understand the outputs
+
+If you can not interpret the outputs based on the course materials and instructions, please see the help pages of the function (enter ??command in the R console or F1 on your keyboard).
+
+The [Prioritizr homepage](https://prioritizr.net/ "Prioritizr homepage") can also be a quite valuable resource for looking up parameters and instructions. If nothing else, get in touch with the coordinators!
+
+## I can't install any software
+
+To install R, RStudio and often also R-packages on any Computer (Windows/Linux/MacOS) usually requires adminstrator (or *sudo*) rights.
+
+If you are not able at all to install any or all of the software listed in the installation instructions (\@sec-installation), please **get in touch with the course organizers** and we will try our best to find a way forward!
+
+## My Computer is freezing
+
+Solving particular large conservation planning problems can take quite some computational resources. This becomes especially an issue with larger conservation problems, for example when planning over larger area or more highly resolved planning units (*i.e.* spatial scale).
+
+By solving your planning problem the entire dataset can be bigger than you might anticipate (Number of features times number of planning units times number of constraints) and needs to be processed as a whole. Because of this the amount of memory available on your operating system is usually the limitation. For example, in a global prioritization effort done with \~10km planning units ([@jung2021areas]), at least 140GB of RAM (Computer memory) was needed to solve the conservation problems.
+
+If - during the solving - your computer suddenly starts to freeze, then you likely don't have enough computational resources to solve the problem formulation. In this case I would recommend to subset the features and PU to a smaller extent, for example using the outline of the Alps from [here](https://esdac.jrc.ec.europa.eu/projects/Alpsis/alpine_region_gis_data.html "Alpine regions").\
+\
+Then subset as follows:
+
+```{r, eval=FALSE}
+alps <- sf::st_read("layer")
+layer |> terra::crop(alps) |> terra::mask(alps)
+```
+
+## Solving the problem takes too long
+
+Other than using a faster solver or simplifying the problem (see also suggestion above), there are few options available directly with the solver:
+
+-   (Parameter gap in the solver) Increase the gap (Default is 0.1) to a larger estimate. This can result in suboptimal but still feasible solutions which are usually very close.
+
+-   (Parameter time_limit in the solver) Increasing this number caps the computation time. Units are in seconds.
+
+-   (Parameter first_feasible in the solver) Setting this to TRUE makes the solver return the first feasible solution, which might not be optimal one, but is usually quite close.

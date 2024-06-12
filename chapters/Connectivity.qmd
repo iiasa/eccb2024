@@ -114,7 +114,7 @@ Boundary length penalties generally solve faster with simpler objective function
 
 Another more direct way to ingest some connectivity into a problem formulation is to use a certain auxillary layer, for example green infrastructure, (inverse) costs of transversal or connectivity estimates run through software like Circuitscape, as linear penalty. When including connectivity estimates as penalties in conservation planning we usually distinguish between [symmetric]{.underline} and [asymmetric]{.underline} penalties.
 
-### Symmetric connectivity penalties
+### Symmetric connectivity penalties {#sec-symmetric-connectivity-penalties}
 
 Symmetric connectivity penalties describe information that is non-directional, in other words the same penalties apply when for example a species moves from west to east or from east to west across the study region (see also [@alagador2012linking]).
 
@@ -144,6 +144,8 @@ s_con1 <- p |>
   solve()
 
 plot(s_con1)
+# It also possible to evaluate the connectivity values via
+eval_connectivity_summary(p,s_con1, data = bm)
 ```
 
 1.  This command calculates a cross-product between the Planning unit and a pressure layer
@@ -186,9 +188,38 @@ plot(s_con2)
 There is also a matrix function called 'adjacency_matrix()'. Can you imagine what this one does?
 :::
 
-### Asymmetric connectivity constraints
+### Asymmetric connectivity penalties
 
-TODO [@beger2010incorporating]
+Opposed to symmetric connectivity penalties (@sec-symmetric-connectivity-penalties), asymmetric penalties have some kind of directionality. For example in situations where species can only move down PU such as rivers blocked by a dam, or for planning problems with migration corridors (south to north) ([@beger2010incorporating]). Adding this penalty to a problem penalizes solutions that have low directional connectivity among PU.
+
+```{r, eval=FALSE}
+
+# Make a directional dummy layer based on the cell numbers
+dummy <- PU
+dummy[!is.na(PU)] <- terra::cells(dummy)
+
+# Now prepare the connectivity matrix and rescale
+cm <- connectivity_matrix(PU, dummy)                         # <1>
+# rescale matrix
+cm <- rescale_matrix(cm, max = 1)                            # <2>
+
+# We only use the diagonal for this simple example, thus going north to south
+cm <- Matrix::triu(cm)                                       # <3>
+
+# Update the problem formulation and solve with a penalty.
+s_asc <- p |>
+  add_asym_connectivity_penalties(penalty = 1, data = cm) |>   # <4>
+  solve()
+
+plot(s_asc)
+```
+
+1.  We again create a connectivity matrix using the dummy cell numbers
+2.  Rescale and make sure values are from 0 to 1 for better convergence.
+3.  We take only the diagonal for simplicity. This effectively removes one geographical dimension (top to bottom).
+4.  Solve the solution. Note the higher penalty for this dummy example.
+
+![Asymmetric connectivity penalty from North to South](/figures/connectivity_con_asym_penalty.png){width="500"}
 
 ## Connectivity constraints
 
