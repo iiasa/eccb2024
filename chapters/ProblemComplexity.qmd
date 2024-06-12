@@ -2,7 +2,6 @@
 code-annotations: hover
 ---
 
-
 # Adding complexity to conservation planning
 
 ## Modify targets
@@ -28,7 +27,7 @@ plot(s1)
 
 Note: targets can be informed by a combination of range size and red list status (see @jung2021areas )
 
-## Add feature specific weights 
+## Add feature specific weights
 
 ```{r, eval = F}
 p2 <- p1 %>%
@@ -40,7 +39,7 @@ plot(s2)
 
 Notice how in this case the solution does not change drastically, since only a few species are listed as vulnerable.
 
-## Plan for future distributions under climate change 
+## Plan for future distributions under climate change
 
 ```{r, eval = F}
 
@@ -71,7 +70,7 @@ plot(mean_s_climate, col = viridisLite::mako(n = 1, direction = -1))
 ### try with locked in constraints:
 
 p3 <- p2 %>%
-  add_locked_in_constraints(stPA)  
+  add_locked_in_constraints(PA)  
 
 s3 <- solve (p3) 
 ```
@@ -127,7 +126,7 @@ plot(expansion_climate, col = viridisLite::mako(n = 10, direction = -1))
 
 ```
 
-## Add locked-out constraints 
+## Add locked-out constraints
 
 ```{r, eval = F}
 
@@ -158,7 +157,7 @@ s5 <- solve (p5)
 
 Note: if one wanted to express the entire budget of the problem in monetary terms, the costs would need to be included in the planning units data.
 
-## Linear penalties with negative penalty score 
+## Linear penalties with negative penalty score
 
 Linear penalties can also be used with a negative penalty score, to nudge the selection of sites with a high value. For example, one may use linear penalties with a negative penalty score to incorporate pre-defined ecological corridors; known climate refugia; intactness; etc.
 
@@ -212,7 +211,7 @@ s7 <- solve(p7)
 2.  rewrite problem since we cannot overwrite the previously defined decision variable.
 3.  Planning units (grid cells) will be either selected, or not selected, in the solution rather than a proportion.
 
-## Modify the budget 
+## Modify the budget
 
 For example, we might be interested in finding top priorities for 10% strict protection. To do that, we need to change the budget, and the protected area layer, to find priorities that complement and expand on strictly protected areas only (IUCN i and II).
 
