@@ -6,7 +6,15 @@ code-annotations: hover
 
 ## Planning units
 
-Say something about what a PU file is, load and plot from the example data
+Planning units (PU) contains the spatial data of the study area. Here, we use raster format. The planning units are 10x10 km grid cells in Europe.
+
+Let's read the planning units data.
+
+```{r, eval = F}
+
+rast("data/PlanningUnits.tif")
+
+```
 
 ## Features
 
