@@ -2,26 +2,87 @@
 code-annotations: hover
 ---
 
-# Create basic problem
+# Understand conservation planning problem
 
-Create and solve a problem that finds the best areas for 30% protected area coverage on European land:
+In the previous section (@sec-dataprep) we loaded a range of already prepared datasets including PU and features. Now we are ready to create our first conservation planning problem.
+
+Prioritizr makes use of a 'tidyverse' informed and human-readable syntax where a problem is defined by adding data, features and constraints sequentially to an object. This is thus quite similar as the use of 'dplyr' in R.
+
+![Tidyverse inspired flow](/figures/prioritizr_exampleflow.png){width="500"}
+
+::: callout-tip
+### Pipe
+
+We will use in this workshop the pipe symbol to chain different R functions (such as those from prioritizr) together. Useable are both the classical pipe from the magrittr package ( %\>% ) and the pipe used by default since R version 4.0 ( \|\> ). We use both pipes often interchangeably in this workshop.
+:::
+
+## Our first planning problem
+
+For our first problem we will create a problem that finds the best areas for 30% protected area coverage on European land. Go to the next section (@sec-solving-a-problem) to learn how to solve and interpret the outputs from a prioritizr problem.
+
+**Tip:** Hover over the numbers on the right to learn more about each function. Note that the order
 
 ```{r, eval = F}
+# Load the prioritizr package
+library(prioritizr)                               
 
 # define area budget (unit: grid cells)
-budget.area <- round(0.3 * length(cells(PU))) 
+budget.area <- round(0.3 * length(cells(PU)))               # <1>
 
-p <- problem(PU, spp)%>%
-  add_min_shortfall_objective(budget = budget.area)%>%
-  add_relative_targets(targets = 1) %>%  
-  # <1> 
-  add_cbc_solver()%>% 
-  # <2> 
-  add_proportion_decisions()
-  # <3>
+p <- problem(PU, spp) %>%                                   # <2>
+  add_min_shortfall_objective(budget = budget.area) %>%     # <3>
+  add_relative_targets(targets = 1) %>%                     # <4> 
+  add_cbc_solver() %>%                                      # <5>
+  add_proportion_decisions()                                # <6>
 
 ```
 
-1.  target is 100% for all species distributions.
-2.  CBC has the best performance across open solvers.
-3.  proportional decisions means that proportions of planning units can be selected in the solution. This typically solve faster and better than binary decisions.
+1.  This effectively defines the total budget as 30% of the length of all PU. This works since the length is identical to the sum (cost =1).
+2.  Here we define a problem using the planning unit layer and the different species layer. Internally this will create an intersection of both. Other possible inputs to this function could be zones.
+3.  An objective function is added here. In this case we use the minimum shortfall objective.
+4.  For simplicity we define target as 100% for all species distributions
+5.  Here we add a solver. We rely here on CBC which in tests hasthe best performance among open-source solvers.
+6.  Here we add proportional decisions means that proportions of planning units can be selected in the solution. This typically solve faster than binary decisions.
+
+## Understanding the problem object
+
+Now that we have created a problem, let's have a look at the object.
+
+```{r, eval=FALSE}
+# Simply run
+p
+```
+
+![The output of a prioritizr object.](/figures/prioritizr_object.png){fig-align="center" width="700"}
+
+As visible the object contains information about the Planning units, including the spatial extent and geographic projection, as well as any features and complexity factors related to the formulation of the problem.
+
+Running **p\$summary()** will provide a summary with more detail.
+
+::: callout-tip
+### Object
+
+The prioritizr planning objects contain a range of different functions that can be queried and executed, for example to obtain summaries or specific datasets and parameters contained within. For example object\$data will return: (a) features, (b) planning units, (c) an intersection call rij_matrix and more information.
+:::
+
+## Different datasets for planning
+
+In this tutorial we use throughout gridded datasets. However it should be noted that - internally - *prioritizr* does not operate on spatial files but on tabular data. This is also true when not gridded but vector data are provided.
+
+Why is this relevant to know? When creating a problem with spatial data (gridded or vector files), at the time of problem creation these data are internally converted into large tabular data. When planning over many species or planning units it can be computational efficient to not have prioritizr, but to do this conversion directly and then supply tabular data.
+
+::: {#data preparation}
+Typical steps involved here are:
+
+1.  Converting gridded planning unit data to a table in long form (row) containing both the cell id, the planning unit id and the cost
+
+2.  Convert the features into a long table containing the planning unit id, the feature id (and name) and the amount stored.
+
+3.  Intersecting the tables created in step 1) and 2)
+
+4.  Preparing any other tables for weights or targets, aligned with the planning unit id.
+:::
+
+::: callout-note
+Another context might be when data has already been formatted for use in another software such as Marxan. Prioritizr is able to directly use the formatted tables prepared for a typical Marxan application, thus making it easy to switch between software.
+:::

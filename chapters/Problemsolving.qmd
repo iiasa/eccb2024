@@ -2,7 +2,7 @@
 code-annotations: hover
 ---
 
-# Solving a conservation planning problem
+# Solving a conservation planning problem {#sec-solving-a-problem}
 
 ## Create a solution
 
