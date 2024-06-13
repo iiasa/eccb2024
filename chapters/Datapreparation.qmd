@@ -19,7 +19,7 @@ PU <- rast("data/PlanningUnits.tif")
 plot(PU, col = viridisLite::mako(n = 1))
 ```
 
-![](/figures/PUmap.png){width="367"}
+![](/figures/data_PUmap.jpg)
 
 The value of the planning units determines the cost of each planning unit in the prioritisation. In our case, we want to reach 30% area coverage. This means that in the Planning Units raster, each grid cell should have an equal value of 1 (so that the budget will be expressed in number of grid cells in prioritizr).
 
@@ -40,8 +40,9 @@ spp <- rast(spp.list[grep("current", spp.list)])
 
 names(spp) <- gsub("_ens-sdms_cur2005_prob_pot", "" ,names(spp))   # <1>
 
-## plot the first SDM in the rasterstack
-plot(spp[[1]], axes = F)
+## plot first four species distributions  
+plot(c(spp[[1]],spp[[2]], spp[[3]], spp[[4]]), axes = F,col = viridisLite::mako(n = 100, direction = -1), main = c(names(spp)[1:4]))
+
 
 
 ## also load the SDM projected under climate scenario rcp 8.5 
@@ -55,7 +56,7 @@ names(spp.rcp85) <- gsub("_ens-sdms_rcp85_fut2065_prob_pot.tif", "" ,names(spp.r
 
 1.  Rename feature layers by species names. This will enable to link the features rasters to a table of feature characteristics, weights, targets, taxonomy.
 
-![](/figures/feature1.PNG){width="300"}
+![](/figures/data_species.PNG){width="559"}
 
 Note: features, and all other spatial data, need to be perfectly harmonized with the planning units data and (same extent, resolution, number of grid cells). This step must be done prior to the prioritisation, as part of the data preparation. For this training workshop, the data is already prepared, but bear in mind that data preparation is an essential step in the conservation planning process, which often takes time.
 
@@ -69,8 +70,14 @@ Often, we do not start from scratch: we often want to identify top priorities th
 PA <- rast("data/protectedareas.tif")
 
 # load strict protected areas
-stPA <-  rast("data/protectedareas_I_II.tif") 
+stPA <-  rast("data/protectedareas_I_II.tif")
+
+
+plot(c(PA, stPA), axes = F, col = viridisLite::mako(n = 100, direction = -1), main = c("Protected areas \n (all)", "Strictly protected areas \n (IUCN I and II)"))
+
 ```
+
+![](/figures/data_PA_stPA.PNG){width="484"}
 
 ## Locked-out or no-go areas
 
@@ -83,7 +90,11 @@ Here we use layers of high-intensity forests and urban areas as a proxy, using 1
 ## from Dou et al., 2021
 ## aggregated at 10x10 k and aligned with the planning units raster
 HI.forest <- rast("data/HI_forest_prct.tif")
+
 urban <- rast("data/urban_prct.tif")
+
+plot(c(HI.forest, urban), axes = F, col = viridisLite::mako(n = 10, direction = -1), main = c("High intensity forest", "Urban and peri-urban areas") )
+
 
 locked.out <- sum(HI.forest, urban)
 rclmat <- matrix(ncol = 3, nrow = 2, byrow = T,
@@ -93,6 +104,8 @@ rclmat <- matrix(ncol = 3, nrow = 2, byrow = T,
 locked.out.bin <- terra::classify(locked.out, rclmat) ## convert to binary : 1 = pu that have more than 50% coverage of urban and/or HI forest.
 
 ```
+
+![](/figures/data_hi_forest_urban.PNG){width="517"}
 
 ## Costs
 
@@ -113,15 +126,22 @@ In reality, we rarely have this information and need to use proxies. Here, we us
 gHM <- rast("data/gHM.tif")
 
 gHM[gHM<0.3] <- 0 ## set threshold so that sites that have GHM index lower than specified threshold are not penalized
+
+plot(gHM, axes = F, col = viridisLite::mako(n = 10, direction = -1), main = "global human modification index")
+
 ```
 
-## Vegetation quality 
+![](/figures/data_ghm.PNG){width="297"}
+
+## Vegetation quality
 
 NDVI is often interpreted as dense and healthy vegetation, and one may be interested in selecting sites with a higher NDVI.
 
 ```{r, eval  = F}
 ndvi <- rast("data/ndvi.tif")
 ```
+
+![](/figures/data_ndvi.PNG){width="348"}
 
 ## Other data for the prioritization
 

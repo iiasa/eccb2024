@@ -13,7 +13,13 @@ plot(c(s, s1, s3, s3_bis, s4, s5, s6, s7, s8),
      main = c("basic problem", "add log linear targets",
               "add protected areas", "plan for future distributions" , "add locked-out constraints", "add gHM", "add NVDI",
               "binary decision", "change area budget to 10 percent strict PA expansion"),
+     col = viridisLite::magma(n = 100, direction = -1), 
      axes = FALSE)
+```
+
+![](/figures/solutions_nine_sols.PNG)
+
+```{r, eval = FALSE}
 
 ##### map safe bets for expansion priorities across all variations of the problems expanding on protected areas ##
 mean_s <- mean(s3, s3_bis, s4, s5, s6, s7)
@@ -22,13 +28,15 @@ exp <- mean_s - PA
 
 exp[exp<0]<-0    #<1>
 
-plot(c(expansion_climate, exp), col = viridisLite::mako(n = 10, direction = -1))
+## Compare this map with the one obtained without considering additions in solutions s4-s7 : how different are they?
+
+plot(c(expansion_climate, exp),  col = viridisLite::mako(n = 10, direction = -1), main = c("Average expansion priorities \n for current and future SDM", "Average expansion priorities \n solutions s3 to s7"), axes = F)
 
 ```
 
 1.  set negative values to zero (these correspond to planning units that were locked out by urban/forestry layer, but that are currently protected)
 
-Compare this map with the one obtained without considering additions in solutions s4-s7 : how different are they?
+![](/figures/expansionpriorities_comparison.PNG){width="518"}
 
 Remember that the solutions are highly dependent on methodological choices, and specifically on the input data (features, costs), constraints, and the objective function used, as well as the software.
 
@@ -38,7 +46,7 @@ Also note that, the more features are included, the more the solution converges,
 
 We can compare the performance of solutions for the species by assessing their representation in each solution as well as the target shortfall.
 
-```{r, eval = F}
+```{r, eval = FALSE}
 
 library(ggplot2)
 
@@ -80,25 +88,44 @@ ggplot(scenarios_performance_species, aes(x = solution, y = relative_held)) +
   geom_boxplot()+
   theme_bw()
 
+
+```
+
+![](/figures/analyseoutputs_ggplot1.PNG){width="500"}
+
+```{r, eval = FALSE}
+
 # subdivide per groups of species to be more ecologically informative
 ggplot(scenarios_performance_species, aes(x = solution, y = relative_held)) +
   geom_boxplot(aes(fill = order), alpha = 0.2, outlier.size = 0)+
   theme_bw()
 
+```
+
+![](/figures/analyseoutputs_ggplot2.PNG){width="500"}
+
+```{r, eval = FALSE}
+## group by Class instead of family
 ## add jitter points to see individual species representations
 ggplot(scenarios_performance_species, aes(x = solution, y = relative_held)) +
   geom_boxplot(aes(fill = class), alpha = 0.2, outlier.size = 0)+
   geom_point(aes(x = solution, y = relative_held, colour = class), position = position_jitterdodge())+
   theme_bw()
 
+```
+
+![](/figures/analyseoutputs_ggplot3.PNG){width="500"}
+
+```{r, eval = FALSE}
 
 ## compare performance of different solutions in terms of target shortfall
 ggplot(scenarios_performance_species, aes(x = solution, y = relative_shortfall)) +
   geom_boxplot(aes(fill = class), alpha = 0.2, outlier.size = 0)+
   geom_point(aes(x = solution, y = relative_shortfall, colour = class), position = position_jitterdodge())+
   theme_bw()
-
 ```
+
+![](/figures/analyseoutputs_ggplot4_targets.PNG){width="500"}
 
 What do these two performance metrics tell us?
 
@@ -108,7 +135,7 @@ Sometimes one may be interested in the relative ranking in the conservation valu
 
 Let's produce a ranking map with increasing the budget. We will build on solution #3 that expands on protected areas for current distributions, but does not include other constraints. We will start with the existing protected area and incrementally add budget until the whole study area is reached. Then, we can average across all solutions to obtain the ranking.
 
-```{r, eval = F}
+```{r, eval = FALSE}
 ## initialise a raster stack with existing PA to store solutions as budget area increases.
 incremental.solutions <- PA
 
@@ -137,7 +164,8 @@ for (budget.area in steps){
 
 ranking.expansion.priorities <- mean(incremental.solutions) - PA
 
-plot(ranking.expansion.priorities, col = viridisLite::magma(n = 100, direction =-1))
-
+plot(ranking.expansion.priorities, col = viridisLite::magma(n = 100, direction =-1), axes = F, main = "Rank map \n protected area expansion priorities for current SDM")
 
 ```
+
+![](/figures/solutions_rankmap.PNG){width="392"}

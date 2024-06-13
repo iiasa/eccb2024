@@ -22,4 +22,4 @@ plot(s,  col = viridisLite::mako(n = 10, direction = -1), axes = F)
 
 ```
 
-![](/figures/solution0.PNG){width="255"}
+![](/figures/solution_0.PNG){width="255"}

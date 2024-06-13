@@ -25,6 +25,8 @@ plot(s1)
 
 ```
 
+![](/figures/solutions_s1.PNG){width="317"}
+
 Note: targets can be informed by a combination of range size and red list status (see @jung2021areas )
 
 ## Add feature specific weights
@@ -36,6 +38,8 @@ p2 <- p1 %>%
 s2 <- solve(p2)
 plot(s2) 
 ```
+
+![](/figures/solutions_s2.PNG){width="325"}
 
 Notice how in this case the solution does not change drastically, since only a few species are listed as vulnerable.
 
@@ -60,8 +64,10 @@ Which sites emerge as top priorities for these species, in both current and futu
 
 mean_s_climate <- mean(s2, s2_bis)
 
-plot(mean_s_climate, col = viridisLite::mako(n = 1, direction = -1))
+plot(mean_s_climate, col = viridisLite::mako(n = 1, direction = -1), axes = F)
 ```
+
+![](/figures/solutionsmean_s_climate.PNG){width="333"}
 
 ## Add protected areas
 
@@ -119,12 +125,15 @@ What areas emerge as climatically resilient protected area expansion priorities 
 
 ```{r, eval = F}
 
-mean_s_climate <- mean(s3, s3_bis)
-expansion_climate <- mean_s_climate - PA
+mean_s_climate_PA <- mean(s3, s3_bis)
 
-plot(expansion_climate, col = viridisLite::mako(n = 10, direction = -1))
+expansion_climate_PA <- mean_s_climate_PA - PA
+
+plot(c(mean_s_climate_PA, expansion_climate), axes = F, col = viridisLite::mako(n = 10, direction = -1), main = c("Average solution with \n current and future SDM,  including PA","Average expansion priorities with \n current and future SDM"))
 
 ```
+
+![](/figures/solutions_mean_s_climate_PA.PNG)
 
 ## Add locked-out constraints
 
