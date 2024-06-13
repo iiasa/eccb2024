@@ -54,7 +54,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -190,7 +209,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/Problemcreation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Problemcreation.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Create basic problem</span></span></a>
   </div>
 </li>
       </ul>
@@ -239,6 +258,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Adding complexity to conservation planning</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/CompareSolutions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Compare and analyse different solutions</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -253,13 +278,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/Connectivity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Connectivity</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Connectivity</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/Zones.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Adding zones</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Adding zones</span></span></a>
   </div>
 </li>
       </ul>
@@ -313,10 +338,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#planning-units" id="toc-planning-units" class="nav-link active" data-scroll-target="#planning-units"><span class="header-section-number">2.1</span> Planning units</a></li>
   <li><a href="#features" id="toc-features" class="nav-link" data-scroll-target="#features"><span class="header-section-number">2.2</span> Features</a></li>
-  <li><a href="#costs" id="toc-costs" class="nav-link" data-scroll-target="#costs"><span class="header-section-number">2.3</span> Costs</a></li>
-  <li><a href="#other-constraints-protected-areas" id="toc-other-constraints-protected-areas" class="nav-link" data-scroll-target="#other-constraints-protected-areas"><span class="header-section-number">2.4</span> Other constraints (Protected areas)</a></li>
-  <li><a href="#other-data-for-the-prioritization" id="toc-other-data-for-the-prioritization" class="nav-link" data-scroll-target="#other-data-for-the-prioritization"><span class="header-section-number">2.5</span> Other data for the prioritization</a></li>
-  <li><a href="#preparing-data-in-different-formats" id="toc-preparing-data-in-different-formats" class="nav-link" data-scroll-target="#preparing-data-in-different-formats"><span class="header-section-number">2.6</span> Preparing data in different formats</a></li>
+  <li><a href="#protected-areas" id="toc-protected-areas" class="nav-link" data-scroll-target="#protected-areas"><span class="header-section-number">2.3</span> Protected areas</a></li>
+  <li><a href="#locked-out-or-no-go-areas" id="toc-locked-out-or-no-go-areas" class="nav-link" data-scroll-target="#locked-out-or-no-go-areas"><span class="header-section-number">2.4</span> Locked-out or no-go areas</a></li>
+  <li><a href="#costs" id="toc-costs" class="nav-link" data-scroll-target="#costs"><span class="header-section-number">2.5</span> Costs</a></li>
+  <li><a href="#vegetation-quality" id="toc-vegetation-quality" class="nav-link" data-scroll-target="#vegetation-quality"><span class="header-section-number">2.6</span> Vegetation quality</a></li>
+  <li><a href="#other-data-for-the-prioritization" id="toc-other-data-for-the-prioritization" class="nav-link" data-scroll-target="#other-data-for-the-prioritization"><span class="header-section-number">2.7</span> Other data for the prioritization</a></li>
   </ul>
 </nav>
     </div>
@@ -344,44 +370,158 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="planning-units" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="planning-units"><span class="header-section-number">2.1</span> Planning units</h2>
-<p>Say something about what a PU file is, load and plot from the example data</p>
+<p>Planning units (PU) contains the spatial data of the study area. Here, we use raster format, so the planning units are 10x10 km grid cells in Europe.</p>
+<p>Let’s read and plot the planning units raster.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridisLite)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>PU <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/PlanningUnits.tif"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(PU, <span class="at">col =</span> viridisLite<span class="sc">::</span><span class="fu">mako</span>(<span class="at">n =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="../figures/data_PUmap.jpg" class="img-fluid"></p>
+<p>The value of the planning units determines the cost of each planning unit in the prioritisation. In our case, we want to reach 30% area coverage. This means that in the Planning Units raster, each grid cell should have an equal value of 1 (so that the budget will be expressed in number of grid cells in prioritizr).</p>
 </section>
 <section id="features" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="features"><span class="header-section-number">2.2</span> Features</h2>
-<p>Explain what features are and plot</p>
-</section>
-<section id="costs" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="costs"><span class="header-section-number">2.3</span> Costs</h2>
-<p>Explain what costs are and how they are used</p>
-</section>
-<section id="other-constraints-protected-areas" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="other-constraints-protected-areas"><span class="header-section-number">2.4</span> Other constraints (Protected areas)</h2>
-<p>Showcase a protected area file and exclusion areas as example</p>
-</section>
-<section id="other-data-for-the-prioritization" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="other-data-for-the-prioritization"><span class="header-section-number">2.5</span> Other data for the prioritization</h2>
-<p>Mention weights, targets, etc and give example for each</p>
-</section>
-<section id="preparing-data-in-different-formats" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="preparing-data-in-different-formats"><span class="header-section-number">2.6</span> Preparing data in different formats</h2>
-<p>Showcase different dataformats as input alternative</p>
-<div class="sourceCode" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>trees <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(                                        </span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-4" class="code-annotation-target"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">volume_girth =</span> volume <span class="sc">*</span> girth</span>
-<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a>  )                                              </span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A feature is spatial data on the distribution of a biodiversity entity, typically a species, habitat, ecosystem service, etc.</p>
+<p>Here, we consider the SDM of 67 tree species in Europe as features. We will focus on current distributions but we also have projected distributions under future climate (RCP 8.5) as part of this workshop.</p>
+<p>Let’s read the current SDM as a raster stack and plot one species as an example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a>spp.list <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"data/SpeciesDistributions/"</span>, <span class="at">full.names =</span> T, <span class="at">recursive =</span> T, <span class="at">pattern =</span> <span class="st">"tif$"</span>)</span>
+<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>spp <span class="ot">&lt;-</span> <span class="fu">rast</span>(spp.list[<span class="fu">grep</span>(<span class="st">"current"</span>, spp.list)])</span>
+<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-5"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-6" class="code-annotation-target"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(spp) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"_ens-sdms_cur2005_prob_pot"</span>, <span class="st">""</span> ,<span class="fu">names</span>(spp))</span>
+<span id="annotated-cell-2-7"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a><span class="do">## plot first four species distributions  </span></span>
+<span id="annotated-cell-2-9"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(spp[[<span class="dv">1</span>]],spp[[<span class="dv">2</span>]], spp[[<span class="dv">3</span>]], spp[[<span class="dv">4</span>]]), <span class="at">axes =</span> F,<span class="at">col =</span> viridisLite<span class="sc">::</span><span class="fu">mako</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>), <span class="at">main =</span> <span class="fu">c</span>(<span class="fu">names</span>(spp)[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]))</span>
+<span id="annotated-cell-2-10"><a href="#annotated-cell-2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-11"><a href="#annotated-cell-2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-12"><a href="#annotated-cell-2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-13"><a href="#annotated-cell-2-13" aria-hidden="true" tabindex="-1"></a><span class="do">## also load the SDM projected under climate scenario rcp 8.5 </span></span>
+<span id="annotated-cell-2-14"><a href="#annotated-cell-2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># read sdm under climate scenario rcp 8.5</span></span>
+<span id="annotated-cell-2-15"><a href="#annotated-cell-2-15" aria-hidden="true" tabindex="-1"></a>spp.rcp85 <span class="ot">&lt;-</span> <span class="fu">rast</span>(spp.list[<span class="fu">grep</span>(<span class="st">"rcp85"</span>, spp.list)])</span>
+<span id="annotated-cell-2-16"><a href="#annotated-cell-2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-17"><a href="#annotated-cell-2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># rename feature layers by species names</span></span>
+<span id="annotated-cell-2-18"><a href="#annotated-cell-2-18" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(spp.rcp85) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"_ens-sdms_rcp85_fut2065_prob_pot.tif"</span>, <span class="st">""</span> ,<span class="fu">names</span>(spp.rcp85))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="1">Take dataset and mutate</span>
-</dd>
-<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
-<dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="4" data-code-annotation="2">Update with interaction term</span>
+<span data-code-cell="annotated-cell-2" data-code-lines="6" data-code-annotation="1">Rename feature layers by species names. This will enable to link the features rasters to a table of feature characteristics, weights, targets, taxonomy.</span>
 </dd>
 </dl>
+</div>
+</div>
+<p><img src="../figures/data_species.PNG" class="img-fluid" width="559"></p>
+<p>Note: features, and all other spatial data, need to be perfectly harmonized with the planning units data and (same extent, resolution, number of grid cells). This step must be done prior to the prioritisation, as part of the data preparation. For this training workshop, the data is already prepared, but bear in mind that data preparation is an essential step in the conservation planning process, which often takes time.</p>
+</section>
+<section id="protected-areas" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="protected-areas"><span class="header-section-number">2.3</span> Protected areas</h2>
+<p>Often, we do not start from scratch: we often want to identify top priorities that <strong>complement and expand on existing</strong> protected areas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load protected areas data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>PA <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/protectedareas.tif"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load strict protected areas</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>stPA <span class="ot">&lt;-</span>  <span class="fu">rast</span>(<span class="st">"data/protectedareas_I_II.tif"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(PA, stPA), <span class="at">axes =</span> F, <span class="at">col =</span> viridisLite<span class="sc">::</span><span class="fu">mako</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>), <span class="at">main =</span> <span class="fu">c</span>(<span class="st">"Protected areas </span><span class="sc">\n</span><span class="st"> (all)"</span>, <span class="st">"Strictly protected areas </span><span class="sc">\n</span><span class="st"> (IUCN I and II)"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="../figures/data_PA_stPA.PNG" class="img-fluid" width="484"></p>
+</section>
+<section id="locked-out-or-no-go-areas" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="locked-out-or-no-go-areas"><span class="header-section-number">2.4</span> Locked-out or no-go areas</h2>
+<p>Here we use layers of high-intensity forests and urban areas as a proxy, using 1km² European land systems data from <span class="citation" data-cites="dou2021new">Dou <em>et al.</em> (<a href="../references.html#ref-dou2021new" role="doc-biblioref">2021</a>)</span> . We lock out the planning units that have over 50% of urban and peri-urban, or over 50% of high intensity forest. In doing so, we assume that, in these high-intensity areas, conservation would likely conflict with economic interests.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create locked out constraints to define areas that should be left out of the solution.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="do">## from Dou et al., 2021</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="do">## aggregated at 10x10 k and aligned with the planning units raster</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>HI.forest <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/HI_forest_prct.tif"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>urban <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/urban_prct.tif"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(HI.forest, urban), <span class="at">axes =</span> F, <span class="at">col =</span> viridisLite<span class="sc">::</span><span class="fu">mako</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>), <span class="at">main =</span> <span class="fu">c</span>(<span class="st">"High intensity forest"</span>, <span class="st">"Urban and peri-urban areas"</span>) )</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>locked.out <span class="ot">&lt;-</span> <span class="fu">sum</span>(HI.forest, urban)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>rclmat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> T,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">50</span>, <span class="dv">0</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>                   <span class="dv">50</span>, <span class="dv">101</span>, <span class="dv">1</span>))</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>locked.out.bin <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">classify</span>(locked.out, rclmat) <span class="do">## convert to binary : 1 = pu that have more than 50% coverage of urban and/or HI forest.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="../figures/data_hi_forest_urban.PNG" class="img-fluid" width="517"></p>
+</section>
+<section id="costs" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="costs"><span class="header-section-number">2.5</span> Costs</h2>
+<p>Costs are typically spatially-explicit socio-economic data that can be factored into a prioritization to account for the feasibility of implementing conservation in a planning unit. There are different types of costs:</p>
+<ul>
+<li><p>Acquisition cost = price of land/water area</p></li>
+<li><p>Opportunity cost = lost revenue to other land use types</p></li>
+<li><p>Transaction cost = e.g.&nbsp;cost of negotiating protection</p></li>
+<li><p>Management cost = maintenance and management of the PA</p></li>
+</ul>
+<p>In reality, we rarely have this information and need to use proxies. Here, we use global human modification (GHM) as a proxy for socio-economic costs. Including the GHM as a cost layer would assume that highly human-dominated landscapes would be more costly to protect, than others.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>gHM <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/gHM.tif"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>gHM[gHM<span class="sc">&lt;</span><span class="fl">0.3</span>] <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="do">## set threshold so that sites that have GHM index lower than specified threshold are not penalized</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(gHM, <span class="at">axes =</span> F, <span class="at">col =</span> viridisLite<span class="sc">::</span><span class="fu">mako</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>), <span class="at">main =</span> <span class="st">"global human modification index"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="../figures/data_ghm.PNG" class="img-fluid" width="297"></p>
+</section>
+<section id="vegetation-quality" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="vegetation-quality"><span class="header-section-number">2.6</span> Vegetation quality</h2>
+<p>NDVI is often interpreted as dense and healthy vegetation, and one may be interested in selecting sites with a higher NDVI.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ndvi <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/ndvi.tif"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="../figures/data_ndvi.PNG" class="img-fluid" width="348"></p>
+</section>
+<section id="other-data-for-the-prioritization" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="other-data-for-the-prioritization"><span class="header-section-number">2.7</span> Other data for the prioritization</h2>
+<p>Spatial prioritisations can also be shaped by the importance of certain feature relative to others (e.g.&nbsp;threat status). This can be addressed by the use of feature-specific weights.</p>
+<p>For setting weights, we will use the red list dataset and assign higher weight to more vulnerable species, following <span class="citation" data-cites="jung2021areas">Jung <em>et al.</em> (<a href="../references.html#ref-jung2021areas" role="doc-biblioref">2021</a>)</span> :</p>
+<ul>
+<li><p>default weight of 1 for Least Concern species.</p></li>
+<li><p>2 for near-threatened and data-deficient species</p></li>
+<li><p>4 for vulnerable species</p></li>
+<li><p>6 for endangered species</p></li>
+<li><p>8 for critically endangered species.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## read red list information</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>redlist.trees <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'data/species_red_list.csv'</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="do">## assign weight based on red list status</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>redlist.trees<span class="sc">$</span>weight <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(redlist.trees<span class="sc">$</span>Global <span class="sc">==</span> <span class="st">"Vulnerable"</span> <span class="sc">|</span> redlist.trees<span class="sc">$</span>Europe <span class="sc">==</span> <span class="st">"Vulnerable"</span>, <span class="dv">4</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                                      <span class="fu">ifelse</span>(redlist.trees<span class="sc">$</span>Global <span class="sc">==</span> <span class="st">"Near Threatened"</span> <span class="sc">|</span> redlist.trees<span class="sc">$</span>Europe <span class="sc">==</span> <span class="st">"Near Threatened"</span>, <span class="dv">2</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                                             <span class="fu">ifelse</span>(redlist.trees<span class="sc">$</span>Global <span class="sc">==</span> <span class="st">"Data Deficient"</span> <span class="sc">|</span> redlist.trees<span class="sc">$</span>Europe <span class="sc">==</span> <span class="st">"Data Deficient"</span>, <span class="dv">2</span>, <span class="dv">1</span>)))</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="do">## must be in the same order as the features (spp) rasterstack</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(redlist.trees) <span class="ot">&lt;-</span> redlist.trees<span class="sc">$</span>spp_name</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>redlist.trees <span class="ot">&lt;-</span> redlist.trees[<span class="fu">names</span>(spp),]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Another important aspect of planning are area-based targets, which define the amount of the distribution of each feature that is deemed sufficient to protect. One typical approach for targets is to use log-linear targets <span class="citation" data-cites="neugarten2024mapping">Neugarten <em>et al.</em> (<a href="../references.html#ref-neugarten2024mapping" role="doc-biblioref">2024</a>)</span> . Another is to use the IUCN criteria to set targets based on the minimizing extinction risk <span class="citation" data-cites="jung2021areas">Jung <em>et al.</em> (<a href="../references.html#ref-jung2021areas" role="doc-biblioref">2021</a>)</span> .</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-dou2021new" class="csl-entry" role="listitem">
+Dou, Y., Cosentino, F., Malek, Z., Maiorano, L., Thuiller, W. &amp; Verburg, P.H. (2021). A new european land systems representation accounting for landscape characteristics. <em>Landscape Ecology</em>, <em>36</em>, 2215–2234.
+</div>
+<div id="ref-jung2021areas" class="csl-entry" role="listitem">
+Jung, M., Arnell, A., De Lamo, X., Garcı́a-Rangel, S., Lewis, M., Mark, J., Merow, C., Miles, L., Ondo, I., Pironon, S. &amp; others. (2021). Areas of global importance for conserving terrestrial biodiversity, carbon and water. <em>Nature Ecology &amp; Evolution</em>, <em>5</em>, 1499–1509.
+</div>
+<div id="ref-neugarten2024mapping" class="csl-entry" role="listitem">
+Neugarten, R.A., Chaplin-Kramer, R., Sharp, R.P., Schuster, R., Strimas-Mackey, M., Roehrdanz, P.R., Mulligan, M., Soesbergen, A. van, Hole, D., Kennedy, C.M. &amp; others. (2024). Mapping the planet’s critical areas for biodiversity and nature’s contributions to people. <em>Nature communications</em>, <em>15</em>, 261.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
@@ -865,8 +1005,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/Problemcreation.html" class="pagination-link" aria-label="Problemcreation.html">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Problemcreation.html</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/Problemcreation.html" class="pagination-link" aria-label="Create basic problem">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Create basic problem</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
