@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>An introduction to Systematic conservation planning with prioritzr - 5&nbsp; Interpret and analyse outputs</title>
+<title>An introduction to Systematic conservation planning with prioritzr - 4&nbsp; Solving and interpreting solutions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -54,7 +54,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -65,7 +84,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../chapters/ObjectiveFunctions.html" rel="next">
-<link href="../chapters/Problemsolving.html" rel="prev">
+<link href="../chapters/Problemcreation.html" rel="prev">
 <link href="..//resources/favicon.ico" rel="icon">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -119,7 +138,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/Problemsolving.html">Solving a problem</a></li><li class="breadcrumb-item"><a href="../chapters/SolutionInterpretation.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Interpret and analyse outputs</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/SolutionInterpretation.html">Solving a problem</a></li><li class="breadcrumb-item"><a href="../chapters/SolutionInterpretation.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Solving and interpreting solutions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -184,13 +203,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/Datapreparation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preparing input data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Obtaining data for the course</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/Problemcreation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Create basic problem</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Create and understand planning problems</span></span></a>
   </div>
 </li>
       </ul>
@@ -206,14 +225,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/Problemsolving.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Solving a conservation planning problem</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../chapters/SolutionInterpretation.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Interpret and analyse outputs</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Solving and interpreting solutions</span></span></a>
   </div>
 </li>
       </ul>
@@ -230,19 +243,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/ObjectiveFunctions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Objective functions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Objective functions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/ProblemComplexity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Adding complexity to conservation planning</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Adding complexity to conservation planning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/CompareSolutions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Compare and analyse different solutions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Compare and analyse different solutions</span></span></a>
   </div>
 </li>
       </ul>
@@ -259,13 +272,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/Connectivity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Connectivity</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Connectivity</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/Zones.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Adding zones</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Adding zones</span></span></a>
   </div>
 </li>
       </ul>
@@ -317,18 +330,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#plot-the-solution" id="toc-plot-the-solution" class="nav-link active" data-scroll-target="#plot-the-solution"><span class="header-section-number">5.1</span> Plot the solution</a></li>
-  <li><a href="#calculate-performance-evaluation-metrics" id="toc-calculate-performance-evaluation-metrics" class="nav-link" data-scroll-target="#calculate-performance-evaluation-metrics"><span class="header-section-number">5.2</span> Calculate performance evaluation metrics</a></li>
-  <li><a href="#irreplaceability" id="toc-irreplaceability" class="nav-link" data-scroll-target="#irreplaceability"><span class="header-section-number">5.3</span> Irreplaceability</a></li>
+  <li><a href="#find-a-solution-for-a-conservation-problem" id="toc-find-a-solution-for-a-conservation-problem" class="nav-link active" data-scroll-target="#find-a-solution-for-a-conservation-problem"><span class="header-section-number">4.1</span> Find a solution for a conservation problem</a></li>
+  <li><a href="#plot-the-solution" id="toc-plot-the-solution" class="nav-link" data-scroll-target="#plot-the-solution"><span class="header-section-number">4.2</span> Plot the solution</a></li>
+  <li><a href="#calculate-performance-evaluation-metrics" id="toc-calculate-performance-evaluation-metrics" class="nav-link" data-scroll-target="#calculate-performance-evaluation-metrics"><span class="header-section-number">4.3</span> Calculate performance evaluation metrics</a></li>
+  <li><a href="#irreplaceability" id="toc-irreplaceability" class="nav-link" data-scroll-target="#irreplaceability"><span class="header-section-number">4.4</span> Irreplaceability</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/Problemsolving.html">Solving a problem</a></li><li class="breadcrumb-item"><a href="../chapters/SolutionInterpretation.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Interpret and analyse outputs</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/SolutionInterpretation.html">Solving a problem</a></li><li class="breadcrumb-item"><a href="../chapters/SolutionInterpretation.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Solving and interpreting solutions</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Interpret and analyse outputs</span></h1>
+<h1 class="title"><span id="sec-solving-and-interpreting-solutions" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Solving and interpreting solutions</span></span></h1>
 </div>
 
 
@@ -345,48 +359,68 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="plot-the-solution" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="plot-the-solution"><span class="header-section-number">5.1</span> Plot the solution</h2>
+<p>In this section we will create a solution to the previously set up planning problem (object <strong>p</strong>, see <a href="Problemcreation.html" class="quarto-xref"><span>Chapter 3</span></a>). Specifically we will solve the problem, analyse its outputs and calculate a range of metrics and indicators describing it.</p>
+<section id="find-a-solution-for-a-conservation-problem" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="find-a-solution-for-a-conservation-problem"><span class="header-section-number">4.1</span> Find a solution for a conservation problem</h2>
+<p>In the previous section we defined a conservation problem based on a planning unit file, features, the specification of an objective function and decision variable. We also added a solver which we can now use to find a solution to the problem specified.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the solution map</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s,  <span class="at">col =</span> viridisLite<span class="sc">::</span><span class="fu">mako</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>), <span class="at">axes =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rcbc) <span class="co"># Load the library for the solver just to be sure!</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># solve and create the solution </span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">solve</span>(p) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Running this code will create a lot of output in the terminal and different solvers make different outputs and take different length of times to create solutions (they are effectively external software of varying sophistication). You can pipe in a different solver (such as <strong>add_highs_solver()</strong>) to test this out. See also <span class="citation" data-cites="hanson2019optimality">Hanson <em>et al.</em> (<a href="../references.html#ref-hanson2019optimality" role="doc-biblioref">2019</a>)</span></p>
+</section>
+<section id="plot-the-solution" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="plot-the-solution"><span class="header-section-number">4.2</span> Plot the solution</h2>
+<p>The output of the solved problem from above is essentially a spatial raster that can be plotted.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the solution map</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s,  <span class="at">col =</span> viridisLite<span class="sc">::</span><span class="fu">mako</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>), <span class="at">axes =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><img src="../figures/solution_0.PNG" class="img-fluid" width="339"></p>
-</section>
-<section id="calculate-performance-evaluation-metrics" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="calculate-performance-evaluation-metrics"><span class="header-section-number">5.2</span> Calculate performance evaluation metrics</h2>
-<p>We can assess the performance of this solution for the species by assessing their representation and their target shortfall.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rpz_target_spp <span class="ot">&lt;-</span> <span class="fu">eval_target_coverage_summary</span>(p, s)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="do">## mean representation across all species </span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(rpz_target_spp<span class="sc">$</span>relative_held)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="do">## mean target shortfall across all species </span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(rpz_target_spp<span class="sc">$</span>relative_shortfall)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="task">
+<p>With the specified objective function, can you summarize the amount of area contained in the solution? How much would you expect?</p>
 </div>
 </section>
-<section id="irreplaceability" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="irreplaceability"><span class="header-section-number">5.3</span> Irreplaceability</h2>
+<section id="calculate-performance-evaluation-metrics" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="calculate-performance-evaluation-metrics"><span class="header-section-number">4.3</span> Calculate performance evaluation metrics</h2>
+<p>We can assess the performance of this solution for the species by assessing their representation and their target shortfall.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>rpz_target_spp <span class="ot">&lt;-</span> <span class="fu">eval_target_coverage_summary</span>(p, s)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="do">## mean representation across all species </span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(rpz_target_spp<span class="sc">$</span>relative_held)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="do">## mean target shortfall across all species </span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(rpz_target_spp<span class="sc">$</span>relative_shortfall)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="irreplaceability" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="irreplaceability"><span class="header-section-number">4.4</span> Irreplaceability</h2>
 <p>Calculate irreplaceability of the solution using different methods.</p>
 <p>The replacement cost scores can be calculated for small and moderate sized problems but may not be feasible for large problems (e.g., more than 100,000 planning units). For large problems, it is recommended to use the Ferrier method, which can be calculated relatively quickly for large-sized problems and it explicitly accounts for representation targets. Rarity weighted richness should only be used when neither of the other two methods can be used.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## to calculate importance scores using replacement cost: </span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ir1 &lt;- eval_replacement_importance(p, s)</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="do">## do not run: this only works for small problems. </span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate importance scores using Ferrier et al 2000 method,</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># and extract the total importance scores</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>ir2 <span class="ot">&lt;-</span> <span class="fu">eval_ferrier_importance</span>(p, s)[[<span class="st">"total"</span>]]</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate importance scores using rarity weighted richness scores</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ir3 <span class="ot">&lt;-</span> <span class="fu">eval_rare_richness_importance</span>(p, s)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(ir1, ir2, ir3), <span class="at">axes =</span> F, <span class="at">col =</span> viridisLite<span class="sc">::</span><span class="fu">magma</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">direction =</span><span class="sc">-</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## to calculate importance scores using replacement cost: </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ir1 &lt;- eval_replacement_importance(p, s)</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="do">## do not run: this only works for small problems. </span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate importance scores using Ferrier et al 2000 method,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># and extract the total importance scores</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>ir2 <span class="ot">&lt;-</span> <span class="fu">eval_ferrier_importance</span>(p, s)[[<span class="st">"total"</span>]]</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate importance scores using rarity weighted richness scores</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>ir3 <span class="ot">&lt;-</span> <span class="fu">eval_rare_richness_importance</span>(p, s)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(ir1, ir2, ir3), <span class="at">axes =</span> F, <span class="at">col =</span> viridisLite<span class="sc">::</span><span class="fu">magma</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">direction =</span><span class="sc">-</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-hanson2019optimality" class="csl-entry" role="listitem">
+Hanson, J.O., Schuster, R., Strimas-Mackey, M. &amp; Bennett, J.R. (2019). Optimality in prioritizing conservation projects. <em>Methods in Ecology and Evolution</em>, <em>10</em>, 1655–1663.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
@@ -826,13 +860,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/Problemsolving.html" class="pagination-link" aria-label="Solving a conservation planning problem">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Solving a conservation planning problem</span></span>
+      <a href="../chapters/Problemcreation.html" class="pagination-link" aria-label="Create and understand planning problems">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Create and understand planning problems</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../chapters/ObjectiveFunctions.html" class="pagination-link" aria-label="Objective functions">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Objective functions</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Objective functions</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
