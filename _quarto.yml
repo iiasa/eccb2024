@@ -48,6 +48,7 @@ book:
     - references.qmd
   appendices:
     - appendices/installation.qmd
+    - appendices/FAQ.qmd
   page-footer:
       left: |
         All content licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) <br> &copy; Martin Jung & Louise O'Connor.
