@@ -2,93 +2,131 @@
 code-annotations: hover
 ---
 
-# Preparing input data {#sec-dataprep}
+# Obtaining data for the course {#sec-obtaining-data}
+
+To get started, please download the data from github from [[**here**]{.underline}](https://github.com/iiasa/eccb2024/raw/martin/extdata/data.zip "Data for the course"). Unzip the data into a folder called data to follow along with the tutorial. Alternatively you can also fork or clone the entire tutorial from github if you feel comfortable with git (A version control system).
+
+## Description of testing data
+
+Specifically this folder contains:
+
+1.  Species Distributions: - species distributions modelled under current and future (rcp 8.5) climate for 67 tree species. Note: all spatial raster data is at \~10x10 km resolution (WGS84) and harmonized spatially.
+
+2.  other data including a
+
+    1.  planning units raster
+
+    2.  NDVI : proxy for dense and healthy vegetation cover.
+
+    3.  ghm: global human modification index. For further details on the species distributions, NDVI and GHM layers, see <https://github.com/zonationteam/Zonation5-training/tree/main/2024%20Europe/Exercises/data>
+
+    4.  urban_prct and HI_forest_prct.tif : percentage coverage per 10x10 grid cell of urban/periurban, and high-intensity forests, respectively. Aggregated to 10x10k from European land systems dataset by Dou et al ., 2021, originally at 1km resolution.
+
+    5.  protectedareas.tif : all protected areas for the study area from WDPA
+
+    6.  protectedareas_I_II.tif : strictly protected areas (IUCN categories I and II) for the study area from WDPA
+
+    7.  species_red_list.csv : global and European assessment of conservation status of these 67 species
+
+All data have been originally extracted and prepared by Thiago Cavalcante for this course and the Zonation 5 software.
+
+::: {.callout-note appearance="minimal"}
+## Steps for data preparation
+
+For the use in prioritizr features, and all other spatial data, need to be perfectly harmonized with the planning units data and (same extent, resolution, number of grid cells). This step must be done prior to the prioritisation, as part of the data preparation.\
+For this training workshop, the data is already prepared, but bear in mind that data preparation is an essential step in the conservation planning process. Note that in practice for any SCP project the data preparation might take considerable time for extraction and harmonization.
+:::
+
+# Loading prepared input data {#sec-dataprep}
+
+In the following sections we will load and explore the various data sources used for the planning in this course.
 
 ## Planning units
 
-Planning units (PU) contains the spatial data of the study area. Here, we use raster format, so the planning units are 10x10 km grid cells in Europe.
+Planning units (PU) contains the spatial data of the study area. Although a range of different data formats are theoretical possible in prioritizr. PU are generally defined in SCP as the spatial units at which decisions are realised. For this tutorial we primarily rely on a raster format, specifically 10x10 km grid cells in Europe.
 
-Let's read and plot the planning units raster.
+Let's read and plot the planning units raster:
 
 ```{r, eval = FALSE}
 
+# Required packages
 library(terra)
 library(viridisLite)
 
+# Load the Planning unit
 PU <- rast("data/PlanningUnits.tif")
 plot(PU, col = viridisLite::mako(n = 1))
 ```
 
 ![](/figures/data_PUmap.jpg)
 
-The value of the planning units determines the cost of each planning unit in the prioritisation. In our case, we want to reach 30% area coverage. This means that in the Planning Units raster, each grid cell should have an equal value of 1 (so that the budget will be expressed in number of grid cells in prioritizr).
+The value of the planning units can determine the cost of each planning unit in the prioritisation. In our case, we often want to reach 30% area coverage (out of total area) for example. The cost for achieving this is the amonut of land value in the Planning Units raster, here specified as equal value of 1 (so that the budget will be expressed in number of grid cells in prioritizr).
+
+::: callout-important
+Note especially when planning over larger extents the amount of area within a PU might differ depending on the geographic projection used. For this tutorial and simplicity, we rely on a longitude-latitude projection, which does not reflect area accurately (It is not an equal-area projection). In other words: PU in the north of Europe might contain less area than PU in the south of Europe despite having the same cost.\
+\
+When planning your own SCP project use a geographic projection appropriate for your case study!
+:::
 
 ## Features
 
-A feature is spatial data on the distribution of a biodiversity entity, typically a species, habitat, ecosystem service, etc.
+A feature is spatial data on the distribution of a biodiversity entity, typically a species, habitat, ecosystem service or similar.
 
-Here, we consider the SDM of 67 tree species in Europe as features. We will focus on current distributions but we also have projected distributions under future climate (RCP 8.5) as part of this workshop.
+Here, we consider the SDM of 67 tree species in Europe as features. We will focus on current distributions but we also provide projected distributions under a future climate scenarip (RCP 8.5) as part of this workshop.
 
 Let's read the current SDM as a raster stack and plot one species as an example:
 
 ```{r, eval = FALSE}
 
+# Get the file names of the testing data
 spp.list <- list.files(path = "data/SpeciesDistributions/", full.names = T, recursive = T, pattern = "tif$")
 
+# Load all files and rename them 
 spp <- rast(spp.list[grep("current", spp.list)])
-
-
 names(spp) <- gsub("_ens-sdms_cur2005_prob_pot", "" ,names(spp))   # <1>
 
-## plot first four species distributions  
-plot(c(spp[[1]],spp[[2]], spp[[3]], spp[[4]]), axes = F,col = viridisLite::mako(n = 100, direction = -1), main = c(names(spp)[1:4]))
+# Plot first four species distributions  
+spp |> subset(1:4) |> 
+  plot(axes = F,col = viridisLite::mako(n = 100, direction = -1), main = c(names(spp)[1:4]))
 
-
-
-## also load the SDM projected under climate scenario rcp 8.5 
+# also load the SDM projected under climate scenario rcp 8.5 
 # read sdm under climate scenario rcp 8.5
 spp.rcp85 <- rast(spp.list[grep("rcp85", spp.list)])
 
-# rename feature layers by species names
+# Similarly rename feature layers by species names
 names(spp.rcp85) <- gsub("_ens-sdms_rcp85_fut2065_prob_pot.tif", "" ,names(spp.rcp85))
 
 ```
 
-1.  Rename feature layers by species names. This will enable to link the features rasters to a table of feature characteristics, weights, targets, taxonomy.
+1.  We rename feature layers by species names. This will enable to link the features rasters to a table of feature characteristics, weights, targets, taxonomy.
 
 ![](/figures/data_species.PNG){width="559"}
 
-Note: features, and all other spatial data, need to be perfectly harmonized with the planning units data and (same extent, resolution, number of grid cells). This step must be done prior to the prioritisation, as part of the data preparation. For this training workshop, the data is already prepared, but bear in mind that data preparation is an essential step in the conservation planning process, which often takes time.
+## Existing protected areas
 
-## Protected areas
-
-Often, we do not start from scratch: we often want to identify top priorities that **complement and expand on existing** protected areas.
-
+Often, we do not start from scratch: we often want to identify top priorities that **complement and expand on existing** protected areas. See the @sec-obtaining-data section for more information on what is contained in those two protected area layers.
 
 ```{r, eval = FALSE}
-
 
 # load protected areas data
 PA <- rast("data/protectedareas.tif")
 
 # load strict protected areas
-stPA <-  rast("data/protectedareas_I_II.tif")
+stPA <- rast("data/protectedareas_I_II.tif")
 
 
 plot(c(PA, stPA), axes = F, col = viridisLite::mako(n = 100, direction = -1), main = c("Protected areas \n (all)", "Strictly protected areas \n (IUCN I and II)"))
-
 ```
 
 ![](/figures/data_PA_stPA.PNG){width="484"}
 
-## Locked-out or no-go areas
+## Areas under constrained use (locked-out or no-go areas)
 
-Here we use layers of high-intensity forests and urban areas as a proxy, using 1km² European land systems data from @dou2021new . We lock out the planning units that have over 50% of urban and peri-urban, or over 50% of high intensity forest. In doing so, we assume that, in these high-intensity areas, conservation would likely conflict with economic interests.
+Some areas are usually unavailable for SCP. Here we use layers of high-intensity forests and urban areas as a proxy, derived from 1km² European land systems data from @dou2021new . We lock out the planning units that have over 50% of urban and peri-urban, or over 50% of high intensity forest. In doing so, we assume that, in these high-intensity areas, conservation would likely conflict with economic interests.
 
 ```{r, eval = F}
 
 ## create locked out constraints to define areas that should be left out of the solution.
-
 ## from Dou et al., 2021
 ## aggregated at 10x10 k and aligned with the planning units raster
 HI.forest <- rast("data/HI_forest_prct.tif")
@@ -97,9 +135,10 @@ urban <- rast("data/urban_prct.tif")
 
 plot(c(HI.forest, urban), axes = F, col = viridisLite::mako(n = 10, direction = -1), main = c("High intensity forest", "Urban and peri-urban areas") )
 
-
-locked.out <- sum(HI.forest, urban)
-rclmat <- matrix(ncol = 3, nrow = 2, byrow = T,
+# --- #
+# For further use we make a mask to lock out these areas
+locked.out <- sum(HI.forest, urban)                         # <1>
+rclmat <- matrix(ncol = 3, nrow = 2, byrow = T,             # <2>
                  c(0,50, 0,
                    50, 101, 1))
 
@@ -107,11 +146,14 @@ locked.out.bin <- terra::classify(locked.out, rclmat) ## convert to binary : 1 =
 
 ```
 
+1.  Sum up the area shares of both classes as a proxy.
+2.  Define a matrix for reclassification as highlighted above.
+
 ![](/figures/data_hi_forest_urban.PNG){width="517"}
 
-## Costs
+## Costs {#sec-costs}
 
-Costs are typically spatially-explicit socio-economic data that can be factored into a prioritization to account for the feasibility of implementing conservation in a planning unit. There are different types of costs:
+In the context of SCP Costs are typically spatially-explicit socio-economic data that can be factored into a prioritization to account for the feasibility of implementing conservation in a planning unit. In the planning they are typically used a constrain to penalize or limit the allocation of PU to a solution. There are different types of costs that commonly used:
 
 -   Acquisition cost = price of land/water area
 
@@ -123,12 +165,12 @@ Costs are typically spatially-explicit socio-economic data that can be factored 
 
 In reality, we rarely have this information and need to use proxies. Here, we use global human modification (GHM) as a proxy for socio-economic costs. Including the GHM as a cost layer would assume that highly human-dominated landscapes would be more costly to protect, than others.
 
-
 ```{r, eval = FALSE}
 
 gHM <- rast("data/gHM.tif")
 
-gHM[gHM<0.3] <- 0 ## set threshold so that sites that have GHM index lower than specified threshold are not penalized
+# For simplicity we here use a threshold so that sites that have GHM index lower than specified threshold are not penalized
+gHM[gHM<0.3] <- 0  
 
 plot(gHM, axes = F, col = viridisLite::mako(n = 10, direction = -1), main = "global human modification index")
 
@@ -136,9 +178,17 @@ plot(gHM, axes = F, col = viridisLite::mako(n = 10, direction = -1), main = "glo
 
 ![](/figures/data_ghm.PNG){width="297"}
 
+::: callout-note
+## About costs
+
+Generally be mindful about the use of costs in SCP as chosing any specific costing estimate can be quite impactful in driving final solutions.
+
+For some further background reading we recommend @mccreless2013cheap, @kujala2018not and @armsworth2014inclusion
+:::
+
 ## Vegetation quality
 
-NDVI is often interpreted as dense and healthy vegetation, and one may be interested in selecting sites with a higher NDVI.
+NDVI is often interpreted as dense and healthy vegetation, and one may be interested in selecting sites with a higher NDVI, for example when attempting to identify Green Infrastructure sites.
 
 ```{r, eval  = F}
 ndvi <- rast("data/ndvi.tif")
@@ -150,7 +200,9 @@ ndvi <- rast("data/ndvi.tif")
 
 Spatial prioritisations can also be shaped by the importance of certain feature relative to others (e.g. threat status). This can be addressed by the use of feature-specific weights.
 
-For setting weights, we will use the red list dataset and assign higher weight to more vulnerable species, following @jung2021areas :
+For setting weights, we will use the red list dataset and assign higher weight to more vulnerable species, following @jung2021areas.
+
+Specifically we apply weights in this example as
 
 -   default weight of 1 for Least Concern species.
 
@@ -178,4 +230,16 @@ redlist.trees <- redlist.trees[names(spp),]
 
 ```
 
-Another important aspect of planning are area-based targets, which define the amount of the distribution of each feature that is deemed sufficient to protect. One typical approach for targets is to use log-linear targets @neugarten2024mapping . Another is to use the IUCN criteria to set targets based on the minimizing extinction risk @jung2021areas .
+Different weights are of course possible, for example by relying on expert or stakeholder feedback, evolutionary distinctiveness or cost benefits. Ultimately this is up to the spatial planner.
+
+## Targets
+
+Another important aspect of planning are area-based targets, which define the amount of the distribution of each feature that is deemed sufficient to protect. Although one could set flat targets if there is a valid reasoning (e.g. 10% of all features), the most typical approach for targets is to use log-linear targets @rodrigues2004global. Another is to use the IUCN criteria to set targets based on the minimizing extinction risk @jung2021areas.
+
+Note that targets, similar as costs (see @sec-costs) can substantially drive the solution. Thus care should be taken how such targets are defined and used in SCP.
+
+::: callout-important
+## Necessity of targets
+
+Not every objective function in *prioritizr* requires targets. However the specification of targets is usually recommended as it forces the planner to think about the critical question of "How much do we want and need to conserve or manage". If such decisions are not taken by the analyst, it is usually taken by the algorithmic approach.
+:::

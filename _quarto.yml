@@ -33,7 +33,6 @@ book:
         - chapters/Problemcreation.qmd
     - part: "Solving a problem"
       chapters:
-        - chapters/Problemsolving.qmd
         - chapters/SolutionInterpretation.qmd
     - part: "Adding complexity"
       chapters:

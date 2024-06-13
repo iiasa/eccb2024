@@ -10,7 +10,7 @@ If you have taken part in person to the introduction on the day, you might want 
 
 ## Systematic conservation planning
 
-The classical definition of Systematic conservation planning (SCP) is that of a structured, scientific approach to identifying and prioritizing areas for conservation (REFs). Its goal is to ensure that biodiversity is maintained and ecosystems are protected in a way that maximizes ecological, economic, and social benefits. Although SCP has been conceived specifically for creating and expanding reserve networks (usually protected areas), it can be used for much more including for example the identification of restoration, land-use planning or monitoring options.
+The classical definition of Systematic conservation planning (SCP) is that of a structured, scientific approach to identifying and prioritizing areas for conservation (@margules2000systematic). Its goal is to ensure that biodiversity is maintained and ecosystems are protected in a way that maximizes ecological, economic, and social benefits. Although SCP has been conceived specifically for creating and expanding reserve networks (usually protected areas), it can be used for much more including for example the identification of restoration, land-use planning or monitoring options.
 
 It is also a common misconception that a project implementing SCP is only about prioritization (the algorithm part). Rather, it describes a whole framework typically ranging from
 
@@ -30,12 +30,14 @@ It is also a common misconception that a project implementing SCP is only about 
 
 8.  Monitoring the performance and adapting plans where necessary.
 
-### Key concepts
-
 ## Exact algorithms and integer programming {#sec-what-is-integer-programming}
 
-See @hanson2019optimality for additional discussion of optimality in linear programming.
+Exact algorithms in spatial planning are computational methods designed to find optimal solutions to spatial planning problems, where spatial planning involves the organization, management, and allocation of land and resources within a given area. These algorithms guarantee to find the best possible solution based on the defined criteria, constraints, and objectives of the problem.
+
+Exact algorithm enable the solving of SCP problems as a mathematical model, such as a mixed (MILP) or integer linear programming (ILP) typically. Linear in this context refers to this common formulation of a planning problem, although non-linear problem formulations (e.g. quadratic or even more complex functions) are also possible. All LP problems have in common a specific objective function such as the maximum coverage or minimum set problem. See @hanson2019optimality for additional discussion of optimality in linear programming.
 
 ## Tools and software
 
-We stress that prioritizr is not the only software available. For example, Zonation and Marxan are other well-known complementarity-based spatial conservation prioritization software.
+There are a range of tools and software for creating prioritizations in a SCP framework. Typical other well-known complementarity-based spatial conservation prioritization software are for example Zonation and Marxan, both of which use heuristic approaches for identifying priorities.
+
+For ILP problems the prioritizr R-package is the easiest and most comprehensive package currently available, although other options exist as well. It should be stressed that in principle any mathematical or programming language can be used to solve ILP problems. The *prioritizr* package simply provides a convenience wrapper.
