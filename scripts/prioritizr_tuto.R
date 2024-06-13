@@ -10,7 +10,7 @@ library(tidyverse)
 library(rcbc)
 library(viridisLite)
 
-source("FUNCTIONS.R") ## other home made functions.
+# source("FUNCTIONS.R") ## other home made functions.
 
 ### this script reads input data, creates and solves problem, maps the output.
 

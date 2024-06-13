@@ -1,0 +1,18 @@
+---
+code-annotations: hover
+---
+
+## Preparing data in different formats
+
+Showcase different dataformats as input alternative
+
+``` r
+library(tidyverse)
+trees |>                                         # <1>
+  mutate(                                        
+  volume_girth = volume * girth                  # <2>
+  )                                              
+```
+
+1.  Take dataset and mutate
+2.  Update with interaction term

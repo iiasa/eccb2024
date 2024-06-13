@@ -1,10 +1,252 @@
+---
+code-annotations: hover
+---
+
 # Adding complexity to conservation planning
 
-## Decision variables
+## Modify targets
+
+Instead of assigning equal targets to all features, let's use log-linear targets, so that: features that have a smaller range size (e.g. 10 grid cells) get a target of 100% (their target is their entire range size); and features that are widespread (e.g. with a range size of at least 10,000 grid cells) have a target of 50% of their range size.
+
+```{r, eval = F}
+
+
+p1 <- problem(PU, spp)%>%
+  add_min_shortfall_objective(budget = budget.area)%>%
+  add_loglinear_targets(10, 1, 10^4, 0.5) %>% 
+  add_cbc_solver()%>% 
+  add_proportion_decisions()
+
+s1 <- solve(p1)
+
+# plot map
+
+plot(s1)
+
+```
+
+![](/figures/solutions_s1.PNG){width="317"}
+
+Note: targets can be informed by a combination of range size and red list status (see @jung2021areas )
+
+## Add feature specific weights
+
+```{r, eval = F}
+p2 <- p1 %>%
+  add_feature_weights(redlist.trees$weight)
+
+s2 <- solve(p2)
+plot(s2) 
+```
+
+![](/figures/solutions_s2.PNG){width="325"}
+
+Notice how in this case the solution does not change drastically, since only a few species are listed as vulnerable.
+
+## Plan for future distributions under climate change
+
+```{r, eval = F}
+
+## create problem with future distributions as features:
+p2_bis <- problem(PU, spp.rcp85)%>%
+  add_min_shortfall_objective(budget = budget.area)%>%
+  add_loglinear_targets(10, 1, 10^4, 0.5) %>%
+  add_feature_weights(redlist.trees$weight) %>%
+  add_cbc_solver()%>%
+  add_proportion_decisions()  ## entire grid cells (planning units) will be selected in the solution rather than a proportion
+
+s2_bis <- solve(p2_bis)
+```
+
+Which sites emerge as top priorities for these species, in both current and future climate conditions?
+
+```{r, eval = F}
+
+mean_s_climate <- mean(s2, s2_bis)
+
+plot(mean_s_climate, col = viridisLite::mako(n = 1, direction = -1), axes = F)
+```
+
+![](/figures/solutionsmean_s_climate.PNG){width="333"}
+
+## Add protected areas
+
+```{r, eval = F}
+
+### try with locked in constraints:
+
+p3 <- p2 %>%
+  add_locked_in_constraints(PA)  
+
+s3 <- solve (p3) 
+```
+
+In this case the budget cannot be met, because protected areas (small or large) are present in more than 30% of all planning units. The locked in constraints functionality locks in cells that have non zero and non NA values. This functionality is not suitable for European PA at 10x10k resolution: we would need, for example, to change the PA layer to a binary layer with a threshold.
+
+Let's try again with the manual bounded constraints functionality to incorporate the proportion of the planning unit that is currently protected.
+
+```{r, eval = F}
+
+## create manual bounded constraints dataframe with protected area coverage per planning unit
+pa_constraints <- data.frame(pu = cells(PA), # <1> 
+                             lower = unname(PA[!is.na(PA)]),  # <2> 
+                             upper = 1) # <3>
+
+p3 <- p2 %>%
+  add_manual_bounded_constraints(pa_constraints) # <4> 
+
+
+s3 <- solve(p3)
+```
+
+1.  grid cell ID
+2.  lower bound that needs to be included in the solution = proportion of grid cell already protected
+3.  upper bound set to 1 everywhere, so that the whole planning unit can be selected
+4.  locks in proportional PA coverage per planning unit
+
+Now, let's find top priorities for the expansion of existing protected areas but that uses projections of species distributions under future climate scenario RCP8.5
+
+```{r, eval = F}
+
+
+## create problem with future distributions as features:
+p3_bis <- problem(PU, spp.rcp85)%>%
+  add_min_shortfall_objective(budget = budget.area)%>%
+  add_loglinear_targets(10, 1, 10^4, 0.5) %>%
+  add_feature_weights(redlist.trees$weight) %>%
+  add_manual_bounded_constraints(pa_constraints)%>% ## to lock in proportional PA coverage per planning units
+  add_cbc_solver()%>%
+  add_proportion_decisions()  ## entire grid cells (planning units) will be selected in the solution rather than a proportion
+
+s3_bis <- solve(p3_bis)
+```
+
+What areas emerge as climatically resilient protected area expansion priorities for these 67 species? Average across the two solutions that expand on protected areas with current and future distributions:
+
+```{r, eval = F}
+
+mean_s_climate_PA <- mean(s3, s3_bis)
+
+expansion_climate_PA <- mean_s_climate_PA - PA
+
+plot(c(mean_s_climate_PA, expansion_climate), axes = F, col = viridisLite::mako(n = 10, direction = -1), main = c("Average solution with \n current and future SDM,  including PA","Average expansion priorities with \n current and future SDM"))
+
+```
+
+![](/figures/solutions_mean_s_climate_PA.PNG)
+
+## Add locked-out constraints
+
+```{r, eval = F}
+
+p4 <- p3 %>%
+  add_locked_out_constraints(locked.out.bin)   #<1>
+  
+
+s4 <- solve(p4)
+
+```
+
+1.  This MUST come AFTER the manual bounded constraints (if using), otherwise locked out constraints are ignored. Note that locked out constraints can sometimes also conflict with the manual bounded constraints, in other words locked in PA might become locked out...
+
+## 
 
 ## Adding (socio-economic) costs
 
-## Feature weights
+In prioritizr, the actual "cost" is tied to the value of the planning units, which then determines the budget. Since we need to express the budget in terms of number of grid cells and not overall socio-economic cost of the solution, we need to include actual socio-economic constraints as linear penalties.
 
-## Linear penalities
+Linear penalties can be used to avoid the selection of sites with a high value, for example, socio-economic costs if available. Here, we use the human modification index as a penalty.
 
+```{r, eval = F}
+p5 <- p4 %>%
+  add_linear_penalties(penalty = 1, data = gHM) ## note that when penalty score is set too high, this sometimes prevents the budget area from being met
+
+s5 <- solve (p5)
+```
+
+Note: if one wanted to express the entire budget of the problem in monetary terms, the costs would need to be included in the planning units data.
+
+## Linear penalties with negative penalty score
+
+Linear penalties can also be used with a negative penalty score, to nudge the selection of sites with a high value. For example, one may use linear penalties with a negative penalty score to incorporate pre-defined ecological corridors; known climate refugia; intactness; etc.
+
+Here, we use NDVI as an example, which can be interpreted as a proxy for vegetation health.
+
+```{r, eval = F}
+
+
+p6 <- p5 %>%
+  add_linear_penalties(penalty = -1, data = ndvi) #<1>
+
+s6 <- solve(p6)
+
+```
+
+1.  Negative penalty score can be used if we want to nudge selection of sites with high value in the spatial data layer.
+
+A word of caution: sometimes adding constraints and penalties will tend to drive the solution much more strongly than the biodiversity features themselves. To limit the influence of the penalty data layer, you can consider decreasing the penalty value.
+
+## Decision variables
+
+So far, we solved problems as proportional decisions. Proportional decisions means that proportions of planning units can be selected in the solution. This typically solve faster and better than binary decisions.
+
+Let's try solving the problem with a binary decision (i.e. a planning unit gets selected, or not).
+
+```{r, eval = F}
+
+PA_large <- PA
+PA_large[PA_large<0.5] <- 0     # <1>
+
+pa_constraints_bin <- data.frame(pu = cells(PA_large), #  cell ID
+                               lower = unname(PA_large[!is.na(PA_large)]), 
+                               upper = 1) 
+
+## create problem with binary decision:
+p7 <- problem(PU, spp)%>%     # <2>
+  add_min_shortfall_objective(budget = budget.area)%>%
+  add_loglinear_targets(10, 1, 10^4, 0.5) %>%
+  add_feature_weights(redlist.trees$weight) %>%
+  add_manual_bounded_constraints(pa_constraints_bin)%>% 
+  add_locked_out_constraints(locked.out.bin) %>%
+  add_linear_penalties(1, data = gHM) %>% 
+  add_linear_penalties(-1, data = ndvi) %>% 
+  add_cbc_solver()%>%
+  add_binary_decisions()  # <3>
+
+s7 <- solve(p7)
+```
+
+1.  need to use different constraints for Protected areas since the 30% budget cannot be met with binary decision + manually bounded constraints
+2.  rewrite problem since we cannot overwrite the previously defined decision variable.
+3.  Planning units (grid cells) will be either selected, or not selected, in the solution rather than a proportion.
+
+## Modify the budget
+
+For example, we might be interested in finding top priorities for 10% strict protection. To do that, we need to change the budget, and the protected area layer, to find priorities that complement and expand on strictly protected areas only (IUCN i and II).
+
+```{r, eval = F}
+
+## modify the budget: e.g. 10% top priorities that expand on strict protected areas
+budget.area <- round(0.1 * length(cells(PU))) 
+
+
+stpa_constraints <- data.frame(pu = cells(stPA),
+                             lower = unname(stPA[!is.na(stPA)]), 
+                             upper = 1) 
+
+## create new problem for expansion of strict protected areas: new budget, new manual bounded constraints.
+p8 <- problem(PU, spp)%>%
+  add_min_shortfall_objective(budget = budget.area)%>%
+  add_loglinear_targets(10, 1, 10^4, 0.5) %>%
+  add_feature_weights(redlist.trees$weight) %>%
+  add_manual_bounded_constraints(stpa_constraints)%>%
+  add_locked_out_constraints(locked.out.bin) %>%
+  add_linear_penalties(1, data = gHM) %>%
+  add_linear_penalties(-1, data = ndvi) %>%
+  add_cbc_solver()%>%
+  add_proportion_decisions()
+
+s8 <- solve(p8)
+```
+
+## 
