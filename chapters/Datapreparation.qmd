@@ -64,7 +64,9 @@ Note: features, and all other spatial data, need to be perfectly harmonized with
 
 Often, we do not start from scratch: we often want to identify top priorities that **complement and expand on existing** protected areas.
 
+
 ```{r, eval = FALSE}
+
 
 # load protected areas data
 PA <- rast("data/protectedareas.tif")
@@ -120,6 +122,7 @@ Costs are typically spatially-explicit socio-economic data that can be factored 
 -   Management cost = maintenance and management of the PA
 
 In reality, we rarely have this information and need to use proxies. Here, we use global human modification (GHM) as a proxy for socio-economic costs. Including the GHM as a cost layer would assume that highly human-dominated landscapes would be more costly to protect, than others.
+
 
 ```{r, eval = FALSE}
 
