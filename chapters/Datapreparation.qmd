@@ -33,7 +33,7 @@ All data have been originally extracted and prepared by Thiago Cavalcante for th
 ::: {.callout-note appearance="minimal"}
 ## Steps for data preparation
 
-For the use in prioritizr features, and all other spatial data, need to be perfectly harmonized with the planning units data and (same extent, resolution, number of grid cells). This step must be done prior to the prioritisation, as part of the data preparation. \
+For the use in prioritizr features, and all other spatial data, need to be perfectly harmonized with the planning units data and (same extent, resolution, number of grid cells). This step must be done prior to the prioritisation, as part of the data preparation.\
 For this training workshop, the data is already prepared, but bear in mind that data preparation is an essential step in the conservation planning process. Note that in practice for any SCP project the data preparation might take considerable time for extraction and harmonization.
 :::
 

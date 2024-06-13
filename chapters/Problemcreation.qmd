@@ -2,7 +2,7 @@
 code-annotations: hover
 ---
 
-# Understand conservation planning problem
+# Create and understand planning problems {#sec-create-and-planning-problem}
 
 In the previous section (@sec-dataprep) we loaded a range of already prepared datasets including PU and features. Now we are ready to create our first conservation planning problem.
 
@@ -18,7 +18,7 @@ We will use in this workshop the pipe symbol to chain different R functions (suc
 
 ## Our first planning problem
 
-For our first problem we will create a problem that finds the best areas for 30% protected area coverage on European land. Go to the next section (@sec-solving-a-problem) to learn how to solve and interpret the outputs from a prioritizr problem.
+For our first problem we will create a problem that finds the best areas for 30% protected area coverage on European land. Go to the next section ( @sec-solving-and-interpreting-solutions) to learn how to solve and interpret the outputs from a prioritizr problem.
 
 **Tip:** Hover over the numbers on the right to learn more about each function. Note that the order
 
@@ -71,7 +71,8 @@ In this tutorial we use throughout gridded datasets. However it should be noted 
 
 Why is this relevant to know? When creating a problem with spatial data (gridded or vector files), at the time of problem creation these data are internally converted into large tabular data. When planning over many species or planning units it can be computational efficient to not have prioritizr, but to do this conversion directly and then supply tabular data.
 
-::: {#data preparation}
+<div>
+
 Typical steps involved here are:
 
 1.  Converting gridded planning unit data to a table in long form (row) containing both the cell id, the planning unit id and the cost
@@ -81,7 +82,8 @@ Typical steps involved here are:
 3.  Intersecting the tables created in step 1) and 2)
 
 4.  Preparing any other tables for weights or targets, aligned with the planning unit id.
-:::
+
+</div>
 
 ::: callout-note
 Another context might be when data has already been formatted for use in another software such as Marxan. Prioritizr is able to directly use the formatted tables prepared for a typical Marxan application, thus making it easy to switch between software.
