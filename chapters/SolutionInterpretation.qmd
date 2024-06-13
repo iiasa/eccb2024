@@ -9,7 +9,7 @@ plot(s,  col = viridisLite::mako(n = 10, direction = -1), axes = F)
 
 ```
 
-![](/figures/solution0.PNG){width="255"}
+![](/figures/solution_0.PNG)
 
 ## Calculate performance evaluation metrics
 
@@ -26,7 +26,7 @@ mean(rpz_target_spp$relative_held)
 mean(rpz_target_spp$relative_shortfall)
 ```
 
-## Irreplaceability 
+## Irreplaceability
 
 Calculate irreplaceability of the solution using different methods.
 
