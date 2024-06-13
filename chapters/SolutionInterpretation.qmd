@@ -9,7 +9,7 @@ plot(s,  col = viridisLite::mako(n = 10, direction = -1), axes = F)
 
 ```
 
-![](/figures/solution_0.PNG)
+![](/figures/solution_0.PNG){width="339"}
 
 ## Calculate performance evaluation metrics
 
