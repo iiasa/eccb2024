@@ -20,7 +20,60 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -277,10 +330,19 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-need-for-targets" id="toc-the-need-for-targets" class="nav-link active" data-scroll-target="#the-need-for-targets"><span class="header-section-number">5.1</span> The need for targets</a></li>
-  <li><a href="#minimum-set" id="toc-minimum-set" class="nav-link" data-scroll-target="#minimum-set"><span class="header-section-number">5.2</span> Minimum set</a></li>
-  <li><a href="#maximum-coverage" id="toc-maximum-coverage" class="nav-link" data-scroll-target="#maximum-coverage"><span class="header-section-number">5.3</span> Maximum coverage</a></li>
-  <li><a href="#creating-ranked-priority-maps" id="toc-creating-ranked-priority-maps" class="nav-link" data-scroll-target="#creating-ranked-priority-maps"><span class="header-section-number">5.4</span> Creating ranked priority maps</a></li>
+  <li><a href="#target-based-objective-functions" id="toc-target-based-objective-functions" class="nav-link active" data-scroll-target="#target-based-objective-functions"><span class="header-section-number">5.1</span> Target-based objective functions</a>
+  <ul class="collapse">
+  <li><a href="#minimum-set" id="toc-minimum-set" class="nav-link" data-scroll-target="#minimum-set"><span class="header-section-number">5.1.1</span> Minimum set</a></li>
+  <li><a href="#maximum-coverage-objective" id="toc-maximum-coverage-objective" class="nav-link" data-scroll-target="#maximum-coverage-objective"><span class="header-section-number">5.1.2</span> Maximum coverage objective</a></li>
+  <li><a href="#minimum-shortfall" id="toc-minimum-shortfall" class="nav-link" data-scroll-target="#minimum-shortfall"><span class="header-section-number">5.1.3</span> Minimum shortfall</a></li>
+  <li><a href="#minimum-shortfall-largest" id="toc-minimum-shortfall-largest" class="nav-link" data-scroll-target="#minimum-shortfall-largest"><span class="header-section-number">5.1.4</span> Minimum shortfall (largest)</a></li>
+  <li><a href="#other-objective-functions-phylogenetic" id="toc-other-objective-functions-phylogenetic" class="nav-link" data-scroll-target="#other-objective-functions-phylogenetic"><span class="header-section-number">5.1.5</span> Other objective functions (phylogenetic)</a></li>
+  </ul></li>
+  <li><a href="#non-target-based-objective-functions" id="toc-non-target-based-objective-functions" class="nav-link" data-scroll-target="#non-target-based-objective-functions"><span class="header-section-number">5.2</span> Non-target based objective functions</a>
+  <ul class="collapse">
+  <li><a href="#maximum-utility" id="toc-maximum-utility" class="nav-link" data-scroll-target="#maximum-utility"><span class="header-section-number">5.2.1</span> Maximum utility</a></li>
+  <li><a href="#maximum-cover" id="toc-maximum-cover" class="nav-link" data-scroll-target="#maximum-cover"><span class="header-section-number">5.2.2</span> Maximum cover</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -306,19 +368,338 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="the-need-for-targets" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="the-need-for-targets"><span class="header-section-number">5.1</span> The need for targets</h2>
+<p>One of the most powerful abilities of mixed or integer linear programming (MILP) compared to other prioritization software approaches is the possibility of readily exchanging objective functions dependending on the question to be answered or the planning objective.In theory many different objective functions could be used in SCP if they can be mathematically formulated (down to complex non-linear optimizations that maximize both area and population abundance of species).</p>
+<p>A common distinction among objective functions is whether they make use of a “budget” (e.g.&nbsp;how much total area at most) and/or “targets” (how much of a feature). There are even some objective functions that require neither. Furthermore objective functions differ in their ability of how benefits are accumalted, such as for instance that every little improvement towards a target counts (linear) or whether the whole target needs to be achieved (approaching a step function).</p>
+<p>The most classical objective functions are the minimum set and the maximum coverage function (<span class="citation" data-cites="cabeza2001design">Cabeza &amp; Moilanen (<a href="../references.html#ref-cabeza2001design" role="doc-biblioref">2001</a>)</span>), both of which we introduce below. However other objective functions are possible as well and the <em>prioritizr</em> package focusses primarily on a range of common objective functions used in the context of area-based conservation planning. In the examples below we focus on implementation and less on a detailed mathematical description of the objective functions. Here please have a look at the prioritizr help files.</p>
+<p>For a good and more recent literature overview and comparison of different objective functions, we recommend the following reading materials <span class="citation" data-cites="cabeza2001design arponen2005value beyer2016solving alagador2020revisiting">(<a href="../references.html#ref-cabeza2001design" role="doc-biblioref">Cabeza &amp; Moilanen 2001</a>; <a href="../references.html#ref-arponen2005value" role="doc-biblioref">Arponen <em>et al.</em> 2005</a>; <a href="../references.html#ref-beyer2016solving" role="doc-biblioref">Beyer <em>et al.</em> 2016</a>; <a href="../references.html#ref-alagador2020revisiting" role="doc-biblioref">Alagador &amp; Cerdeira 2020</a>)</span></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+About the use of targets
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Most - but not all - objective functions require the use of targets in some way. Although for example the maximum utility objective function works without targets, it is usually not recommend owing to larger assumptions on how benefits for features accumulate (see also <a href="Datapreparation.html#sec-targets" class="quarto-xref"><span>Section 3.8</span></a>).</p>
+</div>
+</div>
+<section id="target-based-objective-functions" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="target-based-objective-functions"><span class="header-section-number">5.1</span> Target-based objective functions</h2>
+<section id="minimum-set" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="minimum-set"><span class="header-section-number">5.1.1</span> Minimum set</h3>
+<p>The minimum set objective function is the most commonly applied on and also the one exclusively supported by the popular Marxan software (see <span class="citation" data-cites="ball2009marxan">Ball <em>et al.</em> (<a href="../references.html#ref-ball2009marxan" role="doc-biblioref">2009</a>)</span>, and <a href="https://marxansolutions.org/" class="uri">https://marxansolutions.org/</a>). It does not use budgets, but rather tries to identify the minimum amount of area that would satisfy all targets.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If the feature targets are too ambitious it might not be feasible to find a solution for a problem specified with this objective function. Similarly if all targets are set to 100% it naturally will require all PU where the features are present.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a minimum set problem and solve</span></span>
+<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>s1 <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, spp) <span class="sc">|&gt;</span>                     </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-3" class="code-annotation-target"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_min_set_objective</span>() <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_relative_targets</span>(<span class="at">targets =</span> <span class="fl">0.3</span>) <span class="sc">|&gt;</span>     </span>
+<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_binary_decisions</span>() <span class="sc">|&gt;</span>                  </span>
+<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_default_solver</span>() <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-1-7"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="3" data-code-annotation="1">Defined here. If no targets are specified, an error will be raised.</span>
+</dd>
+</dl>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/objectivefunctions_minset.png" class="img-fluid figure-img"></p>
+<figcaption>A minimum set objective function</figcaption>
+</figure>
+</div>
 </section>
-<section id="minimum-set" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="minimum-set"><span class="header-section-number">5.2</span> Minimum set</h2>
+<section id="maximum-coverage-objective" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="maximum-coverage-objective"><span class="header-section-number">5.1.2</span> Maximum coverage objective</h3>
+<p>The next very commonly used objective function is the maximum coverage objective. This objective seeks to reach as many targets as possible without exceeding a set budget and meeting any cost. Here it differs from the minimum set problem as it is also constrained by a budget and not only by the targets ( <span class="citation" data-cites="cabeza2001design">Cabeza &amp; Moilanen (<a href="../references.html#ref-cabeza2001design" role="doc-biblioref">2001</a>)</span> ).</p>
+<p>Maximum coverage solutions often benefit from additional constraints or penalties that help to prevent the occurrence of many small fragmented patches.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In prioritizr this objective function is (confusingly) called “add_max_features_objective()”</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A dummy 30% of PU area budget</span></span>
+<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>budget.area <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fl">0.3</span> <span class="sc">*</span> terra<span class="sc">::</span><span class="fu">global</span>(PU,<span class="st">"sum"</span>,<span class="at">na.rm=</span>T)[,<span class="dv">1</span>])</span>
+<span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a>s2 <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, spp) <span class="sc">|&gt;</span>    </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-5" class="code-annotation-target"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_max_features_objective</span>(<span class="at">budget =</span> budget.area)  <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2">2</button><span id="annotated-cell-2-6" class="code-annotation-target"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_relative_targets</span>(<span class="at">targets =</span> <span class="fl">0.3</span>)  <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-2-7"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_binary_decisions</span>() <span class="sc">|&gt;</span>                                        </span>
+<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_default_solver</span>() <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-2-9"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="5" data-code-annotation="1">Sets the objective using the budget specified above.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="6" data-code-annotation="2">Dummy targets to secure at least 30% of each feature distribution while staying within the budget. Given the large area budget, this should be easy to solve.</span>
+</dd>
+</dl>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/objectivefunctions_maxcov.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>Maximum coverage objective function</figcaption>
+</figure>
+</div>
 </section>
-<section id="maximum-coverage" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="maximum-coverage"><span class="header-section-number">5.3</span> Maximum coverage</h2>
+<section id="minimum-shortfall" class="level3" data-number="5.1.3">
+<h3 data-number="5.1.3" class="anchored" data-anchor-id="minimum-shortfall"><span class="header-section-number">5.1.3</span> Minimum shortfall</h3>
+<p>Closely related to the maximum coverage objective function is the (new’ish) minimum shortfall objective. This objective function tries to, instead of maximizing the coverage of features targets, minimizes the difference between the target and amount in the solution ( <span class="citation" data-cites="arponen2005value">Arponen <em>et al.</em> (<a href="../references.html#ref-arponen2005value" role="doc-biblioref">2005</a>)</span>). Because of the way it is formulated, it is particular useful for conservation problems that have proportional allocation and intend to have benefits increase linearly (<span class="citation" data-cites="jung2021areas">Jung <em>et al.</em> (<a href="../references.html#ref-jung2021areas" role="doc-biblioref">2021</a>)</span>).</p>
+<p>In the example below we try to emulate that by trying to secure not only the distribution of tree species but also a reasonable amount of greenness (NDVI). For the latter we set the target to 100%, thus aiming to secure as much as we can together with the other targets.</p>
+<p>Sensu <span class="citation" data-cites="jung2021areas">Jung <em>et al.</em> (<a href="../references.html#ref-jung2021areas" role="doc-biblioref">2021</a>)</span> it can also be beneficial here to specify weights particular for features that are numerically underrepresented (if the goal is equivalent representation in the solution).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A dummy 30% of PU area budget</span></span>
+<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>budget.area <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fl">0.3</span> <span class="sc">*</span> terra<span class="sc">::</span><span class="fu">global</span>(PU,<span class="st">"sum"</span>,<span class="at">na.rm=</span>T)[,<span class="dv">1</span>])</span>
+<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define targets</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-5" class="code-annotation-target"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow =</span> terra<span class="sc">::</span><span class="fu">nlyr</span>(spp)<span class="sc">+</span><span class="dv">1</span>)</span>
+<span id="annotated-cell-3-6"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>tr[,<span class="dv">1</span>] <span class="ot">&lt;-</span> .<span class="dv">3</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-7" class="code-annotation-target"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a>tr[<span class="fu">nrow</span>(tr),] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="annotated-cell-3-8"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3">3</button><span id="annotated-cell-3-9" class="code-annotation-target"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a>s3 <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, <span class="fu">c</span>(spp, ndvi)) <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="4">4</button><span id="annotated-cell-3-10" class="code-annotation-target"><a href="#annotated-cell-3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_min_shortfall_objective</span>(<span class="at">budget =</span> budget.area)  <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="5">5</button><span id="annotated-cell-3-11" class="code-annotation-target"><a href="#annotated-cell-3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_relative_targets</span>(<span class="at">targets =</span> tr)  <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-3-12"><a href="#annotated-cell-3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_binary_decisions</span>() <span class="sc">|&gt;</span>                                        </span>
+<span id="annotated-cell-3-13"><a href="#annotated-cell-3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_default_solver</span>() <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-3-14"><a href="#annotated-cell-3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="5" data-code-annotation="1">We set the manual relative targets here equal to the number of features in the problem. Note the +1 to account for the added NDVI.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="7" data-code-annotation="2">Target for the last feature (NDVI) set to 100%, thus will never be reached.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="9" data-code-annotation="3">Adding both species and NDVI layer here as a proxy of vegetation greenness</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="10" data-code-annotation="4">The minimum shortfall objective with the 30% budget.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="11" data-code-annotation="5">Adding the manually defined targets by feature from above here.</span>
+</dd>
+</dl>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/objectivefunctions_minshortfall.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>A minimum shortfall solution with vegetation amount</figcaption>
+</figure>
+</div>
 </section>
-<section id="creating-ranked-priority-maps" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="creating-ranked-priority-maps"><span class="header-section-number">5.4</span> Creating ranked priority maps</h2>
+<section id="minimum-shortfall-largest" class="level3" data-number="5.1.4">
+<h3 data-number="5.1.4" class="anchored" data-anchor-id="minimum-shortfall-largest"><span class="header-section-number">5.1.4</span> Minimum shortfall (largest)</h3>
+<p>This objective function is very similar to the one above, with the notable difference being mathematically that it minimizes the largest target shortfall, instead of the total (weighted sum) of all target shortfalls.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Budgets and targets as for minimum shortfall objective!</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>s4 <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, <span class="fu">c</span>(spp, ndvi)) <span class="sc">|&gt;</span>                                  </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_min_largest_shortfall_objective</span>(<span class="at">budget =</span> budget.area)  <span class="sc">|&gt;</span>       </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_relative_targets</span>(<span class="at">targets =</span> tr)  <span class="sc">|&gt;</span>                              </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_binary_decisions</span>() <span class="sc">|&gt;</span>                                        </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_default_solver</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/objectivefunctions_minlargeshortfall.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>Minimizing the largest shortfall instead of the sum across features</figcaption>
+</figure>
+</div>
+</section>
+<section id="other-objective-functions-phylogenetic" class="level3" data-number="5.1.5">
+<h3 data-number="5.1.5" class="anchored" data-anchor-id="other-objective-functions-phylogenetic"><span class="header-section-number">5.1.5</span> Other objective functions (phylogenetic)</h3>
+<p>There are two more objective functions supported by the package that are specifically customized towards phylogenetic data and inter-species relationships. Since those are rather specific, we do not cover them specifically in this tutorial. You can read more about them <a href="https://prioritizr.net/reference/add_max_phylo_div_objective.html" title="Maximum phylogenetic diversity">here</a> and <a href="https://prioritizr.net/reference/add_max_phylo_end_objective.html" title="Maximum phylogenetic endemism">here</a> if of interest.</p>
+</section>
+</section>
+<section id="non-target-based-objective-functions" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="non-target-based-objective-functions"><span class="header-section-number">5.2</span> Non-target based objective functions</h2>
+<section id="maximum-utility" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="maximum-utility"><span class="header-section-number">5.2.1</span> Maximum utility</h3>
+<p>The maximum utility objective function is one of the objective functions that does not require any targets. It essentially maximizes utility (or feature abundance) within a given budget across features.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Because of the way it is set up mathematically it can be biased towards areas where particular common species occur as it does maximize across all features equally. The use of weights, costs or penalities is thus highly recommended.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A dummy 30% of PU area budget</span></span>
+<span id="annotated-cell-5-2"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a>budget.area <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fl">0.3</span> <span class="sc">*</span> terra<span class="sc">::</span><span class="fu">global</span>(PU,<span class="st">"sum"</span>,<span class="at">na.rm=</span>T)[,<span class="dv">1</span>])</span>
+<span id="annotated-cell-5-3"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-5-4"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a>s5 <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, spp) <span class="sc">|&gt;</span>    </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-5" class="code-annotation-target"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_max_utility_objective</span>(<span class="at">budget =</span> budget.area)  <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-5-6"><a href="#annotated-cell-5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_binary_decisions</span>() <span class="sc">|&gt;</span>                  </span>
+<span id="annotated-cell-5-7"><a href="#annotated-cell-5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_default_solver</span>() <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-5-8"><a href="#annotated-cell-5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="5" data-code-annotation="1">Note the difference in name (utility vs coverage). The maximum utility objective does not require targets, only a specified budget.</span>
+</dd>
+</dl>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/objectivefunctions_maxutility.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>Maximum utility objective function solution</figcaption>
+</figure>
+</div>
+</section>
+<section id="maximum-cover" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="maximum-cover"><span class="header-section-number">5.2.2</span> Maximum cover</h3>
+<p>Another objective function without any targets is the maximum coverage objective function. This searches for solutions that represent at least one instance of as many features as possible within a given budget.</p>
+<p>Since it does not aim to secure as much as possible, only at least a single PU containing the features, this objective function is usually used for SCP problems where features are highly compartmentalized and a large number of categorical and/or continuous layers is used.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Not to be confused with the “add_max_features_objective()” objective function!</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We subset the data to the alps here for demonstration purposes</span></span>
+<span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>alps <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_read</span>(<span class="st">'data/AlpineConvention.shp'</span>) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_transform</span>(<span class="at">crs =</span> sf<span class="sc">::</span><span class="fu">st_crs</span>(<span class="dv">4326</span>))</span>
+<span id="annotated-cell-6-4"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-6-5"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a>PU_alps <span class="ot">&lt;-</span> PU <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">crop</span>(alps) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">mask</span>(alps)</span>
+<span id="annotated-cell-6-6"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a>PA_alps <span class="ot">&lt;-</span> PA <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">crop</span>(alps) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">mask</span>(alps)</span>
+<span id="annotated-cell-6-7"><a href="#annotated-cell-6-7" aria-hidden="true" tabindex="-1"></a>stPA_alps <span class="ot">&lt;-</span> stPA <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">crop</span>(alps) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">mask</span>(alps)</span>
+<span id="annotated-cell-6-8"><a href="#annotated-cell-6-8" aria-hidden="true" tabindex="-1"></a>spp_alps <span class="ot">&lt;-</span> spp <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">crop</span>(alps) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">mask</span>(alps)</span>
+<span id="annotated-cell-6-9"><a href="#annotated-cell-6-9" aria-hidden="true" tabindex="-1"></a>spp.rcp85_alps <span class="ot">&lt;-</span> spp.rcp85 <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">crop</span>(alps) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">mask</span>(alps)</span>
+<span id="annotated-cell-6-10"><a href="#annotated-cell-6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-6-11"><a href="#annotated-cell-6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># We will modify some features for the use of this objective function.</span></span>
+<span id="annotated-cell-6-12"><a href="#annotated-cell-6-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Specifically we create reclassified versions of features and protected areas</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-13" class="code-annotation-target"><a href="#annotated-cell-6-13" aria-hidden="true" tabindex="-1"></a>spp1 <span class="ot">&lt;-</span> <span class="fu">c</span>(PA_alps <span class="sc">*</span> spp_alps); <span class="fu">names</span>(spp1) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"currentpa_"</span>,<span class="fu">names</span>(spp))</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-14" class="code-annotation-target"><a href="#annotated-cell-6-14" aria-hidden="true" tabindex="-1"></a>spp2 <span class="ot">&lt;-</span> <span class="fu">c</span>(stPA_alps <span class="sc">*</span> spp_alps); <span class="fu">names</span>(spp2) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"currentstpa_"</span>,<span class="fu">names</span>(spp))</span>
+<span id="annotated-cell-6-15"><a href="#annotated-cell-6-15" aria-hidden="true" tabindex="-1"></a>spp3 <span class="ot">&lt;-</span> <span class="fu">c</span>(PA_alps <span class="sc">*</span> spp.rcp85_alps); <span class="fu">names</span>(spp3) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"futurepa_"</span>,<span class="fu">names</span>(spp.rcp85))</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3">3</button><span id="annotated-cell-6-16" class="code-annotation-target"><a href="#annotated-cell-6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-6-17"><a href="#annotated-cell-6-17" aria-hidden="true" tabindex="-1"></a>spp4 <span class="ot">&lt;-</span> <span class="fu">c</span>(stPA_alps <span class="sc">*</span> spp.rcp85_alps); <span class="fu">names</span>(spp4) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"futurestpa_"</span>,<span class="fu">names</span>(spp.rcp85))</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="4">4</button><span id="annotated-cell-6-18" class="code-annotation-target"><a href="#annotated-cell-6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-6-19"><a href="#annotated-cell-6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine all</span></span>
+<span id="annotated-cell-6-20"><a href="#annotated-cell-6-20" aria-hidden="true" tabindex="-1"></a>spp_pa <span class="ot">&lt;-</span> <span class="fu">c</span>(spp1,spp2,spp3,spp4)</span>
+<span id="annotated-cell-6-21"><a href="#annotated-cell-6-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-6-22"><a href="#annotated-cell-6-22" aria-hidden="true" tabindex="-1"></a><span class="co"># A dummy 30% of PU area budget</span></span>
+<span id="annotated-cell-6-23"><a href="#annotated-cell-6-23" aria-hidden="true" tabindex="-1"></a>budget.area <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fl">0.3</span> <span class="sc">*</span> terra<span class="sc">::</span><span class="fu">global</span>(PU_alps,<span class="st">"sum"</span>,<span class="at">na.rm=</span>T)[,<span class="dv">1</span>])</span>
+<span id="annotated-cell-6-24"><a href="#annotated-cell-6-24" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="5">5</button><span id="annotated-cell-6-25" class="code-annotation-target"><a href="#annotated-cell-6-25" aria-hidden="true" tabindex="-1"></a>s6 <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU_alps, spp_pa) <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="6">6</button><span id="annotated-cell-6-26" class="code-annotation-target"><a href="#annotated-cell-6-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_max_cover_objective</span>(<span class="at">budget =</span> budget.area)  <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-6-27"><a href="#annotated-cell-6-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_binary_decisions</span>() <span class="sc">|&gt;</span>                  </span>
+<span id="annotated-cell-6-28"><a href="#annotated-cell-6-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_default_solver</span>() <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-6-29"><a href="#annotated-cell-6-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">solve</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="13" data-code-annotation="1">Get the share of the current range per species covered by protected areas</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="14" data-code-annotation="2">Get the share of the current range per species covered by strictly protected areas</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="16" data-code-annotation="3">Get the share of the future range per species covered by protected areas</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="18" data-code-annotation="4">Get the share of the future range per species covered by strictly protected areas</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="25" data-code-annotation="5">Define the problem with the features created above (number= 268)</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="26" data-code-annotation="6">Maximum coverage objectives requires only a budget.</span>
+</dd>
+</dl>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/objectivefunctions_maxcoverage.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>Maximum coverage objective function</figcaption>
+</figure>
+</div>
+<p>The PU selected in the solution above ensure that each of the 268 features considered (current and future protected species) are covered at least once somewhere in the study region.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-alagador2020revisiting" class="csl-entry" role="listitem">
+Alagador, D. &amp; Cerdeira, J.O. (2020). Revisiting the minimum set cover, the maximal coverage problems and a maximum benefit area selection problem to make climate-change-concerned conservation plans effective. <em>Methods in Ecology and Evolution</em>, <em>11</em>, 1325–1337.
+</div>
+<div id="ref-arponen2005value" class="csl-entry" role="listitem">
+Arponen, A., Heikkinen, R.K., Thomas, C.D. &amp; Moilanen, A. (2005). The value of biodiversity in reserve selection: Representation, species weighting, and benefit functions. <em>Conservation Biology</em>, <em>19</em>, 2009–2014.
+</div>
+<div id="ref-ball2009marxan" class="csl-entry" role="listitem">
+Ball, I.R., Possingham, H.P. &amp; Watts, M. (2009). Marxan and relatives: Software for spatial conservation prioritisation. <em>Spatial conservation prioritisation: Quantitative methods and computational tools</em>, <em>14</em>, 185–196.
+</div>
+<div id="ref-beyer2016solving" class="csl-entry" role="listitem">
+Beyer, H.L., Dujardin, Y., Watts, M.E. &amp; Possingham, H.P. (2016). Solving conservation planning problems with integer linear programming. <em>Ecological Modelling</em>, <em>328</em>, 14–22.
+</div>
+<div id="ref-cabeza2001design" class="csl-entry" role="listitem">
+Cabeza, M. &amp; Moilanen, A. (2001). Design of reserve networks and the persistence of biodiversity. <em>Trends in ecology &amp; evolution</em>, <em>16</em>, 242–248.
+</div>
+<div id="ref-jung2021areas" class="csl-entry" role="listitem">
+Jung, M., Arnell, A., De Lamo, X., Garcı́a-Rangel, S., Lewis, M., Mark, J., Merow, C., Miles, L., Ondo, I., Pironon, S. &amp; others. (2021). Areas of global importance for conserving terrestrial biodiversity, carbon and water. <em>Nature Ecology &amp; Evolution</em>, <em>5</em>, 1499–1509.
+</div>
+</div>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -697,25 +1078,64 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         }
       };
     }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
+      const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+      for (let i=0; i<annoteTargets.length; i++) {
+        const annoteTarget = annoteTargets[i];
+        const targetCell = annoteTarget.getAttribute("data-target-cell");
+        const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+        const contentFn = () => {
+          const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          if (content) {
+            const tipContent = content.cloneNode(true);
+            tipContent.classList.add("code-annotation-tip-content");
+            return tipContent.outerHTML;
           }
-        });
+        }
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          onShow: (instance) => {
+            selectCodeLines(instance.reference);
+            instance.reference.classList.add('code-annotation-active');
+            window.tippy.hideAll();
+          },
+          onHide: (instance) => {
+            unselectCodeLines();
+            instance.reference.classList.remove('code-annotation-active');
+          },
+          maxWidth: 300,
+          delay: [50, 0],
+          duration: [200, 0],
+          offset: [5, 10],
+          arrow: true,
+          appendTo: function(el) {
+            return el.parentElement.parentElement.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'quarto',
+          placement: 'right',
+          popperOptions: {
+            modifiers: [
+            {
+              name: 'flip',
+              options: {
+                flipVariations: false, // true by default
+                allowedAutoPlacements: ['right'],
+                fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+              },
+            },
+            {
+              name: 'preventOverflow',
+              options: {
+                mainAxis: false,
+                altAxis: false
+              }
+            }
+            ]        
+          }      
+        };
+        window.tippy(annoteTarget, config); 
       }
   const findCites = (el) => {
     const parentEl = el.parentElement;
