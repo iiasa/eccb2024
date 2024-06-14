@@ -1,10 +1,46 @@
+---
+code-annotations: hover
+---
+
 # Objective functions
 
-## The need for targets
+One of the most powerful abilities of mixed or integer linear programming (MILP) compared to other prioritization software approaches is the possibility of readily exchanging objective functions dependending on the question to be answered or the planning objective.In theory many different objective functions could be used in SCP if they can be mathematically formulated (down to complex non-linear optimizations that maximize both area and population abundance of species).
+
+A common distinction among objective functions is whether they make use of a "budget" (e.g. how much total area at most) and/or "targets" (how much of a feature). There are even some objective functions that require neither. Furthermore objective functions differ in their ability of how benefits are accumalted, such as for instance that every little improvement towards a target counts (linear) or whether the whole target needs to be achieved (approaching a step function).
+
+The most classical objective functions are the minimum set and the maximum coverage function (@cabeza2001design), both of which we introduce below. However other objective functions are possible as well and the *prioritizr* package focusses primarily on a range of common objective functions used in the context of area-based conservation planning. In the examples below we focus on implementation and less on a detailed mathematical description of the objective functions. Here please have a look at the prioritizr help files. 
+
+For a good and more recent literature overview and comparison of different objective functions, we recommend the following reading materials @cabeza2001design, @arponen2005value, @beyer2016solving, @alagador2020revisiting
+
+::: callout-important
+## About the use of targets
+
+Most - but not all - objective functions require the use of targets in some way. Although for example the maximum utility objective function works without targets, it is usually not recommend owing to larger assumptions on how benefits for features accumulate (see also @sec-targets).
+
+:::
 
 ## Minimum set
 
+The minimum set objective function is the most commonly applied on and also the one exclusively supported by the popular Marxan software (see @ball2009marxan, and [https://marxansolutions.org/](https://marxansolutions.org/)). It does not use budgets, but rather tries to identify the minimum amount of area that would satisfy all targets. 
+
+::: callout-note
+If the feature targets are too ambitious it might not be feasible to find a solution for a problem specified with this objective function. Similarly if all targets are set to 100% it naturally will require all PU where the features are present.
+:::
+
+```{r, eval = FALSE}
+
+# Define a minimum set problem and solve
+s <- problem(PU, spp) |>                     
+  add_min_set_objective() |>                 # <1>
+  add_relative_targets(targets = 0.3) |>     
+  add_binary_decisions() |>                  
+  add_default_solver() |> 
+  solve()
+
+```
+
+1.  Defined here. If no targets are specified, an error will be raised.
+
+![A minimum set objective function](/figures/objectivefunctions_minset.png)
+
 ## Maximum coverage
-
-## Creating ranked priority maps
-
