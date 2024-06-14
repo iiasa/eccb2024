@@ -5,3 +5,6 @@
 
 /.quarto/
 index_files/
+
+# Also don't push data
+data/
