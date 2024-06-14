@@ -333,7 +333,10 @@ div.csl-indent {
   <li><a href="#find-a-solution-for-a-conservation-problem" id="toc-find-a-solution-for-a-conservation-problem" class="nav-link active" data-scroll-target="#find-a-solution-for-a-conservation-problem"><span class="header-section-number">4.1</span> Find a solution for a conservation problem</a></li>
   <li><a href="#plot-the-solution" id="toc-plot-the-solution" class="nav-link" data-scroll-target="#plot-the-solution"><span class="header-section-number">4.2</span> Plot the solution</a></li>
   <li><a href="#calculate-performance-evaluation-metrics" id="toc-calculate-performance-evaluation-metrics" class="nav-link" data-scroll-target="#calculate-performance-evaluation-metrics"><span class="header-section-number">4.3</span> Calculate performance evaluation metrics</a></li>
-  <li><a href="#irreplaceability" id="toc-irreplaceability" class="nav-link" data-scroll-target="#irreplaceability"><span class="header-section-number">4.4</span> Irreplaceability</a></li>
+  <li><a href="#irreplaceability" id="toc-irreplaceability" class="nav-link" data-scroll-target="#irreplaceability"><span class="header-section-number">5</span> Irreplaceability</a>
+  <ul class="collapse">
+  <li><a href="#portfolios" id="toc-portfolios" class="nav-link" data-scroll-target="#portfolios"><span class="header-section-number">5.1</span> Portfolios</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -377,50 +380,149 @@ div.csl-indent {
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the solution map</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s,  <span class="at">col =</span> viridisLite<span class="sc">::</span><span class="fu">mako</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>), <span class="at">axes =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><img src="../figures/solution_0.PNG" class="img-fluid" width="339"></p>
+<p><img src="../figures/solution_0.PNG" class="img-fluid"></p>
 <div id="task">
 <p>With the specified objective function, can you summarize the amount of area contained in the solution? How much would you expect?</p>
 </div>
 </section>
 <section id="calculate-performance-evaluation-metrics" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="calculate-performance-evaluation-metrics"><span class="header-section-number">4.3</span> Calculate performance evaluation metrics</h2>
-<p>We can assess the performance of this solution for the species by assessing their representation and their target shortfall.</p>
+<p>Now that we have created a solution and visualized it, the next obvious question would be: How good is it? What are we conserving and what maybe not? These are critical questions for any SCP application and different problem formulations will achieve different levels of representation. Performance metrics are usually used to answer such questions in any SCP workflow, and they can assess a solution based on its spatial distribution and/or the features conserved within.</p>
+<p>During the problem setup we defined a set of targets for each feature, so naturally a question could be for how many species we reach the target and also how far are we off (see also <span class="citation" data-cites="jantke2019metrics">Jantke <em>et al.</em> (<a href="../references.html#ref-jantke2019metrics" role="doc-biblioref">2019</a>)</span>). We used a minimum shortfall objective, thus our objective is to minimize the shortfall (e.g.&nbsp;distance) between the amount covered by the feature as constrained by the budget. Thus we can most feasibly assess the performance of this solution for the species by assessing their representation and their target shortfall.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>rpz_target_spp <span class="ot">&lt;-</span> <span class="fu">eval_target_coverage_summary</span>(p, s)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="do">## mean representation across all species </span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(rpz_target_spp<span class="sc">$</span>relative_held)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="do">## mean target shortfall across all species </span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(rpz_target_spp<span class="sc">$</span>relative_shortfall)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In Prioritizr there are convenience functions that can summarize the </span></span>
+<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># coverage of species in terms of amount held </span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-3-3" class="code-annotation-target"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>rpz_target_spp <span class="ot">&lt;-</span> <span class="fu">eval_target_coverage_summary</span>(p, s)</span>
+<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># mean representation across all species </span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-3-6" class="code-annotation-target"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(rpz_target_spp<span class="sc">$</span>relative_held)</span>
+<span id="annotated-cell-3-7"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-8"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a><span class="do">## mean target shortfall across all species </span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-3-9" class="code-annotation-target"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(rpz_target_spp<span class="sc">$</span>relative_shortfall)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="3" data-code-annotation="1">This calculates the coverage of the features (taken from the problem) over the solution, also providing the initial amount.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="6" data-code-annotation="2">Here we calculate mean representation, e.g.&nbsp;how much habitat is held by the solution across all features.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="9" data-code-annotation="3">This calculate the average shortfall, so the difference between held amount and target across features.</span>
+</dd>
+</dl>
+</div>
 </div>
 </section>
-<section id="irreplaceability" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="irreplaceability"><span class="header-section-number">4.4</span> Irreplaceability</h2>
-<p>Calculate irreplaceability of the solution using different methods.</p>
-<p>The replacement cost scores can be calculated for small and moderate sized problems but may not be feasible for large problems (e.g., more than 100,000 planning units). For large problems, it is recommended to use the Ferrier method, which can be calculated relatively quickly for large-sized problems and it explicitly accounts for representation targets. Rarity weighted richness should only be used when neither of the other two methods can be used.</p>
+<section id="irreplaceability" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Irreplaceability</h1>
+<p>The solution quantified above is effectively asked what share (proportion) of land is needed to minimize the most targets for all included features in a complementary way. However we are only looking at the full solution, while in reality some PU might be more or less important in achieving the best or optimal outcome.</p>
+<p>One simple way is of course to calculate to step-wise increase the budget available for the planning and then iteratively rank the set of PU in terms of when they enter a solution (see here for more, see <a href="CompareSolutions.html#sec-spatial-ranking" class="quarto-xref"><span>Section 7.3</span></a> for more). This is usually the most straight-forward approach for objective functions that support the specification of a budget.</p>
+<p>Another is to calculate metrics that relate the amount available with the amount in the solution across features, which are often called irreplaceability metrics (See also <span class="citation" data-cites="kukkala2013core">Kukkala &amp; Moilanen (<a href="../references.html#ref-kukkala2013core" role="doc-biblioref">2013</a>)</span>). For this situation prioritizr supports 3 different ways of quantifying irreplaceability, each with their own caveats.</p>
+<ol type="1">
+<li><p>The replacement cost scores are the most precise as they actually relate to whole problem formulation, thus make use of the specified targets and constraints to quantify how “replaceable” a given PU in a solution is. The downside is really the computational effort and this really only recommended for small and moderate sized problems, and may not be feasible for large problems (e.g., more than 100,000 planning units or features).</p></li>
+<li><p>Irreplaceability scores can also be calculated using the method set by Ferrier et al, which can be relatively quicker. Note that this function only works for problems that use targets and a single zone. It will throw an error for problems that do not meet these criteria.</p></li>
+<li><p>Lastly there is the method by <span class="citation" data-cites="albuquerque2015rarity">Albuquerque &amp; Beier (<a href="../references.html#ref-albuquerque2015rarity" role="doc-biblioref">2015</a>)</span> for calculating rarity weighted richness estimates. Those tend to compare reasonably well to standard prioritizations (e.g.&nbsp;maximum coverage) that scale with differences in range size, yet it does not make use of set targets or any other complexity factors in the problem formulation.</p></li>
+</ol>
+<p>For simplicity and also to not wait an unreasonable amount of time, we here use a smaller geographic subset to illustrate the concept. Specifically we download an outline of the alpine region only and rerun our prioritization just for this region. You can obtain a shapefile of their outline <a href="https://esdac.jrc.ec.europa.eu/projects/Alpsis/alpine_region_gis_data.html" title="Alpine regions">here</a>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## to calculate importance scores using replacement cost: </span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ir1 &lt;- eval_replacement_importance(p, s)</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="do">## do not run: this only works for small problems. </span></span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the alps and clip all PU and features to this geographic extent</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>alps <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_read</span>(<span class="st">'data/AlpineConvention.shp'</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_transform</span>(<span class="at">crs =</span> sf<span class="sc">::</span><span class="fu">st_crs</span>(<span class="dv">4326</span>))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>PU_alps <span class="ot">&lt;-</span> PU <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">crop</span>(alps) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">mask</span>(alps)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>spp_alps <span class="ot">&lt;-</span> spp <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">crop</span>(alps) <span class="sc">|&gt;</span> terra<span class="sc">::</span><span class="fu">mask</span>(alps)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Recreate and solve the problem</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>budget.area <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fl">0.3</span> <span class="sc">*</span> terra<span class="sc">::</span><span class="fu">global</span>(PU_alps,<span class="st">"sum"</span>,<span class="at">na.rm=</span>T)[,<span class="dv">1</span>] )               </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>p_alps <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU_alps, spp_alps) <span class="sc">%&gt;%</span>                    </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_min_shortfall_objective</span>(<span class="at">budget =</span> budget.area) <span class="sc">%&gt;%</span>     </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_relative_targets</span>(<span class="at">targets =</span> .<span class="dv">3</span>) <span class="sc">%&gt;%</span>                   </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_cbc_solver</span>() <span class="sc">%&gt;%</span>                                    </span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_proportion_decisions</span>() </span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>s_alps <span class="ot">&lt;-</span> <span class="fu">solve</span>(p_alps)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># to calculate importance scores using replacement cost: </span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>ir1 <span class="ot">&lt;-</span> <span class="fu">eval_replacement_importance</span>(p_alps, s_alps)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate importance scores using Ferrier et al 2000 method,</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># and extract the total importance scores</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>ir2 <span class="ot">&lt;-</span> <span class="fu">eval_ferrier_importance</span>(p_alps, s_alps)[[<span class="st">"total"</span>]]</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate importance scores using rarity weighted richness scores</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>ir3 <span class="ot">&lt;-</span> <span class="fu">eval_rare_richness_importance</span>(p_alps, s_alps)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co"># So we can see that actually only very few PU are highly irreplaceable</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="co"># (regardless of method) for this smaller geographic subset</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="co"># For ir1 (replacement cost) we actually find that no PU is fully irreplaceable</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(ir1, ir2, ir3), <span class="at">axes =</span> F, <span class="at">col =</span> viridisLite<span class="sc">::</span><span class="fu">magma</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">direction =</span><span class="sc">-</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/irreplaceability_comparison.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>Comparison of some irreplaceability metrics</figcaption>
+</figure>
+</div>
+<section id="portfolios" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="portfolios"><span class="header-section-number">5.1</span> Portfolios</h2>
+<p>One of the key principles of exact algorithms is to identify solutions that are close as possible to the optimum (e.g.&nbsp;the best possible) as well as being able to quantify the gap between the found solution and an optimum. This differentiates them for example from other prioritization software where often ‘selection frequencies’ returned (Marxan).</p>
+<p>However, in practice it can also be useful to obtain not only the best or optimal solution, but also the next best or a small portfolio of options (like the top 10).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Portfolio methods
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There are different portfolio methods (random, shuffle, cut, gap, etc…) available that provide different outputs, note that many portfolio methods are only available for Gurobi. See the help file for alternatives when in doubt.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For this portfolio example we again add create a solution,</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># but specificy a cut portfolio with the top 10 solutions.</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>sp <span class="ot">&lt;-</span> <span class="fu">solve</span>(p_alps <span class="sc">|&gt;</span>  <span class="fu">add_cuts_portfolio</span>(<span class="at">number_solutions =</span> <span class="dv">10</span>) ) </span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate importance scores using Ferrier et al 2000 method,</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># and extract the total importance scores</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>ir2 <span class="ot">&lt;-</span> <span class="fu">eval_ferrier_importance</span>(p, s)[[<span class="st">"total"</span>]]</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Reduce them into one</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>sp <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(c,sp)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sp) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"top"</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate importance scores using rarity weighted richness scores</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>ir3 <span class="ot">&lt;-</span> <span class="fu">eval_rare_richness_importance</span>(p, s)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># These portfolios could again be used to investigate a selection frequency</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># in these near-optimal solutions </span></span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(ir1, ir2, ir3), <span class="at">axes =</span> F, <span class="at">col =</span> viridisLite<span class="sc">::</span><span class="fu">magma</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">direction =</span><span class="sc">-</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>sp <span class="sc">|&gt;</span> <span class="fu">sum</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="at">main =</span> <span class="st">"Portfolio selection frequency"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/irreplaceability_portfolioselection.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>Selection frequency of near-optimal solutions</figcaption>
+</figure>
 </div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-albuquerque2015rarity" class="csl-entry" role="listitem">
+Albuquerque, F. &amp; Beier, P. (2015). Rarity-weighted richness: A simple and reliable alternative to integer programming and heuristic algorithms for minimum set and maximum coverage problems in conservation planning. <em>PloS one</em>, <em>10</em>, e0119905.
+</div>
 <div id="ref-hanson2019optimality" class="csl-entry" role="listitem">
 Hanson, J.O., Schuster, R., Strimas-Mackey, M. &amp; Bennett, J.R. (2019). Optimality in prioritizing conservation projects. <em>Methods in Ecology and Evolution</em>, <em>10</em>, 1655–1663.
 </div>
+<div id="ref-jantke2019metrics" class="csl-entry" role="listitem">
+Jantke, K., Kuempel, C.D., McGowan, J., Chauvenet, A.L. &amp; Possingham, H.P. (2019). Metrics for evaluating representation target achievement in protected area networks. <em>Diversity and Distributions</em>, <em>25</em>, 170–175.
 </div>
+<div id="ref-kukkala2013core" class="csl-entry" role="listitem">
+Kukkala, A.S. &amp; Moilanen, A. (2013). Core concepts of spatial prioritisation in systematic conservation planning. <em>Biological Reviews</em>, <em>88</em>, 443–464.
+</div>
+</div>
+</section>
 </section>
 
 </main> <!-- /main -->

@@ -313,7 +313,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#compare-spatial-outputs" id="toc-compare-spatial-outputs" class="nav-link active" data-scroll-target="#compare-spatial-outputs"><span class="header-section-number">7.1</span> Compare spatial outputs</a></li>
   <li><a href="#compare-performance-of-solutions" id="toc-compare-performance-of-solutions" class="nav-link" data-scroll-target="#compare-performance-of-solutions"><span class="header-section-number">7.2</span> Compare performance of solutions</a></li>
-  <li><a href="#create-a-spatial-ranking-of-conservation-importance" id="toc-create-a-spatial-ranking-of-conservation-importance" class="nav-link" data-scroll-target="#create-a-spatial-ranking-of-conservation-importance"><span class="header-section-number">7.3</span> Create a spatial ranking of conservation importance</a></li>
+  <li><a href="#sec-spatial-ranking" id="toc-sec-spatial-ranking" class="nav-link" data-scroll-target="#sec-spatial-ranking"><span class="header-section-number">7.3</span> Create a spatial ranking of conservation importance</a></li>
   </ul>
 </nav>
     </div>
@@ -446,8 +446,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="../figures/analyseoutputs_ggplot4_targets.PNG" class="img-fluid" width="500"></p>
 <p>What do these two performance metrics tell us?</p>
 </section>
-<section id="create-a-spatial-ranking-of-conservation-importance" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="create-a-spatial-ranking-of-conservation-importance"><span class="header-section-number">7.3</span> Create a spatial ranking of conservation importance</h2>
+<section id="sec-spatial-ranking" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="sec-spatial-ranking"><span class="header-section-number">7.3</span> Create a spatial ranking of conservation importance</h2>
 <p>Sometimes one may be interested in the relative ranking in the conservation value of planning units without a fixed budget. A rank map is one of the key outputs from Zonation. prioritizr does not provide such a rankmap, but we can make one by solving iteratively while gradually increasing the area in the solution (i.e.&nbsp;the budget). The average of all solutions can give a ranking of the grid cells in the study area in terms of conservation importance.</p>
 <p>Let’s produce a ranking map with increasing the budget. We will build on solution #3 that expands on protected areas for current distributions, but does not include other constraints. We will start with the existing protected area and incrementally add budget until the whole study area is reached. Then, we can average across all solutions to obtain the ranking.</p>
 <div class="cell">
