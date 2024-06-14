@@ -232,7 +232,7 @@ redlist.trees <- redlist.trees[names(spp),]
 
 Different weights are of course possible, for example by relying on expert or stakeholder feedback, evolutionary distinctiveness or cost benefits. Ultimately this is up to the spatial planner.
 
-## Targets
+## Targets {#sec-targets}
 
 Another important aspect of planning are area-based targets, which define the amount of the distribution of each feature that is deemed sufficient to protect. Although one could set flat targets if there is a valid reasoning (e.g. 10% of all features), the most typical approach for targets is to use log-linear targets @rodrigues2004global. Another is to use the IUCN criteria to set targets based on the minimizing extinction risk @jung2021areas.
 
