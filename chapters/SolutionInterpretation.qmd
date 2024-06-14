@@ -137,4 +137,4 @@ sp |> sum() |>
 
 ```
 
-![Selection frequency of near-optimal solutions](/figures/irreplaceability_portfolioselection){width="500"}
+![Selection frequency of near-optimal solutions](/figures/irreplaceability_portfolioselection.png){width="500"}
