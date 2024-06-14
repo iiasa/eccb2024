@@ -129,7 +129,7 @@ ggplot(scenarios_performance_species, aes(x = solution, y = relative_shortfall))
 
 What do these two performance metrics tell us?
 
-## Create a spatial ranking of conservation importance
+## Create a spatial ranking of conservation importance {#sec-spatial-ranking}
 
 Sometimes one may be interested in the relative ranking in the conservation value of planning units without a fixed budget. A rank map is one of the key outputs from Zonation. prioritizr does not provide such a rankmap, but we can make one by solving iteratively while gradually increasing the area in the solution (i.e. the budget). The average of all solutions can give a ranking of the grid cells in the study area in terms of conservation importance.
 
