@@ -1,6 +1,22 @@
-# Interpret and analyse outputs
+# Solving and interpreting solutions {#sec-solving-and-interpreting-solutions}
+
+In this section we will create a solution to the previously set up planning problem (object **p**, see @sec-create-and-planning-problem). Specifically we will solve the problem, analyse its outputs and calculate a range of metrics and indicators describing it.
+
+## Find a solution for a conservation problem
+
+In the previous section we defined a conservation problem based on a planning unit file, features, the specification of an objective function and decision variable. We also added a solver which we can now use to find a solution to the problem specified.
+
+```{r, eval = FALSE}
+library(rcbc) # Load the library for the solver just to be sure!
+# solve and create the solution 
+s <- solve(p) 
+```
+
+Running this code will create a lot of output in the terminal and different solvers make different outputs and take different length of times to create solutions (they are effectively external software of varying sophistication). You can pipe in a different solver (such as **add_highs_solver()**) to test this out. See also @hanson2019optimality
 
 ## Plot the solution
+
+The output of the solved problem from above is essentially a spatial raster that can be plotted.
 
 ```{r, eval = FALSE}
 
@@ -10,6 +26,10 @@ plot(s,  col = viridisLite::mako(n = 10, direction = -1), axes = F)
 ```
 
 ![](/figures/solution_0.PNG){width="339"}
+
+::: {#task}
+With the specified objective function, can you summarize the amount of area contained in the solution? How much would you expect?
+:::
 
 ## Calculate performance evaluation metrics
 
