@@ -10,25 +10,23 @@ To get started, please download the data from github from [[**here**]{.underline
 
 Specifically this folder contains:
 
-1.  Species Distributions: - species distributions modelled under current and future (rcp 8.5) climate for 67 tree species. Note: all spatial raster data is at \~10x10 km resolution (WGS84) and harmonized spatially.
+1.  Species Distributions: species distributions modeled under current climatic conditions and future climate scenario RCP 8.5 for 67 tree species. Note: all spatial raster data is at \~10x10 km resolution (WGS84) and harmonized spatially.
 
-2.  other data including a
+2.  other data, including:
 
     1.  planning units raster
 
-    2.  NDVI : proxy for dense and healthy vegetation cover.
+    2.  NDVI: proxy for dense and healthy vegetation cover.
 
-    3.  ghm: global human modification index. For further details on the species distributions, NDVI and GHM layers, see <https://github.com/zonationteam/Zonation5-training/tree/main/2024%20Europe/Exercises/data>
+    3.  ghm: global human modification index. Species distribution models, NDVI and GHM spatial data were originally extracted and prepared by Thiago Cavalcante for this course and the Zonation 5 software. For further details on the species distributions, NDVI and GHM layers, see <https://github.com/zonationteam/Zonation5-training/tree/main/2024%20Europe/Exercises/data>
 
-    4.  urban_prct and HI_forest_prct.tif : percentage coverage per 10x10 grid cell of urban/periurban, and high-intensity forests, respectively. Aggregated to 10x10k from European land systems dataset by Dou et al ., 2021, originally at 1km resolution.
+    4.  urban_prct and HI_forest_prct.tif : percentage coverage per 10x10 grid cell of urban/periurban, and high-intensity forests, respectively. Aggregated to 10x10k from European land systems dataset by Dou *et al.*, 2021, originally at 1km resolution.
 
-    5.  protectedareas.tif : all protected areas for the study area from WDPA
+    5.  protectedareas.tif : percentage of protected area coverage per grid cell, considering all protected areas for the study area, extracted from WDPA
 
-    6.  protectedareas_I_II.tif : strictly protected areas (IUCN categories I and II) for the study area from WDPA
+    6.  protectedareas_I\_II.tif : percentage of strictly protected area coverage per grid cell, with strictly protected areas defined as IUCN categories I and II and extracted from WDPA
 
-    7.  species_red_list.csv : global and European assessment of conservation status of these 67 species
-
-All data have been originally extracted and prepared by Thiago Cavalcante for this course and the Zonation 5 software.
+    7.  species_red_list.csv : global and European assessment of the red list status for each of these 67 species
 
 ::: {.callout-note appearance="minimal"}
 ## Steps for data preparation
