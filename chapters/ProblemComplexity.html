@@ -333,7 +333,11 @@ div.csl-indent {
   <li><a href="#modify-targets" id="toc-modify-targets" class="nav-link active" data-scroll-target="#modify-targets"><span class="header-section-number">6.1</span> Modify targets</a></li>
   <li><a href="#add-feature-specific-weights" id="toc-add-feature-specific-weights" class="nav-link" data-scroll-target="#add-feature-specific-weights"><span class="header-section-number">6.2</span> Add feature specific weights</a></li>
   <li><a href="#plan-for-future-distributions-under-climate-change" id="toc-plan-for-future-distributions-under-climate-change" class="nav-link" data-scroll-target="#plan-for-future-distributions-under-climate-change"><span class="header-section-number">6.3</span> Plan for future distributions under climate change</a></li>
-  <li><a href="#add-protected-areas" id="toc-add-protected-areas" class="nav-link" data-scroll-target="#add-protected-areas"><span class="header-section-number">6.4</span> Add protected areas</a></li>
+  <li><a href="#adding-protected-areas" id="toc-adding-protected-areas" class="nav-link" data-scroll-target="#adding-protected-areas"><span class="header-section-number">6.4</span> Adding protected areas</a>
+  <ul class="collapse">
+  <li><a href="#sec-lockin-constraints" id="toc-sec-lockin-constraints" class="nav-link" data-scroll-target="#sec-lockin-constraints"><span class="header-section-number">6.4.1</span> Locked in and bounded constraints</a></li>
+  <li><a href="#towards-climate-resilient-priorities" id="toc-towards-climate-resilient-priorities" class="nav-link" data-scroll-target="#towards-climate-resilient-priorities"><span class="header-section-number">6.4.2</span> Towards climate resilient priorities</a></li>
+  </ul></li>
   <li><a href="#add-locked-out-constraints" id="toc-add-locked-out-constraints" class="nav-link" data-scroll-target="#add-locked-out-constraints"><span class="header-section-number">6.5</span> Add locked-out constraints</a></li>
   <li><a href="#adding-socio-economic-costs" id="toc-adding-socio-economic-costs" class="nav-link" data-scroll-target="#adding-socio-economic-costs"><span class="header-section-number">6.6</span> Adding (socio-economic) costs</a></li>
   <li><a href="#linear-penalties-with-negative-penalty-score" id="toc-linear-penalties-with-negative-penalty-score" class="nav-link" data-scroll-target="#linear-penalties-with-negative-penalty-score"><span class="header-section-number">6.7</span> Linear penalties with negative penalty score</a></li>
@@ -364,72 +368,114 @@ div.csl-indent {
 </header>
 
 
+<p>In the sections below we will explore some ways of how complexity aspects can be added to a planning problem. With complexity in this context is meant the addition of any planning aspects that go beyond ‘default’ inputs. For example adding lock-in or lock-out constraints, altering decision variables or feature weights.</p>
 <section id="modify-targets" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="modify-targets"><span class="header-section-number">6.1</span> Modify targets</h2>
-<p>Instead of assigning equal targets to all features, let’s use log-linear targets, so that: features that have a smaller range size (e.g.&nbsp;10 grid cells) get a target of 100% (their target is their entire range size); and features that are widespread (e.g.&nbsp;with a range size of at least 10,000 grid cells) have a target of 50% of their range size.</p>
+<p>In the previous section we often made use of objective functions that require targets. Targets can be specified in multiple way and added to a conservation problem as manual, relative or absolute targets (the functions here written in the same way).</p>
+<p>Another very common ways of specifying targets is the use of a log-linear function as first defined by <span class="citation" data-cites="rodrigues2004global">Rodrigues <em>et al.</em> (<a href="../references.html#ref-rodrigues2004global" role="doc-biblioref">2004</a>)</span> . Here, instead of assigning equal targets to all features, let’s use log-linear targets, so that: features that have a smaller range size (e.g.&nbsp;10 grid cells) get a target of 100% (their target is their entire range size); and features that are widespread (e.g.&nbsp;with a range size of at least 10,000 grid cells) have a target of 50% of their range size.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, spp)<span class="sc">%&gt;%</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_min_shortfall_objective</span>(<span class="at">budget =</span> budget.area)<span class="sc">%&gt;%</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_loglinear_targets</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>, <span class="fl">0.5</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_cbc_solver</span>()<span class="sc">%&gt;%</span> </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_proportion_decisions</span>()</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>s1 <span class="ot">&lt;-</span> <span class="fu">solve</span>(p1)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># plot map</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a problem</span></span>
+<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, spp)<span class="sc">%&gt;%</span></span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_min_shortfall_objective</span>(<span class="at">budget =</span> budget.area)<span class="sc">%&gt;%</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-4" class="code-annotation-target"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_loglinear_targets</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>, <span class="fl">0.5</span>) <span class="sc">%&gt;%</span></span>
+<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_cbc_solver</span>()<span class="sc">%&gt;%</span> </span>
+<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_proportion_decisions</span>()</span>
+<span id="annotated-cell-1-7"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a>s1 <span class="ot">&lt;-</span> <span class="fu">solve</span>(p1)</span>
+<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-10"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># plot map</span></span>
+<span id="annotated-cell-1-11"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s1)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="4" data-code-annotation="1">Loglinear targets require a lower and upper target and amount to be specified. They can also handle capped values (such as habitats not larger than XX km2.</span>
+</dd>
+</dl>
+</div>
 </div>
 <p><img src="../figures/solutions_s1.PNG" class="img-fluid" width="317"></p>
-<p>Note: targets can be informed by a combination of range size and red list status (see <span class="citation" data-cites="jung2021areas">Jung <em>et al.</em> (<a href="../references.html#ref-jung2021areas" role="doc-biblioref">2021</a>)</span> )</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Targets can also be informed by both the range size and the minimum amount necessary to prevent species extinction broadly following IUCN Redlist criteria (see <span class="citation" data-cites="jung2021areas">Jung <em>et al.</em> (<a href="../references.html#ref-jung2021areas" role="doc-biblioref">2021</a>)</span> ).</p>
+</div>
+</div>
 </section>
 <section id="add-feature-specific-weights" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="add-feature-specific-weights"><span class="header-section-number">6.2</span> Add feature specific weights</h2>
+<p>In most cases features in a solution are not equally important. For example there might be genuine national interests in conserving local populations or species might be otherwise more threatened, which would not really well be covered by targets specified on range size alone. In this situations it might be worth changing the weights for these species.</p>
+<p>Another common reason for weight is when there is feature imbalance, e.g.&nbsp;some types of features (species) are more common that others (Nature contributions to people). See <span class="citation" data-cites="jung2021areas">Jung <em>et al.</em> (<a href="../references.html#ref-jung2021areas" role="doc-biblioref">2021</a>)</span> for more information for this case.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> p1 <span class="sc">%&gt;%</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_feature_weights</span>(redlist.trees<span class="sc">$</span>weight)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>s2 <span class="ot">&lt;-</span> <span class="fu">solve</span>(p2)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s2) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we specfiy weights to the tree species as a multiplicator based on redlist criteria.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> p1 <span class="sc">%&gt;%</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_feature_weights</span>(redlist.trees<span class="sc">$</span>weight)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>s2 <span class="ot">&lt;-</span> <span class="fu">solve</span>(p2)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s2) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><img src="../figures/solutions_s2.PNG" class="img-fluid" width="325"></p>
-<p>Notice how in this case the solution does not change drastically, since only a few species are listed as vulnerable.</p>
+<p>Notice how in this case the solution does not change drastically, since only a few species are listed as vulnerable. But try and altering a few weights manually (for example multiplying them by 100) just as test to see how solutions change.</p>
 </section>
 <section id="plan-for-future-distributions-under-climate-change" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="plan-for-future-distributions-under-climate-change"><span class="header-section-number">6.3</span> Plan for future distributions under climate change</h2>
+<p>Species distribution model (SDMs) are common inputs to SCP exercises. Just as common is also to use SDMs to make future projections of a given species under a climate scenario. More and more approaches are being developed to make use of such future projections in SCP exercises and in particular with linear programming as well (see for example <span class="citation" data-cites="alagador2017meeting">Alagador &amp; Cerdeira (<a href="../references.html#ref-alagador2017meeting" role="doc-biblioref">2017</a>)</span>).</p>
+<p>The simplest approach of making use of future projections is to incorporate them as features:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create problem with future distributions as features:</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>p2_bis <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, spp.rcp85)<span class="sc">%&gt;%</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_min_shortfall_objective</span>(<span class="at">budget =</span> budget.area)<span class="sc">%&gt;%</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_loglinear_targets</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>, <span class="fl">0.5</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_feature_weights</span>(redlist.trees<span class="sc">$</span>weight) <span class="sc">%&gt;%</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_cbc_solver</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_proportion_decisions</span>()  <span class="do">## entire grid cells (planning units) will be selected in the solution rather than a proportion</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>s2_bis <span class="ot">&lt;-</span> <span class="fu">solve</span>(p2_bis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create problem with future distributions as features:</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-2" class="code-annotation-target"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>p2_bis <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, spp.rcp85) <span class="sc">%&gt;%</span></span>
+<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_min_shortfall_objective</span>(<span class="at">budget =</span> budget.area)<span class="sc">%&gt;%</span></span>
+<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_loglinear_targets</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>, <span class="fl">0.5</span>) <span class="sc">%&gt;%</span></span>
+<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_feature_weights</span>(redlist.trees<span class="sc">$</span>weight) <span class="sc">%&gt;%</span></span>
+<span id="annotated-cell-3-6"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_cbc_solver</span>()<span class="sc">%&gt;%</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-7" class="code-annotation-target"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_proportion_decisions</span>()</span>
+<span id="annotated-cell-3-8"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-9"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a>s2_bis <span class="ot">&lt;-</span> <span class="fu">solve</span>(p2_bis)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="2" data-code-annotation="1">Notice that we use a different feature set here</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="7" data-code-annotation="2">We make use proportional decisions here.</span>
+</dd>
+</dl>
+</div>
 </div>
 <p>Which sites emerge as top priorities for these species, in both current and future climate conditions?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mean_s_climate <span class="ot">&lt;-</span> <span class="fu">mean</span>(s2, s2_bis)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mean_s_climate, <span class="at">col =</span> viridisLite<span class="sc">::</span><span class="fu">mako</span>(<span class="at">n =</span> <span class="dv">1</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>), <span class="at">axes =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mean_s_climate <span class="ot">&lt;-</span> <span class="fu">mean</span>(s2, s2_bis)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mean_s_climate, <span class="at">col =</span> viridisLite<span class="sc">::</span><span class="fu">mako</span>(<span class="at">n =</span> <span class="dv">1</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>), <span class="at">axes =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><img src="../figures/solutionsmean_s_climate.PNG" class="img-fluid" width="333"></p>
+<p>You could also try to prioritize for both current and future (and their intersection at once). What do you expect will happen in this case? See also <span class="citation" data-cites="kujala2013conservation">Kujala <em>et al.</em> (<a href="../references.html#ref-kujala2013conservation" role="doc-biblioref">2013</a>)</span> who developed this conceptual approach.</p>
 </section>
-<section id="add-protected-areas" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="add-protected-areas"><span class="header-section-number">6.4</span> Add protected areas</h2>
+<section id="adding-protected-areas" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="adding-protected-areas"><span class="header-section-number">6.4</span> Adding protected areas</h2>
+<p>Expanding a reserve network of protected areas is a common research question for SCP studies. Protected areas an be incorporated in various ways in the problem formulation and he we are showing some of them:</p>
+<section id="sec-lockin-constraints" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="sec-lockin-constraints"><span class="header-section-number">6.4.1</span> Locked in and bounded constraints</h3>
+<p>The simplest way is to ‘lock’ the area covered by Protected areas (PAs) into the solution. This means that all solutions will have - at a minimum - this amount of area present.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">### try with locked in constraints:</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> p2 <span class="sc">%&gt;%</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_locked_in_constraints</span>(PA)  </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>s3 <span class="ot">&lt;-</span> <span class="fu">solve</span> (p3) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> p2 <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_locked_in_constraints</span>(PA)  </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>s3 <span class="ot">&lt;-</span> <span class="fu">solve</span> (p3) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In this case the budget cannot be met, because protected areas (small or large) are present in more than 30% of all planning units. The locked in constraints functionality locks in cells that have non zero and non NA values. This functionality is not suitable for European PA at 10x10k resolution: we would need, for example, to change the PA layer to a binary layer with a threshold.</p>
 <p>Let’s try again with the manual bounded constraints functionality to incorporate the proportion of the planning unit that is currently protected.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create manual bounded constraints dataframe with protected area coverage per planning unit</span></span>
+<div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create manual bounded constraints dataframe with protected area coverage per planning unit</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-2" class="code-annotation-target"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>pa_constraints <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">pu =</span> <span class="fu">cells</span>(PA),</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-3" class="code-annotation-target"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">lower =</span> <span class="fu">unname</span>(PA[<span class="sc">!</span><span class="fu">is.na</span>(PA)]),</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3">3</button><span id="annotated-cell-6-4" class="code-annotation-target"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>                             <span class="at">upper =</span> <span class="dv">1</span>)</span>
@@ -460,37 +506,53 @@ div.csl-indent {
 </dl>
 </div>
 </div>
-<p>Now, let’s find top priorities for the expansion of existing protected areas but that uses projections of species distributions under future climate scenario RCP8.5</p>
+</section>
+<section id="towards-climate-resilient-priorities" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="towards-climate-resilient-priorities"><span class="header-section-number">6.4.2</span> Towards climate resilient priorities</h3>
+<p>Now, let’s find top priorities for the expansion of existing protected areas but that uses projections of species distributions under a future climate scenario (RCP8.5).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create problem with future distributions as features:</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>p3_bis <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, spp.rcp85)<span class="sc">%&gt;%</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_min_shortfall_objective</span>(<span class="at">budget =</span> budget.area)<span class="sc">%&gt;%</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_loglinear_targets</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>, <span class="fl">0.5</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_feature_weights</span>(redlist.trees<span class="sc">$</span>weight) <span class="sc">%&gt;%</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_manual_bounded_constraints</span>(pa_constraints)<span class="sc">%&gt;%</span> <span class="do">## to lock in proportional PA coverage per planning units</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_cbc_solver</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_proportion_decisions</span>()  <span class="do">## entire grid cells (planning units) will be selected in the solution rather than a proportion</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>s3_bis <span class="ot">&lt;-</span> <span class="fu">solve</span>(p3_bis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-7"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-7-1"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create problem with future distributions as features:</span></span>
+<span id="annotated-cell-7-2"><a href="#annotated-cell-7-2" aria-hidden="true" tabindex="-1"></a>p3_bis <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, spp.rcp85)<span class="sc">%&gt;%</span></span>
+<span id="annotated-cell-7-3"><a href="#annotated-cell-7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_min_shortfall_objective</span>(<span class="at">budget =</span> budget.area)<span class="sc">%&gt;%</span></span>
+<span id="annotated-cell-7-4"><a href="#annotated-cell-7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_loglinear_targets</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>, <span class="fl">0.5</span>) <span class="sc">%&gt;%</span></span>
+<span id="annotated-cell-7-5"><a href="#annotated-cell-7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_feature_weights</span>(redlist.trees<span class="sc">$</span>weight) <span class="sc">%&gt;%</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1">1</button><span id="annotated-cell-7-6" class="code-annotation-target"><a href="#annotated-cell-7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_manual_bounded_constraints</span>(pa_constraints)<span class="sc">%&gt;%</span></span>
+<span id="annotated-cell-7-7"><a href="#annotated-cell-7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_cbc_solver</span>()<span class="sc">%&gt;%</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2">2</button><span id="annotated-cell-7-8" class="code-annotation-target"><a href="#annotated-cell-7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_proportion_decisions</span>()</span>
+<span id="annotated-cell-7-9"><a href="#annotated-cell-7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-7-10"><a href="#annotated-cell-7-10" aria-hidden="true" tabindex="-1"></a>s3_bis <span class="ot">&lt;-</span> <span class="fu">solve</span>(p3_bis)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="6" data-code-annotation="1">to lock in proportional PA coverage per planning units</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="8" data-code-annotation="2">Despite specifying this often entire grid cells (planning units) will be selected in the solution rather than a proportion</span>
+</dd>
+</dl>
+</div>
 </div>
 <p>What areas emerge as climatically resilient protected area expansion priorities for these 67 species? Average across the two solutions that expand on protected areas with current and future distributions:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mean_s_climate_PA <span class="ot">&lt;-</span> <span class="fu">mean</span>(s3, s3_bis)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>expansion_climate_PA <span class="ot">&lt;-</span> mean_s_climate_PA <span class="sc">-</span> PA</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(mean_s_climate_PA, expansion_climate), <span class="at">axes =</span> F, <span class="at">col =</span> viridisLite<span class="sc">::</span><span class="fu">mako</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>), <span class="at">main =</span> <span class="fu">c</span>(<span class="st">"Average solution with </span><span class="sc">\n</span><span class="st"> current and future SDM,  including PA"</span>,<span class="st">"Average expansion priorities with </span><span class="sc">\n</span><span class="st"> current and future SDM"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mean_s_climate_PA <span class="ot">&lt;-</span> <span class="fu">mean</span>(s3, s3_bis)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>expansion_climate_PA <span class="ot">&lt;-</span> mean_s_climate_PA <span class="sc">-</span> PA</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(mean_s_climate_PA, expansion_climate), <span class="at">axes =</span> F, <span class="at">col =</span> viridisLite<span class="sc">::</span><span class="fu">mako</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>), <span class="at">main =</span> <span class="fu">c</span>(<span class="st">"Average solution with </span><span class="sc">\n</span><span class="st"> current and future SDM,  including PA"</span>,<span class="st">"Average expansion priorities with </span><span class="sc">\n</span><span class="st"> current and future SDM"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><img src="../figures/solutions_mean_s_climate_PA.PNG" class="img-fluid"></p>
 </section>
+</section>
 <section id="add-locked-out-constraints" class="level2" data-number="6.5">
 <h2 data-number="6.5" class="anchored" data-anchor-id="add-locked-out-constraints"><span class="header-section-number">6.5</span> Add locked-out constraints</h2>
+<p>Locked-out constraints are the exact opposite of <a href="#sec-lockin-constraints" class="quarto-xref"><span>Section 6.4.1</span></a> explained above. Rather than starting from a given ‘baseline’ we want to explicitly exclude specific areas from any solution. This functionality can be particular helpful when there is prior knowledge about areas unlikely to be relevant for the planning problem (e.g.&nbsp;densely-population urban areas for protected area planning).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-9"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-9-1"><a href="#annotated-cell-9-1" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> p3 <span class="sc">%&gt;%</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="1">1</button><span id="annotated-cell-9-2" class="code-annotation-target"><a href="#annotated-cell-9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_locked_out_constraints</span>(locked.out.bin)</span>
-<span id="annotated-cell-9-3"><a href="#annotated-cell-9-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="annotated-cell-9-4"><a href="#annotated-cell-9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-9-5"><a href="#annotated-cell-9-5" aria-hidden="true" tabindex="-1"></a>s4 <span class="ot">&lt;-</span> <span class="fu">solve</span>(p4)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="annotated-cell-9-3"><a href="#annotated-cell-9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-9-4"><a href="#annotated-cell-9-4" aria-hidden="true" tabindex="-1"></a>s4 <span class="ot">&lt;-</span> <span class="fu">solve</span>(p4)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-9" data-target-annotation="1">1</dt>
@@ -503,15 +565,37 @@ div.csl-indent {
 </section>
 <section id="adding-socio-economic-costs" class="level2" data-number="6.6">
 <h2 data-number="6.6" class="anchored" data-anchor-id="adding-socio-economic-costs"><span class="header-section-number">6.6</span> Adding (socio-economic) costs</h2>
-<p>In prioritizr, the actual “cost” is tied to the value of the planning units, which then determines the budget. Since we need to express the budget in terms of number of grid cells and not overall socio-economic cost of the solution, we need to include actual socio-economic constraints as linear penalties.</p>
-<p>Linear penalties can be used to avoid the selection of sites with a high value, for example, socio-economic costs if available. Here, we use the human modification index as a penalty.</p>
+<p>In prioritizr, the actual “cost” is tied to the value of the planning units, which then determines the budget. The normal or most common way of including costs in the prioritization is thus through the planning unit object. For example, if the aim is not meet a certain amount of area target but rather to select areas until a ‘budget’ has been reached, then the ideal way is usually to modify the PU file directly (not shown in this tutorial, but can be easily modified).</p>
+<p>If however both are relevant questions to be asked, so when we need to express the budget in terms of number of grid cells and not overall socio-economic cost of the solution, we need to include any socio-economic constraints as (linear) penalties.</p>
+<p>Linear penalties can be used to avoid the selection of sites with a high value, for example, socio-economic costs if available. Here, we use the human modification index as proxy for the cost of selecting a given planning unit.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> p4 <span class="sc">%&gt;%</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_linear_penalties</span>(<span class="at">penalty =</span> <span class="dv">1</span>, <span class="at">data =</span> gHM) <span class="do">## note that when penalty score is set too high, this sometimes prevents the budget area from being met</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>s5 <span class="ot">&lt;-</span> <span class="fu">solve</span> (p5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-10"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-10-1"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> p4 <span class="sc">%&gt;%</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1">1</button><span id="annotated-cell-10-2" class="code-annotation-target"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_linear_penalties</span>(<span class="at">penalty =</span> <span class="dv">1</span>, <span class="at">data =</span> gHM)</span>
+<span id="annotated-cell-10-3"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-10-4"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a>s5 <span class="ot">&lt;-</span> <span class="fu">solve</span> (p5)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="2" data-code-annotation="1">Note that when penalty score is set too high, this sometimes prevents the budget area from being met.</span>
+</dd>
+</dl>
 </div>
+</div>
+<p>Similar as weights, there is no definitive way of what can good penality constants here. In the best case those are informed by ecological or other reasoning and subject to a sensitivity test (try altering the values through a sequence).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Note: if one wanted to express the entire budget of the problem in monetary terms, the costs would need to be included in the planning units data.</p>
+</div>
+</div>
 </section>
 <section id="linear-penalties-with-negative-penalty-score" class="level2" data-number="6.7">
 <h2 data-number="6.7" class="anchored" data-anchor-id="linear-penalties-with-negative-penalty-score"><span class="header-section-number">6.7</span> Linear penalties with negative penalty score</h2>
@@ -531,12 +615,24 @@ div.csl-indent {
 </dl>
 </div>
 </div>
-<p>A word of caution: sometimes adding constraints and penalties will tend to drive the solution much more strongly than the biodiversity features themselves. To limit the influence of the penalty data layer, you can consider decreasing the penalty value.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sometimes adding constraints and penalties will tend to drive the solution much more strongly than the biodiversity features themselves. To limit the influence of the penalty data layer, you can consider decreasing the penalty value.</p>
+</div>
+</div>
 </section>
 <section id="decision-variables" class="level2" data-number="6.8">
 <h2 data-number="6.8" class="anchored" data-anchor-id="decision-variables"><span class="header-section-number">6.8</span> Decision variables</h2>
-<p>So far, we solved problems as proportional decisions. Proportional decisions means that proportions of planning units can be selected in the solution. This typically solve faster and better than binary decisions.</p>
-<p>Let’s try solving the problem with a binary decision (i.e.&nbsp;a planning unit gets selected, or not).</p>
+<p>So far, we solved problems as proportional decisions. Proportional decisions means that proportions of planning units (rather than the whole one) can be selected in the solution. This typically solves much faster and better than binary decisions. Furthermore as you might have observed, it can be quite rare that actual proportions of PU (rather than the whole one) are selected.</p>
+<p>Let’s try solving the problem with a binary decision instead (i.e.&nbsp;a planning unit gets selected, or not).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-12"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-12-1"><a href="#annotated-cell-12-1" aria-hidden="true" tabindex="-1"></a>PA_large <span class="ot">&lt;-</span> PA</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="1">1</button><span id="annotated-cell-12-2" class="code-annotation-target"><a href="#annotated-cell-12-2" aria-hidden="true" tabindex="-1"></a>PA_large[PA_large<span class="sc">&lt;</span><span class="fl">0.5</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
@@ -575,38 +671,60 @@ div.csl-indent {
 </dl>
 </div>
 </div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It is also possible to constrain the proportion of a planning unit directly through a cap throughout. For example when it is seen as too insensible to select PU at all. See the <a href="https://prioritizr.net/reference/add_semicontinuous_decisions.html">semi-continious</a> decision type for this case</p>
+</div>
+</div>
 </section>
 <section id="modify-the-budget" class="level2" data-number="6.9">
 <h2 data-number="6.9" class="anchored" data-anchor-id="modify-the-budget"><span class="header-section-number">6.9</span> Modify the budget</h2>
-<p>For example, we might be interested in finding top priorities for 10% strict protection. To do that, we need to change the budget, and the protected area layer, to find priorities that complement and expand on strictly protected areas only (IUCN i and II).</p>
+<p>In previous examples we have often specified a budget. This maximum budget (relevant for some objective functions) can of course also be changed. For example, we might be interested in finding top priorities for 10% strict protection. To do that, we need to change the budget, and the protected area layer, to find priorities that complement and expand on strictly protected areas only (IUCN i and II).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## modify the budget: e.g. 10% top priorities that expand on strict protected areas</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>budget.area <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fl">0.1</span> <span class="sc">*</span> <span class="fu">length</span>(<span class="fu">cells</span>(PU))) </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>stpa_constraints <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">pu =</span> <span class="fu">cells</span>(stPA),</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                             <span class="at">lower =</span> <span class="fu">unname</span>(stPA[<span class="sc">!</span><span class="fu">is.na</span>(stPA)]), </span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                             <span class="at">upper =</span> <span class="dv">1</span>) </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="do">## create new problem for expansion of strict protected areas: new budget, new manual bounded constraints.</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>p8 <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, spp)<span class="sc">%&gt;%</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_min_shortfall_objective</span>(<span class="at">budget =</span> budget.area)<span class="sc">%&gt;%</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_loglinear_targets</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>, <span class="fl">0.5</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_feature_weights</span>(redlist.trees<span class="sc">$</span>weight) <span class="sc">%&gt;%</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_manual_bounded_constraints</span>(stpa_constraints)<span class="sc">%&gt;%</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_locked_out_constraints</span>(locked.out.bin) <span class="sc">%&gt;%</span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_linear_penalties</span>(<span class="dv">1</span>, <span class="at">data =</span> gHM) <span class="sc">%&gt;%</span></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_linear_penalties</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="at">data =</span> ndvi) <span class="sc">%&gt;%</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_cbc_solver</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_proportion_decisions</span>()</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>s8 <span class="ot">&lt;-</span> <span class="fu">solve</span>(p8)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## modify the budget: e.g. 10% top priorities that expand on strict protected areas</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>budget.area <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fl">0.1</span> <span class="sc">*</span> <span class="fu">length</span>(<span class="fu">cells</span>(PU))) </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>stpa_constraints <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">pu =</span> <span class="fu">cells</span>(stPA),</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                             <span class="at">lower =</span> <span class="fu">unname</span>(stPA[<span class="sc">!</span><span class="fu">is.na</span>(stPA)]), </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                             <span class="at">upper =</span> <span class="dv">1</span>) </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="do">## create new problem for expansion of strict protected areas: new budget, new manual bounded constraints.</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>p8 <span class="ot">&lt;-</span> <span class="fu">problem</span>(PU, spp)<span class="sc">%&gt;%</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_min_shortfall_objective</span>(<span class="at">budget =</span> budget.area)<span class="sc">%&gt;%</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_loglinear_targets</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>, <span class="fl">0.5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_feature_weights</span>(redlist.trees<span class="sc">$</span>weight) <span class="sc">%&gt;%</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_manual_bounded_constraints</span>(stpa_constraints)<span class="sc">%&gt;%</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_locked_out_constraints</span>(locked.out.bin) <span class="sc">%&gt;%</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_linear_penalties</span>(<span class="dv">1</span>, <span class="at">data =</span> gHM) <span class="sc">%&gt;%</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_linear_penalties</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="at">data =</span> ndvi) <span class="sc">%&gt;%</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_cbc_solver</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_proportion_decisions</span>()</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>s8 <span class="ot">&lt;-</span> <span class="fu">solve</span>(p8)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-alagador2017meeting" class="csl-entry" role="listitem">
+Alagador, D. &amp; Cerdeira, J.O. (2017). Meeting species persistence targets under climate change: A spatially explicit conservation planning model. <em>Diversity and Distributions</em>, <em>23</em>, 703–713.
+</div>
 <div id="ref-jung2021areas" class="csl-entry" role="listitem">
 Jung, M., Arnell, A., De Lamo, X., Garcı́a-Rangel, S., Lewis, M., Mark, J., Merow, C., Miles, L., Ondo, I., Pironon, S. &amp; others. (2021). Areas of global importance for conserving terrestrial biodiversity, carbon and water. <em>Nature Ecology &amp; Evolution</em>, <em>5</em>, 1499–1509.
+</div>
+<div id="ref-kujala2013conservation" class="csl-entry" role="listitem">
+Kujala, H., Moilanen, A., Araujo, M.B. &amp; Cabeza, M. (2013). Conservation planning with uncertain climate change projections. <em>PloS one</em>, <em>8</em>, e53315.
+</div>
+<div id="ref-rodrigues2004global" class="csl-entry" role="listitem">
+Rodrigues, A.S., Akcakaya, H.R., Andelman, S.J., Bakarr, M.I., Boitani, L., Brooks, T.M., Chanson, J.S., Fishpool, L.D., Da Fonseca, G.A., Gaston, K.J. &amp; others. (2004). Global gap analysis: Priority regions for expanding the global protected-area network. <em>BioScience</em>, <em>54</em>, 1092–1100.
 </div>
 </div>
 </section>
