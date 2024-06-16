@@ -335,12 +335,10 @@ div.csl-indent {
   <li><a href="#plan-for-future-distributions-under-climate-change" id="toc-plan-for-future-distributions-under-climate-change" class="nav-link" data-scroll-target="#plan-for-future-distributions-under-climate-change"><span class="header-section-number">6.3</span> Plan for future distributions under climate change</a></li>
   <li><a href="#add-protected-areas" id="toc-add-protected-areas" class="nav-link" data-scroll-target="#add-protected-areas"><span class="header-section-number">6.4</span> Add protected areas</a></li>
   <li><a href="#add-locked-out-constraints" id="toc-add-locked-out-constraints" class="nav-link" data-scroll-target="#add-locked-out-constraints"><span class="header-section-number">6.5</span> Add locked-out constraints</a></li>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">6.6</span> </a></li>
-  <li><a href="#adding-socio-economic-costs" id="toc-adding-socio-economic-costs" class="nav-link" data-scroll-target="#adding-socio-economic-costs"><span class="header-section-number">6.7</span> Adding (socio-economic) costs</a></li>
-  <li><a href="#linear-penalties-with-negative-penalty-score" id="toc-linear-penalties-with-negative-penalty-score" class="nav-link" data-scroll-target="#linear-penalties-with-negative-penalty-score"><span class="header-section-number">6.8</span> Linear penalties with negative penalty score</a></li>
-  <li><a href="#decision-variables" id="toc-decision-variables" class="nav-link" data-scroll-target="#decision-variables"><span class="header-section-number">6.9</span> Decision variables</a></li>
-  <li><a href="#modify-the-budget" id="toc-modify-the-budget" class="nav-link" data-scroll-target="#modify-the-budget"><span class="header-section-number">6.10</span> Modify the budget</a></li>
-  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"><span class="header-section-number">6.11</span> </a></li>
+  <li><a href="#adding-socio-economic-costs" id="toc-adding-socio-economic-costs" class="nav-link" data-scroll-target="#adding-socio-economic-costs"><span class="header-section-number">6.6</span> Adding (socio-economic) costs</a></li>
+  <li><a href="#linear-penalties-with-negative-penalty-score" id="toc-linear-penalties-with-negative-penalty-score" class="nav-link" data-scroll-target="#linear-penalties-with-negative-penalty-score"><span class="header-section-number">6.7</span> Linear penalties with negative penalty score</a></li>
+  <li><a href="#decision-variables" id="toc-decision-variables" class="nav-link" data-scroll-target="#decision-variables"><span class="header-section-number">6.8</span> Decision variables</a></li>
+  <li><a href="#modify-the-budget" id="toc-modify-the-budget" class="nav-link" data-scroll-target="#modify-the-budget"><span class="header-section-number">6.9</span> Modify the budget</a></li>
   </ul>
 </nav>
     </div>
@@ -503,11 +501,8 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="section" class="level2" data-number="6.6">
-<h2 data-number="6.6" class="anchored" data-anchor-id="section"><span class="header-section-number">6.6</span> </h2>
-</section>
-<section id="adding-socio-economic-costs" class="level2" data-number="6.7">
-<h2 data-number="6.7" class="anchored" data-anchor-id="adding-socio-economic-costs"><span class="header-section-number">6.7</span> Adding (socio-economic) costs</h2>
+<section id="adding-socio-economic-costs" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="adding-socio-economic-costs"><span class="header-section-number">6.6</span> Adding (socio-economic) costs</h2>
 <p>In prioritizr, the actual “cost” is tied to the value of the planning units, which then determines the budget. Since we need to express the budget in terms of number of grid cells and not overall socio-economic cost of the solution, we need to include actual socio-economic constraints as linear penalties.</p>
 <p>Linear penalties can be used to avoid the selection of sites with a high value, for example, socio-economic costs if available. Here, we use the human modification index as a penalty.</p>
 <div class="cell">
@@ -518,8 +513,8 @@ div.csl-indent {
 </div>
 <p>Note: if one wanted to express the entire budget of the problem in monetary terms, the costs would need to be included in the planning units data.</p>
 </section>
-<section id="linear-penalties-with-negative-penalty-score" class="level2" data-number="6.8">
-<h2 data-number="6.8" class="anchored" data-anchor-id="linear-penalties-with-negative-penalty-score"><span class="header-section-number">6.8</span> Linear penalties with negative penalty score</h2>
+<section id="linear-penalties-with-negative-penalty-score" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="linear-penalties-with-negative-penalty-score"><span class="header-section-number">6.7</span> Linear penalties with negative penalty score</h2>
 <p>Linear penalties can also be used with a negative penalty score, to nudge the selection of sites with a high value. For example, one may use linear penalties with a negative penalty score to incorporate pre-defined ecological corridors; known climate refugia; intactness; etc.</p>
 <p>Here, we use NDVI as an example, which can be interpreted as a proxy for vegetation health.</p>
 <div class="cell">
@@ -538,8 +533,8 @@ div.csl-indent {
 </div>
 <p>A word of caution: sometimes adding constraints and penalties will tend to drive the solution much more strongly than the biodiversity features themselves. To limit the influence of the penalty data layer, you can consider decreasing the penalty value.</p>
 </section>
-<section id="decision-variables" class="level2" data-number="6.9">
-<h2 data-number="6.9" class="anchored" data-anchor-id="decision-variables"><span class="header-section-number">6.9</span> Decision variables</h2>
+<section id="decision-variables" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="decision-variables"><span class="header-section-number">6.8</span> Decision variables</h2>
 <p>So far, we solved problems as proportional decisions. Proportional decisions means that proportions of planning units can be selected in the solution. This typically solve faster and better than binary decisions.</p>
 <p>Let’s try solving the problem with a binary decision (i.e.&nbsp;a planning unit gets selected, or not).</p>
 <div class="cell">
@@ -581,8 +576,8 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="modify-the-budget" class="level2" data-number="6.10">
-<h2 data-number="6.10" class="anchored" data-anchor-id="modify-the-budget"><span class="header-section-number">6.10</span> Modify the budget</h2>
+<section id="modify-the-budget" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="modify-the-budget"><span class="header-section-number">6.9</span> Modify the budget</h2>
 <p>For example, we might be interested in finding top priorities for 10% strict protection. To do that, we need to change the budget, and the protected area layer, to find priorities that complement and expand on strictly protected areas only (IUCN i and II).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## modify the budget: e.g. 10% top priorities that expand on strict protected areas</span></span>
@@ -607,9 +602,6 @@ div.csl-indent {
 <span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>s8 <span class="ot">&lt;-</span> <span class="fu">solve</span>(p8)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="section-1" class="level2" data-number="6.11">
-<h2 data-number="6.11" class="anchored" data-anchor-id="section-1"><span class="header-section-number">6.11</span> </h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
