@@ -116,10 +116,8 @@ However, in practice it can also be useful to obtain not only the best or optima
 ::: callout-note
 ### Portfolio methods
 
-
 There are different portfolio methods (random, shuffle, cut, gap, etc...) available that provide different outputs, note that many portfolio methods are only available for Gurobi. See the help file for alternatives when in doubt.
 :::
-
 
 ```{r, eval = F}
 
@@ -138,6 +136,5 @@ sp |> sum() |>
   plot(main = "Portfolio selection frequency")
 
 ```
-
 
 ![Selection frequency of near-optimal solutions](/figures/irreplaceability_portfolioselection.png){width="500"}

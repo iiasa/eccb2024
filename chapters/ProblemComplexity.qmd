@@ -149,8 +149,6 @@ s4 <- solve(p4)
 
 1.  This MUST come AFTER the manual bounded constraints (if using), otherwise locked out constraints are ignored. Note that locked out constraints can sometimes also conflict with the manual bounded constraints, in other words locked in PA might become locked out...
 
-## 
-
 ## Adding (socio-economic) costs
 
 In prioritizr, the actual "cost" is tied to the value of the planning units, which then determines the budget. Since we need to express the budget in terms of number of grid cells and not overall socio-economic cost of the solution, we need to include actual socio-economic constraints as linear penalties.
@@ -248,5 +246,3 @@ p8 <- problem(PU, spp)%>%
 
 s8 <- solve(p8)
 ```
-
-## 

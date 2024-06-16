@@ -38,9 +38,15 @@ plot(c(expansion_climate, exp),  col = viridisLite::mako(n = 10, direction = -1)
 
 ![](/figures/expansionpriorities_comparison.PNG){width="518"}
 
+::: callout-caution
+## The influence of input data and methodological choices
+
+In addition, the more features are included, the more the solution converges, hence it is always better to include as many high-quality features data as possible, to increase comprehensiveness of the planning and obtain an ecologically robust solution.
+
 Remember that the solutions are highly dependent on methodological choices, and specifically on the input data (features, costs), constraints, and the objective function used, as well as the software.
 
-Also note that, the more features are included, the more the solution converges, hence it is always better to include as many high-quality features data as possible, to increase comprehensiveness of the planning and obtain an ecologically robust solution.
+For a review on the influence of different types of data and methodological choices in conservation prioritisation, see @kujala2018not
+:::
 
 ## Compare performance of solutions
 
@@ -127,11 +133,13 @@ ggplot(scenarios_performance_species, aes(x = solution, y = relative_shortfall))
 
 ![](/figures/analyseoutputs_ggplot4_targets.PNG){width="500"}
 
+::: callout-tip
 What do these two performance metrics tell us?
+:::
 
 ## Create a spatial ranking of conservation importance {#sec-spatial-ranking}
 
-Sometimes one may be interested in the relative ranking in the conservation value of planning units without a fixed budget. A rank map is one of the key outputs from Zonation. prioritizr does not provide such a rankmap, but we can make one by solving iteratively while gradually increasing the area in the solution (i.e. the budget). The average of all solutions can give a ranking of the grid cells in the study area in terms of conservation importance.
+Sometimes one may be interested in the relative ranking in the conservation value of planning units without a fixed budget. but we can make one by solving iteratively while gradually increasing the area in the solution (i.e. the budget). The average of all solutions can give a ranking of the grid cells in the study area in terms of conservation importance.
 
 Let's produce a ranking map with increasing the budget. We will build on solution #3 that expands on protected areas for current distributions, but does not include other constraints. We will start with the existing protected area and incrementally add budget until the whole study area is reached. Then, we can average across all solutions to obtain the ranking.
 
@@ -151,7 +159,7 @@ steps <- c(seq(from =protected.land, to = total.land, by = 5000 )[-1], total.lan
 for (budget.area in steps){
   p_i <- problem(PU, spp)%>%
     add_min_shortfall_objective(budget = budget.area)%>%
-    add_loglinear_targets(10, 1, 10^4, 0.5) %>%
+    add_relative_targets(1) %>%  #<1>
     add_feature_weights(redlist.trees$weight) %>%
     add_manual_bounded_constraints(pa_constraints)%>%
     add_cbc_solver()%>%
@@ -168,4 +176,56 @@ plot(ranking.expansion.priorities, col = viridisLite::magma(n = 100, direction =
 
 ```
 
+1.   Here we use relative targets of 1 that are equal for all species, such that each species should be fully represented across its entire distribution. This is because the solution only contains the area that is necessary to meet the targets. If all targets are met within an amount of area that is smaller than the budget specified, the budget is ignored.
+
 ![](/figures/solutions_rankmap.PNG){width="392"}
+
+The question is now, how does feature representation increase with added area? Let's find out by plotting a performance curve, i.e. representation gains with increasing area, starting from the current representation within protected areas up to the total study area.
+
+```{r, eval = FALSE}
+
+#### create representation curves 
+
+curves <- as.data.frame(matrix(ncol = 3, nrow = 0))
+
+colnames(curves) <- c("area", "species", "relative_held")
+
+
+
+incremental.solutions <- c(incremental.solutions, PU) ## add PU with all grid cells value = 1 for completeness
+
+steps <- c(seq(from =protected.land, to = total.land, by = 5000 ), total.land) ## add current area protected as initial step, and total study area
+
+for (n in 1:nlyr(incremental.solutions)){ 
+  rpz_n <- eval_feature_representation_summary(p1, incremental.solutions[[n]])
+  df_n <- data.frame(area = steps[n], 
+                     species = rpz_n$feature, 
+                     relative_held = rpz_n$relative_held)
+  curves <- rbind(curves, df_n)
+  }
+
+
+
+## now plot the curves for each species + the mean
+ggplot(data = curves, aes(x = area, y = relative_held, colour = species))+ 
+  geom_line(alpha = 0.5) + ## one line per species 
+  stat_summary(fun.y=mean, colour="black", lwd = 0.9, geom="line") + ## plot mean on top in black
+  scale_colour_discrete(guide = "none")+ ## hide the legend 
+  ylab("proportion distribution held") +
+  theme_bw()
+
+
+
+```
+
+![](/figures/solutions_ranking_perfcurves_species.png){width="539"}
+
+::: {.callout-tip appearance="minimal"}
+Here, we only ranked the area that is currently non protected. It would be possible to create a rankmap and performance curves considering the whole landscape, including currently protected areas. What would you expect the performance curves to look like in this case?
+:::
+
+::: {.callout-note appearance="minimal"}
+## Rank maps and performance curves
+
+A rank map and associated performance curves are key outputs that Zonation provides automatically with each prioritisation. prioritizr does not automatically make these outputs as prioritizr most often enables to solve an optimisation problem under a fixed budget. But we can indirectly create these two useful outputs with prioritizr by iterating over increasing budget area.
+:::
