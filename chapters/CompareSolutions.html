@@ -332,7 +332,12 @@ div.csl-indent {
   <ul>
   <li><a href="#compare-spatial-outputs" id="toc-compare-spatial-outputs" class="nav-link active" data-scroll-target="#compare-spatial-outputs"><span class="header-section-number">7.1</span> Compare spatial outputs</a></li>
   <li><a href="#compare-performance-of-solutions" id="toc-compare-performance-of-solutions" class="nav-link" data-scroll-target="#compare-performance-of-solutions"><span class="header-section-number">7.2</span> Compare performance of solutions</a></li>
-  <li><a href="#sec-spatial-ranking" id="toc-sec-spatial-ranking" class="nav-link" data-scroll-target="#sec-spatial-ranking"><span class="header-section-number">7.3</span> Create a spatial ranking of conservation importance</a></li>
+  <li><a href="#sec-spatial-ranking" id="toc-sec-spatial-ranking" class="nav-link" data-scroll-target="#sec-spatial-ranking"><span class="header-section-number">7.3</span> Create a spatial ranking of conservation importance</a>
+  <ul class="collapse">
+  <li><a href="#incremential-spatial-ranking" id="toc-incremential-spatial-ranking" class="nav-link" data-scroll-target="#incremential-spatial-ranking"><span class="header-section-number">7.3.1</span> Incremential spatial ranking</a></li>
+  <li><a href="#representation-curves" id="toc-representation-curves" class="nav-link" data-scroll-target="#representation-curves"><span class="header-section-number">7.3.2</span> Representation curves</a></li>
+  <li><a href="#still-time-and-interested-in-more" id="toc-still-time-and-interested-in-more" class="nav-link" data-scroll-target="#still-time-and-interested-in-more"><span class="header-section-number">7.3.3</span> Still time and interested in more?</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -358,8 +363,10 @@ div.csl-indent {
 </header>
 
 
+<p>The code here assumes that all the solutions in <a href="ProblemComplexity.html" class="quarto-xref"><span>Chapter 6</span></a> have been succesfully run. What we will do here is to visually compare them among each other as well as by their performance (e.g.&nbsp;what they are able to achieve in terms of feature representation).</p>
 <section id="compare-spatial-outputs" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="compare-spatial-outputs"><span class="header-section-number">7.1</span> Compare spatial outputs</h2>
+<p>Let’s plot all the solutions from before to ompare them side-by-side.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot all solutions to compare them</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(s, s1, s3, s3_bis, s4, s5, s6, s7, s8),</span>
@@ -370,22 +377,22 @@ div.csl-indent {
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">axes =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><img src="../figures/solutions_nine_sols.PNG" class="img-fluid"></p>
+<p>Obviously each problem formulation resulted in a slightly different outcome. There might be however different reasonings behind each of them. A simple idea could thus be to explore ‘safe bets’ for expansion priorities across all variations of the problems expanding on protected areas.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="do">##### map safe bets for expansion priorities across all variations of the problems expanding on protected areas ##</span></span>
+<div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simply average all solutions. This works as those are shares</span></span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>mean_s <span class="ot">&lt;-</span> <span class="fu">mean</span>(s3, s3_bis, s4, s5, s6, s7)</span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a>exp <span class="ot">&lt;-</span> mean_s <span class="sc">-</span> PA </span>
 <span id="annotated-cell-2-5"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-6" class="code-annotation-target"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a>exp[exp<span class="sc">&lt;</span><span class="dv">0</span>]<span class="ot">&lt;-</span><span class="dv">0</span></span>
 <span id="annotated-cell-2-7"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Compare this map with the one obtained without considering additions in solutions s4-s7 : how different are they?</span></span>
-<span id="annotated-cell-2-9"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-2-10"><a href="#annotated-cell-2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(expansion_climate, exp),  <span class="at">col =</span> viridisLite<span class="sc">::</span><span class="fu">mako</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>), <span class="at">main =</span> <span class="fu">c</span>(<span class="st">"Average expansion priorities </span><span class="sc">\n</span><span class="st"> for current and future SDM"</span>, <span class="st">"Average expansion priorities </span><span class="sc">\n</span><span class="st"> solutions s3 to s7"</span>), <span class="at">axes =</span> F)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare this map with the one obtained without considering additions in solutions s4-s7 : how different are they?</span></span>
+<span id="annotated-cell-2-9"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(expansion_climate, exp),  <span class="at">col =</span> viridisLite<span class="sc">::</span><span class="fu">mako</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>), <span class="at">main =</span> <span class="fu">c</span>(<span class="st">"Average expansion priorities </span><span class="sc">\n</span><span class="st"> for current and future SDM"</span>, <span class="st">"Average expansion priorities </span><span class="sc">\n</span><span class="st"> solutions s3 to s7"</span>), <span class="at">axes =</span> F)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="6" data-code-annotation="1">set negative values to zero (these correspond to planning units that were locked out by urban/forestry layer, but that are currently protected)</span>
+<span data-code-cell="annotated-cell-2" data-code-lines="6" data-code-annotation="1">Set negative values to zero (these correspond to planning units that were locked out by urban/forestry layer, but that are currently protected)</span>
 </dd>
 </dl>
 </div>
@@ -401,55 +408,55 @@ The influence of input data and methodological choices
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In addition, the more features are included, the more the solution converges, hence it is always better to include as many high-quality features data as possible, to increase comprehensiveness of the planning and obtain an ecologically robust solution.</p>
-<p>Remember that the solutions are highly dependent on methodological choices, and specifically on the input data (features, costs), constraints, and the objective function used, as well as the software.</p>
-<p>For a review on the influence of different types of data and methodological choices in conservation prioritisation, see <span class="citation" data-cites="kujala2018not">Kujala <em>et al.</em> (<a href="../references.html#ref-kujala2018not" role="doc-biblioref">2018</a>)</span></p>
+<p>Remember that the solutions are highly dependent on methodological choices, and specifically on the input data (features, costs), constraints, and the objective function used, as well as the software. Proper care should be taken with any features or constraints included since those can have large consequences on the outcomes. Thus 90% of a good planning is the use of adequate data for the problem at hand so as to obtain an ecologically robust solution.</p>
+<p>For a review on the influence of different types of data and methodological choices in conservation prioritisation, see <span class="citation" data-cites="kujala2018not">Kujala <em>et al.</em> (<a href="../references.html#ref-kujala2018not" role="doc-biblioref">2018</a>)</span> .</p>
 </div>
 </div>
 </section>
 <section id="compare-performance-of-solutions" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="compare-performance-of-solutions"><span class="header-section-number">7.2</span> Compare performance of solutions</h2>
-<p>We can compare the performance of solutions for the species by assessing their representation in each solution as well as the target shortfall.</p>
+<p>So far we looked at the spatial patterns of the various solutions, but this obviously does not tell us much about how good the solution actually is. For this purpose an evaluation metrics, ideally one related to the outcome being optimized, should be considered. In this case we assess the performance of the solutions for the species through their representation in each solution as well as the target shortfall.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># First we create rasterstack of solutions for which you want to compare performance</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># here, we compare the solutions that optimize for current distributions within 30% budget area</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>solutions <span class="ot">&lt;-</span> <span class="fu">c</span>(s, s1, s2, s3, s4, s5, s6, s7)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(solutions) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"basic problem"</span>, <span class="st">"add log linear targets"</span>, <span class="st">"add weights"</span>,</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"add protected areas"</span>,  <span class="st">"add locked-out constraints"</span>, <span class="st">"add gHM"</span>, <span class="st">"add NVDI"</span>,</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"binary decision"</span> )</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="do">## analyse representation gains in the different solutions with a given budget</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="do">## for individual species</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>scenarios_performance_species <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">solution =</span> <span class="fu">character</span>(),</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>                              <span class="at">feature =</span> <span class="fu">character</span>(),</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>                              <span class="at">class =</span> <span class="fu">character</span>(),</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>                              <span class="at">order =</span> <span class="fu">character</span>(),</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>                              <span class="at">relative_held =</span> <span class="fu">numeric</span>(),  <span class="do">## representation: percentage of distribution held in the solution</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>                              <span class="at">relative_shortfall =</span> <span class="fu">numeric</span>()) <span class="do">## shortfall to target: how far from the area target for each species</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="do">## loop across solutions to extract representations for species and target shortfall</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlyr</span>(solutions)){</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste0</span>(i, <span class="st">" </span><span class="sc">\n</span><span class="st">"</span>))  <span class="co"># keep track</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  rpz.s_i <span class="ot">&lt;-</span> <span class="fu">eval_target_coverage_summary</span>(p1, solutions[[i]]) <span class="do">## for each species. Note that here, we assess the target shortfall based on the targets defined in p1, i.e. log linear targets.</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  rpz.s_i<span class="sc">$</span>order <span class="ot">&lt;-</span> redlist.trees<span class="sc">$</span>order[<span class="fu">match</span>(rpz.s_i<span class="sc">$</span>feature, redlist.trees<span class="sc">$</span>spp_name)]</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  rpz.s_i<span class="sc">$</span>class <span class="ot">&lt;-</span> redlist.trees<span class="sc">$</span>class[<span class="fu">match</span>(rpz.s_i<span class="sc">$</span>feature, redlist.trees<span class="sc">$</span>spp_name)]</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  rpz.s_i<span class="sc">$</span>solution <span class="ot">&lt;-</span> <span class="fu">names</span>(solutions)[i]</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  rpz_i <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(rpz.s_i)</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  scenarios_performance_species <span class="ot">&lt;-</span> <span class="fu">rbind</span>(scenarios_performance_species,</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>                           rpz_i[, <span class="fu">c</span>(<span class="st">"solution"</span>, <span class="st">"feature"</span>,  <span class="st">"class"</span>,<span class="st">"order"</span>, <span class="st">"relative_held"</span>, <span class="st">"relative_shortfall"</span>)]</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>                           )</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the ggplot2 package for plotting</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># First we create rasterstack of solutions for which you want to compare performance</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># here, we compare the solutions that optimize for current distributions within 30% budget area</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>solutions <span class="ot">&lt;-</span> <span class="fu">c</span>(s, s1, s2, s3, s4, s5, s6, s7)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(solutions) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"basic problem"</span>, <span class="st">"add log linear targets"</span>, <span class="st">"add weights"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"add protected areas"</span>,  <span class="st">"add locked-out constraints"</span>, <span class="st">"add gHM"</span>, <span class="st">"add NVDI"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"binary decision"</span> )</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="do">## analyse representation gains in the different solutions with a given budget</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="do">## for individual species</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>scenarios_performance_species <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">solution =</span> <span class="fu">character</span>(),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>                              <span class="at">feature =</span> <span class="fu">character</span>(),</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>                              <span class="at">class =</span> <span class="fu">character</span>(),</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>                              <span class="at">order =</span> <span class="fu">character</span>(),</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>                              <span class="at">relative_held =</span> <span class="fu">numeric</span>(),  <span class="do">## representation: percentage of distribution held in the solution</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>                              <span class="at">relative_shortfall =</span> <span class="fu">numeric</span>()) <span class="do">## shortfall to target: how far from the area target for each species</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="do">## loop across solutions to extract representations for species and target shortfall</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlyr</span>(solutions)){</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste0</span>(i, <span class="st">" </span><span class="sc">\n</span><span class="st">"</span>))  <span class="co"># keep track</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  rpz.s_i <span class="ot">&lt;-</span> <span class="fu">eval_target_coverage_summary</span>(p1, solutions[[i]]) <span class="do">## for each species. Note that here, we assess the target shortfall based on the targets defined in p1, i.e. log linear targets.</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  rpz.s_i<span class="sc">$</span>order <span class="ot">&lt;-</span> redlist.trees<span class="sc">$</span>order[<span class="fu">match</span>(rpz.s_i<span class="sc">$</span>feature, redlist.trees<span class="sc">$</span>spp_name)]</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  rpz.s_i<span class="sc">$</span>class <span class="ot">&lt;-</span> redlist.trees<span class="sc">$</span>class[<span class="fu">match</span>(rpz.s_i<span class="sc">$</span>feature, redlist.trees<span class="sc">$</span>spp_name)]</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  rpz.s_i<span class="sc">$</span>solution <span class="ot">&lt;-</span> <span class="fu">names</span>(solutions)[i]</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  rpz_i <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(rpz.s_i)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  scenarios_performance_species <span class="ot">&lt;-</span> <span class="fu">rbind</span>(scenarios_performance_species,</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>                           rpz_i[, <span class="fu">c</span>(<span class="st">"solution"</span>, <span class="st">"feature"</span>,  <span class="st">"class"</span>,<span class="st">"order"</span>, <span class="st">"relative_held"</span>, <span class="st">"relative_shortfall"</span>)]</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>                           )</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>scenarios_performance_species<span class="sc">$</span>solution <span class="ot">&lt;-</span> <span class="fu">factor</span>(scenarios_performance_species<span class="sc">$</span>solution, <span class="at">levels =</span> <span class="fu">names</span>(solutions)) <span class="do">## to plot solutions in the right order.</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="do">## compare performance of different solutions in terms of representation</span></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(scenarios_performance_species, <span class="fu">aes</span>(<span class="at">x =</span> solution, <span class="at">y =</span> relative_held)) <span class="sc">+</span></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>scenarios_performance_species<span class="sc">$</span>solution <span class="ot">&lt;-</span> <span class="fu">factor</span>(scenarios_performance_species<span class="sc">$</span>solution, <span class="at">levels =</span> <span class="fu">names</span>(solutions)) <span class="do">## to plot solutions in the right order.</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="do">## compare performance of different solutions in terms of representation</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(scenarios_performance_species, <span class="fu">aes</span>(<span class="at">x =</span> solution, <span class="at">y =</span> relative_held)) <span class="sc">+</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><img src="../figures/analyseoutputs_ggplot1.PNG" class="img-fluid" width="500"></p>
 <div class="cell">
@@ -459,15 +466,17 @@ The influence of input data and methodological choices
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><img src="../figures/analyseoutputs_ggplot2.PNG" class="img-fluid" width="500"></p>
+<p>What can you interpret from this plot? It clearly seems as if there is a gradient from worst to best here, right? Remind yourself what is ‘better’ in this case!</p>
+<p>We can also explore the outcomes grouped by class instead of family.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## group by Class instead of family</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="do">## add jitter points to see individual species representations</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(scenarios_performance_species, <span class="fu">aes</span>(<span class="at">x =</span> solution, <span class="at">y =</span> relative_held)) <span class="sc">+</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">fill =</span> class), <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">outlier.size =</span> <span class="dv">0</span>)<span class="sc">+</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> solution, <span class="at">y =</span> relative_held, <span class="at">colour =</span> class), <span class="at">position =</span> <span class="fu">position_jitterdodge</span>())<span class="sc">+</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## add jitter points to see individual species representations</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(scenarios_performance_species, <span class="fu">aes</span>(<span class="at">x =</span> solution, <span class="at">y =</span> relative_held)) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">fill =</span> class), <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">outlier.size =</span> <span class="dv">0</span>)<span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> solution, <span class="at">y =</span> relative_held, <span class="at">colour =</span> class), <span class="at">position =</span> <span class="fu">position_jitterdodge</span>())<span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><img src="../figures/analyseoutputs_ggplot3.PNG" class="img-fluid" width="500"></p>
+<p>Lastly, we can also look at the shortfall and not at the representation (relative_held).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## compare performance of different solutions in terms of target shortfall</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(scenarios_performance_species, <span class="fu">aes</span>(<span class="at">x =</span> solution, <span class="at">y =</span> relative_shortfall)) <span class="sc">+</span></span>
@@ -486,16 +495,19 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>What do these two performance metrics tell us?</p>
+<p>What do these two performance metrics tell us? Remember that we conducted a planning with different targets and altered them as such.</p>
 </div>
 </div>
 </section>
 <section id="sec-spatial-ranking" class="level2" data-number="7.3">
 <h2 data-number="7.3" class="anchored" data-anchor-id="sec-spatial-ranking"><span class="header-section-number">7.3</span> Create a spatial ranking of conservation importance</h2>
 <p>Sometimes one may be interested in the relative ranking in the conservation value of planning units without a fixed budget. but we can make one by solving iteratively while gradually increasing the area in the solution (i.e.&nbsp;the budget). The average of all solutions can give a ranking of the grid cells in the study area in terms of conservation importance.</p>
-<p>Let’s produce a ranking map with increasing the budget. We will build on solution #3 that expands on protected areas for current distributions, but does not include other constraints. We will start with the existing protected area and incrementally add budget until the whole study area is reached. Then, we can average across all solutions to obtain the ranking.</p>
+<p>Let’s produce a ranking map with increasing the budget. We will build on solution #3 that expands on protected areas for current distributions, but does not include other constraints. We will start with the existing protected area and incrementally add budget until the whole study area is reached. Then, we can average across all solutions to obtain the ranking. If the decision is a binary one, then a sum can also be used across solutions.</p>
+<section id="incremential-spatial-ranking" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="incremential-spatial-ranking"><span class="header-section-number">7.3.1</span> Incremential spatial ranking</h3>
+<p>Here we spatially rank a series of solutions with step-wise increasing budget.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-7"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-7-1"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## initialise a raster stack with existing PA to store solutions as budget area increases.</span></span>
+<div class="sourceCode cell-code" id="annotated-cell-7"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-7-1"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># initialise a raster stack with existing PA to store solutions as budget area increases.</span></span>
 <span id="annotated-cell-7-2"><a href="#annotated-cell-7-2" aria-hidden="true" tabindex="-1"></a>incremental.solutions <span class="ot">&lt;-</span> PA</span>
 <span id="annotated-cell-7-3"><a href="#annotated-cell-7-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-7-4"><a href="#annotated-cell-7-4" aria-hidden="true" tabindex="-1"></a>protected.land <span class="ot">&lt;-</span>  <span class="fu">round</span>(<span class="fu">sum</span>(PA[PA<span class="sc">&gt;</span><span class="dv">0</span>]))</span>
@@ -521,7 +533,7 @@ Tip
 <span id="annotated-cell-7-24"><a href="#annotated-cell-7-24" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="annotated-cell-7-25"><a href="#annotated-cell-7-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-7-26"><a href="#annotated-cell-7-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-7-27"><a href="#annotated-cell-7-27" aria-hidden="true" tabindex="-1"></a>ranking.expansion.priorities <span class="ot">&lt;-</span> <span class="fu">mean</span>(incremental.solutions) <span class="sc">-</span> PA</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2">2</button><span id="annotated-cell-7-27" class="code-annotation-target"><a href="#annotated-cell-7-27" aria-hidden="true" tabindex="-1"></a>ranking.expansion.priorities <span class="ot">&lt;-</span> <span class="fu">mean</span>(incremental.solutions) <span class="sc">-</span> PA</span>
 <span id="annotated-cell-7-28"><a href="#annotated-cell-7-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-7-29"><a href="#annotated-cell-7-29" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ranking.expansion.priorities, <span class="at">col =</span> viridisLite<span class="sc">::</span><span class="fu">magma</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">direction =</span><span class="sc">-</span><span class="dv">1</span>), <span class="at">axes =</span> F, <span class="at">main =</span> <span class="st">"Rank map </span><span class="sc">\n</span><span class="st"> protected area expansion priorities for current SDM"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
@@ -530,41 +542,44 @@ Tip
 <dd>
 <span data-code-cell="annotated-cell-7" data-code-lines="16" data-code-annotation="1">Here we use relative targets of 1 that are equal for all species, such that each species should be fully represented across its entire distribution. This is because the solution only contains the area that is necessary to meet the targets. If all targets are met within an amount of area that is smaller than the budget specified, the budget is ignored.</span>
 </dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="27" data-code-annotation="2">We subtract the currently protected area share here to specifically focus on expansion only.</span>
+</dd>
 </dl>
 </div>
 </div>
 <p><img src="../figures/solutions_rankmap.PNG" class="img-fluid" width="392"></p>
+</section>
+<section id="representation-curves" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="representation-curves"><span class="header-section-number">7.3.2</span> Representation curves</h3>
 <p>The question is now, how does feature representation increase with added area? Let’s find out by plotting a performance curve, i.e.&nbsp;representation gains with increasing area, starting from the current representation within protected areas up to the total study area.</p>
+<p>A rank map and associated performance curves are key outputs that Zonation provides automatically with each prioritisation. Prioritizr howeve does not automatically make these outputs as prioritizr most often enables to solve an optimisation problem under a fixed budget. But we can indirectly create these two useful outputs with prioritizr by iterating over increasing budget area.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">#### create representation curves </span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>curves <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">nrow =</span> <span class="dv">0</span>))</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(curves) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"area"</span>, <span class="st">"species"</span>, <span class="st">"relative_held"</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data frame to contain the resulting curves</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>curves <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">nrow =</span> <span class="dv">0</span>))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(curves) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"area"</span>, <span class="st">"species"</span>, <span class="st">"relative_held"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>incremental.solutions <span class="ot">&lt;-</span> <span class="fu">c</span>(incremental.solutions, PU) <span class="do">## add PU with all grid cells value = 1 for completeness</span></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>incremental.solutions <span class="ot">&lt;-</span> <span class="fu">c</span>(incremental.solutions, PU) <span class="do">## add PU with all grid cells value = 1 for completeness</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>steps <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="at">from =</span>protected.land, <span class="at">to =</span> total.land, <span class="at">by =</span> <span class="dv">5000</span> ), total.land) <span class="do">## add current area protected as initial step, and total study area</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlyr</span>(incremental.solutions)){ </span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  rpz_n <span class="ot">&lt;-</span> <span class="fu">eval_feature_representation_summary</span>(p1, incremental.solutions[[n]])</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  df_n <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">area =</span> steps[n], </span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>                     <span class="at">species =</span> rpz_n<span class="sc">$</span>feature, </span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>                     <span class="at">relative_held =</span> rpz_n<span class="sc">$</span>relative_held)</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  curves <span class="ot">&lt;-</span> <span class="fu">rbind</span>(curves, df_n)</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="do">## now plot the curves for each species + the mean</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> curves, <span class="fu">aes</span>(<span class="at">x =</span> area, <span class="at">y =</span> relative_held, <span class="at">colour =</span> species))<span class="sc">+</span> </span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> <span class="do">## one line per species </span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.y=</span>mean, <span class="at">colour=</span><span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.9</span>, <span class="at">geom=</span><span class="st">"line"</span>) <span class="sc">+</span> <span class="do">## plot mean on top in black</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_discrete</span>(<span class="at">guide =</span> <span class="st">"none"</span>)<span class="sc">+</span> <span class="do">## hide the legend </span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"proportion distribution held"</span>) <span class="sc">+</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>steps <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="at">from =</span>protected.land, <span class="at">to =</span> total.land, <span class="at">by =</span> <span class="dv">5000</span> ), total.land) <span class="do">## add current area protected as initial step, and total study area</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlyr</span>(incremental.solutions)){ </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  rpz_n <span class="ot">&lt;-</span> <span class="fu">eval_feature_representation_summary</span>(p1, incremental.solutions[[n]])</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  df_n <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">area =</span> steps[n], </span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                     <span class="at">species =</span> rpz_n<span class="sc">$</span>feature, </span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>                     <span class="at">relative_held =</span> rpz_n<span class="sc">$</span>relative_held)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  curves <span class="ot">&lt;-</span> <span class="fu">rbind</span>(curves, df_n)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="do">## now plot the curves for each species + the mean</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> curves, <span class="fu">aes</span>(<span class="at">x =</span> area, <span class="at">y =</span> relative_held, <span class="at">colour =</span> species))<span class="sc">+</span> </span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> <span class="do">## one line per species </span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.y=</span>mean, <span class="at">colour=</span><span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.9</span>, <span class="at">geom=</span><span class="st">"line"</span>) <span class="sc">+</span> <span class="do">## plot mean on top in black</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_discrete</span>(<span class="at">guide =</span> <span class="st">"none"</span>)<span class="sc">+</span> <span class="do">## hide the legend </span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"proportion distribution held"</span>) <span class="sc">+</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><img src="../figures/solutions_ranking_perfcurves_species.png" class="img-fluid" width="539"></p>
 <div class="callout callout-style-simple callout-tip no-icon">
@@ -577,19 +592,10 @@ Tip
 </div>
 </div>
 </div>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Rank maps and performance curves
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A rank map and associated performance curves are key outputs that Zonation provides automatically with each prioritisation. prioritizr does not automatically make these outputs as prioritizr most often enables to solve an optimisation problem under a fixed budget. But we can indirectly create these two useful outputs with prioritizr by iterating over increasing budget area.</p>
-</div>
-</div>
+</section>
+<section id="still-time-and-interested-in-more" class="level3" data-number="7.3.3">
+<h3 data-number="7.3.3" class="anchored" data-anchor-id="still-time-and-interested-in-more"><span class="header-section-number">7.3.3</span> Still time and interested in more?</h3>
+<p>Try to make the graph above however with the number of features that have their targets reached at each step. While intuitive in terms of interpretation, can you guess why the number of targets reached is not a good idea for this particular problem (Hint: also in <a href="ObjectiveFunctions.html" class="quarto-xref"><span>Chapter 5</span></a> ).</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
@@ -597,6 +603,7 @@ Rank maps and performance curves
 Kujala, H., Lahoz-Monfort, J.J., Elith, J. &amp; Moilanen, A. (2018). Not all data are equal: Influence of data type and amount in spatial conservation prioritisation. <em>Methods in Ecology and Evolution</em>, <em>9</em>, 2249–2261.
 </div>
 </div>
+</section>
 </section>
 
 </main> <!-- /main -->
