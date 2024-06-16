@@ -2,7 +2,7 @@
 code-annotations: hover
 ---
 
-# Adding complexity to conservation planning
+# Adding complexity to conservation planning {#sec-complexity}
 
 In the sections below we will explore some ways of how complexity aspects can be added to a planning problem. With complexity in this context is meant the addition of any planning aspects that go beyond 'default' inputs. For example adding lock-in or lock-out constraints, altering decision variables or feature weights. 
 

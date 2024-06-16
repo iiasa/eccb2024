@@ -4,7 +4,11 @@ code-annotations: hover
 
 # Compare and analyse different solutions
 
+The code here assumes that all the solutions in @sec-complexity have been succesfully run. What we will do here is to visually compare them among each other as well as by their performance (e.g. what they are able to achieve in terms of feature representation).
+
 ## Compare spatial outputs
+
+Let's plot all the solutions from before to ompare them side-by-side.
 
 ```{r, eval = FALSE}
 
@@ -19,41 +23,44 @@ plot(c(s, s1, s3, s3_bis, s4, s5, s6, s7, s8),
 
 ![](/figures/solutions_nine_sols.PNG)
 
+Obviously each problem formulation resulted in a slightly different outcome. There might be however different reasonings behind each of them.
+A simple idea could thus be to explore 'safe bets' for expansion priorities across all variations of the problems expanding on protected areas.
+
 ```{r, eval = FALSE}
 
-##### map safe bets for expansion priorities across all variations of the problems expanding on protected areas ##
+# Simply average all solutions. This works as those are shares
 mean_s <- mean(s3, s3_bis, s4, s5, s6, s7)
 
 exp <- mean_s - PA 
 
 exp[exp<0]<-0    #<1>
 
-## Compare this map with the one obtained without considering additions in solutions s4-s7 : how different are they?
-
+# Compare this map with the one obtained without considering additions in solutions s4-s7 : how different are they?
 plot(c(expansion_climate, exp),  col = viridisLite::mako(n = 10, direction = -1), main = c("Average expansion priorities \n for current and future SDM", "Average expansion priorities \n solutions s3 to s7"), axes = F)
 
 ```
 
-1.  set negative values to zero (these correspond to planning units that were locked out by urban/forestry layer, but that are currently protected)
+1. Set negative values to zero (these correspond to planning units that were locked out by urban/forestry layer, but that are currently protected)
 
 ![](/figures/expansionpriorities_comparison.PNG){width="518"}
 
 ::: callout-caution
 ## The influence of input data and methodological choices
 
-In addition, the more features are included, the more the solution converges, hence it is always better to include as many high-quality features data as possible, to increase comprehensiveness of the planning and obtain an ecologically robust solution.
-
 Remember that the solutions are highly dependent on methodological choices, and specifically on the input data (features, costs), constraints, and the objective function used, as well as the software.
+Proper care should be taken with any features or constraints included since those can have large consequences on the outcomes. Thus 90% of a good planning is the use of adequate data for the problem at hand so as to obtain an ecologically robust solution.
 
-For a review on the influence of different types of data and methodological choices in conservation prioritisation, see @kujala2018not
+For a review on the influence of different types of data and methodological choices in conservation prioritisation, see @kujala2018not .
 :::
 
 ## Compare performance of solutions
 
-We can compare the performance of solutions for the species by assessing their representation in each solution as well as the target shortfall.
+So far we looked at the spatial patterns of the various solutions, but this obviously does not tell us much about how good the solution actually is. For this purpose an evaluation metrics, ideally one related to the outcome being optimized, should be considered.
+In this case we assess the performance of the solutions for the species through their representation in each solution as well as the target shortfall.
 
 ```{r, eval = FALSE}
 
+# Load the ggplot2 package for plotting
 library(ggplot2)
 
 # First we create rasterstack of solutions for which you want to compare performance
@@ -110,8 +117,13 @@ ggplot(scenarios_performance_species, aes(x = solution, y = relative_held)) +
 
 ![](/figures/analyseoutputs_ggplot2.PNG){width="500"}
 
+What can you interpret from this plot? It clearly seems as if there is a gradient from worst to best here, right? 
+Remind yourself what is 'better' in this case!
+
+We can also explore the outcomes grouped by class instead of family.
+
 ```{r, eval = FALSE}
-## group by Class instead of family
+
 ## add jitter points to see individual species representations
 ggplot(scenarios_performance_species, aes(x = solution, y = relative_held)) +
   geom_boxplot(aes(fill = class), alpha = 0.2, outlier.size = 0)+
@@ -121,6 +133,8 @@ ggplot(scenarios_performance_species, aes(x = solution, y = relative_held)) +
 ```
 
 ![](/figures/analyseoutputs_ggplot3.PNG){width="500"}
+
+Lastly, we can also look at the shortfall and not at the representation (relative_held).
 
 ```{r, eval = FALSE}
 
@@ -134,17 +148,21 @@ ggplot(scenarios_performance_species, aes(x = solution, y = relative_shortfall))
 ![](/figures/analyseoutputs_ggplot4_targets.PNG){width="500"}
 
 ::: callout-tip
-What do these two performance metrics tell us?
+What do these two performance metrics tell us? Remember that we conducted a planning with different targets and altered them as such.
 :::
 
 ## Create a spatial ranking of conservation importance {#sec-spatial-ranking}
 
 Sometimes one may be interested in the relative ranking in the conservation value of planning units without a fixed budget. but we can make one by solving iteratively while gradually increasing the area in the solution (i.e. the budget). The average of all solutions can give a ranking of the grid cells in the study area in terms of conservation importance.
 
-Let's produce a ranking map with increasing the budget. We will build on solution #3 that expands on protected areas for current distributions, but does not include other constraints. We will start with the existing protected area and incrementally add budget until the whole study area is reached. Then, we can average across all solutions to obtain the ranking.
+Let's produce a ranking map with increasing the budget. We will build on solution #3 that expands on protected areas for current distributions, but does not include other constraints. We will start with the existing protected area and incrementally add budget until the whole study area is reached. Then, we can average across all solutions to obtain the ranking. If the decision is a binary one, then a sum can also be used across solutions.
+
+### Incremential spatial ranking
+
+Here we spatially rank a series of solutions with step-wise increasing budget.
 
 ```{r, eval = FALSE}
-## initialise a raster stack with existing PA to store solutions as budget area increases.
+# initialise a raster stack with existing PA to store solutions as budget area increases.
 incremental.solutions <- PA
 
 protected.land <-  round(sum(PA[PA>0]))
@@ -170,27 +188,29 @@ for (budget.area in steps){
 }
 
 
-ranking.expansion.priorities <- mean(incremental.solutions) - PA
+ranking.expansion.priorities <- mean(incremental.solutions) - PA # <2>
 
 plot(ranking.expansion.priorities, col = viridisLite::magma(n = 100, direction =-1), axes = F, main = "Rank map \n protected area expansion priorities for current SDM")
 
 ```
 
-1.   Here we use relative targets of 1 that are equal for all species, such that each species should be fully represented across its entire distribution. This is because the solution only contains the area that is necessary to meet the targets. If all targets are met within an amount of area that is smaller than the budget specified, the budget is ignored.
+1. Here we use relative targets of 1 that are equal for all species, such that each species should be fully represented across its entire distribution. This is because the solution only contains the area that is necessary to meet the targets. If all targets are met within an amount of area that is smaller than the budget specified, the budget is ignored.
+2. We subtract the currently protected area share here to specifically focus on expansion only.
 
 ![](/figures/solutions_rankmap.PNG){width="392"}
 
+### Representation curves 
+
 The question is now, how does feature representation increase with added area? Let's find out by plotting a performance curve, i.e. representation gains with increasing area, starting from the current representation within protected areas up to the total study area.
+
+A rank map and associated performance curves are key outputs that Zonation provides automatically with each prioritisation. Prioritizr howeve does not automatically make these outputs as prioritizr most often enables to solve an optimisation problem under a fixed budget. But we can indirectly create these two useful outputs with prioritizr by iterating over increasing budget area.
 
 ```{r, eval = FALSE}
 
-#### create representation curves 
-
+# Data frame to contain the resulting curves
 curves <- as.data.frame(matrix(ncol = 3, nrow = 0))
 
 colnames(curves) <- c("area", "species", "relative_held")
-
-
 
 incremental.solutions <- c(incremental.solutions, PU) ## add PU with all grid cells value = 1 for completeness
 
@@ -204,8 +224,6 @@ for (n in 1:nlyr(incremental.solutions)){
   curves <- rbind(curves, df_n)
   }
 
-
-
 ## now plot the curves for each species + the mean
 ggplot(data = curves, aes(x = area, y = relative_held, colour = species))+ 
   geom_line(alpha = 0.5) + ## one line per species 
@@ -213,8 +231,6 @@ ggplot(data = curves, aes(x = area, y = relative_held, colour = species))+
   scale_colour_discrete(guide = "none")+ ## hide the legend 
   ylab("proportion distribution held") +
   theme_bw()
-
-
 
 ```
 
@@ -224,8 +240,5 @@ ggplot(data = curves, aes(x = area, y = relative_held, colour = species))+
 Here, we only ranked the area that is currently non protected. It would be possible to create a rankmap and performance curves considering the whole landscape, including currently protected areas. What would you expect the performance curves to look like in this case?
 :::
 
-::: {.callout-note appearance="minimal"}
-## Rank maps and performance curves
-
-A rank map and associated performance curves are key outputs that Zonation provides automatically with each prioritisation. prioritizr does not automatically make these outputs as prioritizr most often enables to solve an optimisation problem under a fixed budget. But we can indirectly create these two useful outputs with prioritizr by iterating over increasing budget area.
-:::
+### Still time and interested in more?
+Try to make the graph above however with the number of features that have their targets reached at each step. While intuitive in terms of interpretation, can you guess why the number of targets reached is not a good idea for this particular problem (Hint: also in @sec-objective ).

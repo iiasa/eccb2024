@@ -2,7 +2,7 @@
 code-annotations: hover
 ---
 
-# Objective functions
+# Objective functions {#sec-objective}
 
 One of the most powerful abilities of mixed or integer linear programming (MILP) compared to other prioritization software approaches is the possibility of readily exchanging objective functions dependending on the question to be answered or the planning objective.In theory many different objective functions could be used in SCP if they can be mathematically formulated (down to complex non-linear optimizations that maximize both area and population abundance of species).
 
